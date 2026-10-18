@@ -1,4 +1,5 @@
 import { extract, type Extracted } from "./extract.ts";
+import { readFileSync } from "node:fs";
 
 export type Opp = Extracted & { id: string; source: string; title: string; poster: string; date: string; loc: string; text: string };
 
@@ -81,7 +82,20 @@ const greenhouse = () => many(["groww", "razorpaysoftwareprivatelimited", "slice
 const lever = () => many(["cred", "meesho", "paytm"].map((c) => `https://api.lever.co/v0/postings/${c}?mode=json`), (d) =>
   d.map((j: Record<string, any>) => mk("Lever", j.id, j.text, new URL(j.hostedUrl).pathname.split("/")[1], "", j.createdAt, j.descriptionPlain, j.hostedUrl, j.categories?.location)));
 
+// LinkedIn hiring posts, collected by the assistant every 6h into data/jobseeker-linkedin.json.
+// Read from the local file so the scheduled collect workflow merges them into data/feed.json.
+async function linkedinFile(): Promise<Opp[]> {
+  try {
+    const raw = JSON.parse(readFileSync(new URL("../data/jobseeker-linkedin.json", import.meta.url), "utf8"));
+    if (!Array.isArray(raw)) return [];
+    return raw.filter((o) => o && typeof o.id === "string" && o.source === "LinkedIn");
+  } catch {
+    return []; // file not present yet: never fail the whole feed
+  }
+}
+
 export async function getFeed(): Promise<Opp[]> {
-  const r = await Promise.allSettled([hn(), remotive(), arbeitnow(), muse(), jobicy(), himalayas(), greenhouse(), lever()]);
+  const r = await Promise.allSettled([hn(), remotive(), arbeitnow(), muse(), jobicy(), himalayas(), greenhouse(), lever(), linkedinFile()]);
   return r.flatMap((x) => (x.status === "fulfilled" ? x.value : [])).sort((a, b) => b.date.localeCompare(a.date));
 }
+
