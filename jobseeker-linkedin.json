@@ -1,5 +1,179 @@
 [
   {
+    "id": "LinkedIn-7517145310222204928",
+    "title": "Category Lead (Fashion, category strategy)",
+    "company": "Lenskart",
+    "loc": "New Delhi, India (on-site)",
+    "date": "2026-10-17",
+    "source": "LinkedIn",
+    "poster": "Kuldeep Singh, Leadership Hiring / Global Talent Acquisition, Lenskart",
+    "instruction": "Click 'View job' on the Lenskart job card in the post and apply there.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/kuldeepsingh0106_were-hiring-category-lead-have-a-share-7517145310222204928-z8h7",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "We're Hiring | Category Lead. Join Lenskart to drive category strategy, shape product assortments... Apply now!"
+  },
+  {
+    "id": "LinkedIn-7517621150940794880",
+    "title": "Growth & Exit Director (12-15 yrs IB / growth equity / corp dev / PE)",
+    "company": "Campus Fund",
+    "loc": "Not stated in post (Campus Fund: Bengaluru / Mumbai / Delhi)",
+    "date": "2026-10-18",
+    "source": "LinkedIn",
+    "poster": "Richa Bajpai, Founder, Campus Fund",
+    "instruction": "Apply via the ClickUp form in the post, including a 1-minute video.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/richabajpai_clickup-forms-activity-7517621150940794880-k9D-",
+        "domain": "linkedin.com"
+      },
+      {
+        "kind": "form",
+        "value": "https://lnkd.in/efEpQnCN",
+        "domain": "lnkd.in"
+      }
+    ],
+    "text": "We're hiring a Growth & Exit Director at Campus Fund. ... getting companies funded for next phase and turning positions into distributions via secondaries, strategic sales and M&A..."
+  },
+  {
+    "id": "LinkedIn-7517182417724620800",
+    "title": "Founding Marketing Lead (strategy & content); Founding Growth Engineer",
+    "company": "Slidely AI",
+    "loc": "Not stated in post",
+    "date": "2026-10-17",
+    "source": "LinkedIn",
+    "poster": "Apoorve S., Co-Founder & CEO, Slidely AI",
+    "instruction": "Apply via the role's form link in the post, including a 1-minute video.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/sapoorve_hiring-teaser-ugcPost-7517182417724620800-vrus",
+        "domain": "linkedin.com"
+      },
+      {
+        "kind": "form",
+        "value": "https://binary.so/awc2gof",
+        "domain": "binary.so"
+      },
+      {
+        "kind": "form",
+        "value": "https://binary.so/uhsofR0",
+        "domain": "binary.so"
+      }
+    ],
+    "text": "We're hiring! ... own marketing or GTM at a YC-backed startup ... 1-min video part of application."
+  },
+  {
+    "id": "LinkedIn-7516934861715275776",
+    "title": "Chief of Staff; Global GTM Talent Lead; Global Technical Talent Lead",
+    "company": "ElevenLabs",
+    "loc": "Not stated in post",
+    "date": "2026-10-17",
+    "source": "LinkedIn",
+    "poster": "Amy Cheung, Talent, ElevenLabs",
+    "instruction": "Message Amy Cheung on LinkedIn; the post invites interested people to get in touch.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/amylynncheung_were-expanding-our-talent-leadership-team-share-7516934861715275776-NIqG",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "We're expanding our Talent leadership team at ElevenLabs! ... Global GTM Talent Lead; Global Technical Talent Lead; Chief of Staff: responsible for strategic partnership and execution."
+  },
+  {
+    "id": "LinkedIn-7516862048715300864",
+    "title": "Growth Lead (0-to-1 growth operator)",
+    "company": "Testkart",
+    "loc": "Not stated in post",
+    "date": "2026-10-16",
+    "source": "LinkedIn",
+    "poster": "Hamraj Kumar, Founder, Testkart",
+    "instruction": "Email ham@testkart.in or DM Hamraj Kumar on LinkedIn.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/hamrajkumar_were-hiring-at-testkart-12-months-ago-share-7516862048715300864-Auy0",
+        "domain": "linkedin.com"
+      },
+      {
+        "kind": "email",
+        "value": "ham@testkart.in",
+        "domain": "testkart.in"
+      }
+    ],
+    "text": "We're hiring at Testkart! ... looking for someone to take us from 11,000 to 1,000,000+ teachers..."
+  },
+  {
+    "id": "LinkedIn-7516856610992848897",
+    "title": "Fractional Chief of Staff (equity + stipend)",
+    "company": "ForgeUp Ventures",
+    "loc": "Not stated in post (likely remote)",
+    "date": "2026-10-16",
+    "source": "LinkedIn",
+    "poster": "ForgeUp Ventures, company page, ForgeUp Ventures",
+    "instruction": "DM ForgeUp Ventures on LinkedIn with your resume and an example of your work.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/nowhiring-chiefofstaff-startupoperations-share-7516856610992848897-RsUk",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "WE'RE HIRING: FRACTIONAL CHIEF OF STAFF. Founders don't need more advice..."
+  },
+  {
+    "id": "LinkedIn-7516825206015913984",
+    "title": "Strategy Lead - Hospitality Team (5-10 yrs, tier-1 MBA)",
+    "company": "The House of Abhinandan Lodha (Abhinandan Ventures)",
+    "loc": "Mumbai, India (on-site)",
+    "date": "2026-10-16",
+    "source": "LinkedIn",
+    "poster": "Rishabh P., Vice President Strategy, Abhinandan Ventures",
+    "instruction": "Email your CV to netrali.nalawade@ablventures.com.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/rishabhrpandey_hospitality-hotels-resorts-share-7516825206015913984-jxCM",
+        "domain": "linkedin.com"
+      },
+      {
+        "kind": "email",
+        "value": "netrali.nalawade@ablventures.com",
+        "domain": "ablventures.com"
+      }
+    ],
+    "text": "Hiring for Strategy Lead - Hospitality Team, The House of Abhinandan Lodha. Location: Mumbai. High-visibility Strategy & Build role working with President's Office..."
+  },
+  {
+    "id": "LinkedIn-7516770452036554752",
+    "title": "Founder's Office - Community & Marketing (1-2 yrs)",
+    "company": "The Builders Club",
+    "loc": "Bengaluru, India (on-site, full-time)",
+    "date": "2026-10-16",
+    "source": "LinkedIn",
+    "poster": "Sohail Khan, The Builders Club",
+    "instruction": "Apply through the link in the post.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/sohail-khan-55303410_hey-guys-we-are-hiring-for-a-founders-office-share-7516770452036554752-9TAo",
+        "domain": "linkedin.com"
+      },
+      {
+        "kind": "jobpage",
+        "value": "https://lnkd.in/djNJ4RVi",
+        "domain": "lnkd.in"
+      }
+    ],
+    "text": "Hey guys, we are hiring for a founders office role - Community and marketing domain..."
+  },
+  {
     "id": "LinkedIn-7516755502404517888",
     "title": "Multiple open roles across teams (VC / startup support)",
     "company": "IIMA Ventures",
@@ -21,5 +195,123 @@
       }
     ],
     "text": "We’re hiring across teams for people who want to work at the intersection of startups, innovation, and impact. We’ve spent two decades working alongside founders in their earliest years. As we grow, we’re looking for people to join the work. Join a team of 60+ people working closely with early-stage"
+  },
+  {
+    "id": "LinkedIn-7516726872999878656",
+    "title": "Digital Growth Head (Marketing)",
+    "company": "Scaler School of Technology",
+    "loc": "Not stated in post",
+    "date": "2026-10-16",
+    "source": "LinkedIn",
+    "poster": "Aaliya Baxamusa, Talent Acquisition Specialist, InterviewBit and Scaler Academy",
+    "instruction": "Apply through the Instahyre job card attached to the post.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/aaliya-baxamusa-01641a138_job-content-gtm-share-7516726872999878656-eFMD",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "We are hiring a Digital Growth Head at Scaler School of Technology - Apply now!"
+  },
+  {
+    "id": "LinkedIn-7516725152764760064",
+    "title": "Chief of Staff to Vinod Khosla (3-year commitment)",
+    "company": "Khosla Ventures",
+    "loc": "Menlo Park, USA (on-site)",
+    "date": "2026-10-16",
+    "source": "LinkedIn",
+    "poster": "Sushobhan Mukherjee, Strategist and Co-founder, DealStreetAsia",
+    "instruction": "Apply through the Ashby job link attached to the post.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/sushmukherjee_chief-of-staff-to-vinod-khosla-share-7516725152764760064-eVn2",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "Best job in the world contender. 'I'm hiring my next Chief of Staff...' Three-year commitment. Menlo Park, in person"
+  },
+  {
+    "id": "LinkedIn-7516724085633146880",
+    "title": "Growth Associate (Meta / Google Ads performance marketing)",
+    "company": "Kuku FM",
+    "loc": "Bengaluru, India (full-time)",
+    "date": "2026-10-16",
+    "source": "LinkedIn",
+    "poster": "Viraj Jagdale, Senior Growth Manager, Kuku",
+    "instruction": "DM Viraj Jagdale on LinkedIn to apply; immediate joining.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/viraj-jagdale-251720202_hiring-growth-associate-at-kuku-bengaluru-share-7516724085633146880-8zKO",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "Hiring: Growth Associate at Kuku, Bengaluru. Comfortable in Meta Ads Manager and Google Ads... Full-time, immediate joining."
+  },
+  {
+    "id": "LinkedIn-7516657977198731264",
+    "title": "Chief of Staff to Vinod Khosla",
+    "company": "Khosla Ventures",
+    "loc": "Menlo Park, USA (on-site)",
+    "date": "2026-10-16",
+    "source": "LinkedIn",
+    "poster": "Ryan Batra, VP Talent, Khosla Ventures",
+    "instruction": "Apply through the job link in the post.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/ryanbatra_im-helping-vinod-khosla-find-his-next-chief-share-7516657977198731264-2lih",
+        "domain": "linkedin.com"
+      },
+      {
+        "kind": "jobpage",
+        "value": "https://lnkd.in/gF3ZfGbn",
+        "domain": "lnkd.in"
+      }
+    ],
+    "text": "I'm helping Vinod Khosla find his next Chief of Staff. The scope is broad by design..."
+  },
+  {
+    "id": "LinkedIn-7517657146092740608",
+    "title": "FP&A Assistant Manager (7+ yrs) and FP&A Manager (9+ yrs), FMCG",
+    "company": "Not named in post (FMCG client)",
+    "loc": "Gurugram, India (on-site, face-to-face interview)",
+    "date": "2026-10-19",
+    "source": "LinkedIn",
+    "poster": "Gracy Premchandani, Recruiter (Connecting talent with opportunities)",
+    "instruction": "Share your CV on WhatsApp at the number given in the post.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/gracy2020_fpna-financialplanning-financejobs-share-7517657146092740608-Wcd-",
+        "domain": "linkedin.com"
+      },
+      {
+        "kind": "link",
+        "value": "https://wa.me/918527597444",
+        "domain": "wa.me"
+      }
+    ],
+    "text": "HIRING ALERT | FP&A - ASSISTANT MANAGER & MANAGER ... FMCG experience mandatory, CA/CMA/CFA/CPA..."
+  },
+  {
+    "id": "LinkedIn-7517637127527059456",
+    "title": "Head of Finance (15+ yrs, CA)",
+    "company": "Confidential F&B retail/manufacturing org (via PowerHouse Management Consultants)",
+    "loc": "India (Kochi, Kerala per PowerHouse repost)",
+    "date": "2026-10-18",
+    "source": "LinkedIn",
+    "poster": "Muhammad Ali Hayat, CMA Finalist",
+    "instruction": "Follow the application steps in the original PowerHouse Management Consultants post linked from this post.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/muhammadalihayat_hiring-headoffinance-financehead-share-7517637127527059456-XEca",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "WE ARE HIRING | Head of Finance. Confidential leadership search for F&B Retail and Manufacturing org across India..."
   }
 ]
