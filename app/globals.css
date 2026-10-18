@@ -49,7 +49,7 @@ section { margin-top:40px; }
 .filters { position:sticky; top:12px; max-height:calc(100vh - 24px); overflow:auto; }
 .filters h4 { margin:16px 0 6px; font-size:.95rem; } .filters h4:first-child { margin-top:0; }
 .opt { display:flex; gap:8px; align-items:center; padding:3px 0; font-size:.92rem; cursor:pointer; }
-.opt input { width:auto; margin:0; } .opt span:last-child { margin-left:auto; color:var(--mut); font-size:.8rem; }
+.opt input { width:auto; margin:0; } .opt .n { margin-left:auto; color:var(--mut); font-size:.8rem; }
 .toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin:0 0 12px; flex-wrap:wrap; }
 .toolbar select { width:auto; }
 .active { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }

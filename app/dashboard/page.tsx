@@ -20,7 +20,7 @@ function Facet({ title, items, sel, onToggle, max = 6 }: { title: string; items:
     <>
       <h4>{title}</h4>
       {(all ? items : items.slice(0, max)).map(([v, n]) => (
-        <label className="opt" key={v}><input type="checkbox" checked={sel.includes(v)} onChange={() => onToggle(v)} /><span>{v}</span><span>{n}</span></label>
+        <label className="opt" key={v}><input type="checkbox" checked={sel.includes(v)} onChange={() => onToggle(v)} /><span>{v}</span><span className="n">{n}</span></label>
       ))}
       {items.length > max && <button className="plain small" onClick={() => setAll(!all)}>{all ? "Show less" : "View more"}</button>}
     </>
@@ -148,7 +148,7 @@ export default function Dashboard() {
                 </div>
                 {o.instruction && <div className="clamp">{o.instruction}</div>}
                 <div className="leads">
-                  {o.leads.slice(0, 3).map((l, i) => (
+                  {(o.leads.some((x) => x.kind !== "link") ? o.leads.filter((x) => x.kind !== "link") : o.leads).slice(0, 3).map((l, i) => (
                     <a key={l.value} className={`btn ${i ? "alt" : ""}`} href={l.kind === "email" ? `mailto:${l.value}` : l.value} target="_blank" rel="noopener noreferrer">{KIND[l.kind]}</a>
                   ))}
                   <button className="alt" onClick={() => setOpen(open === o.id ? "" : o.id)}>{open === o.id ? "Hide details" : "Details"}</button>
