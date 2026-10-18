@@ -1,7 +1,6 @@
-import { getFeed } from "@/lib/sources";
+import feed from "@/data/feed.json";
 
-export const revalidate = 21600;
-
-export async function GET() {
-  return Response.json(await getFeed());
+// data/feed.json is refreshed every 6h by .github/workflows/collect.yml; each push redeploys the site.
+export function GET() {
+  return Response.json(feed.slice(0, 500));
 }

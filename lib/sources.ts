@@ -1,6 +1,6 @@
 import { extract, type Extracted } from "./extract.ts";
 
-export type Opp = Extracted & { id: string; source: string; title: string; poster: string; date: string; text: string };
+export type Opp = Extracted & { id: string; source: string; title: string; poster: string; date: string; loc: string; text: string };
 
 const ENT: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " };
 
@@ -15,18 +15,26 @@ export function htmlToText(h: string) {
     .trim();
 }
 
-function mk(source: string, id: string | number, title: string, company: string, poster: string, date: string, html: string, applyUrl = ""): Opp {
-  const text = htmlToText(html);
+function mk(source: string, id: string | number, title: string, company: string, poster: string, date: string | number, html: string, applyUrl = "", loc = ""): Opp {
+  const text = htmlToText(html ?? "");
   const e = extract(`${title}\n${text}`);
   if (applyUrl) e.leads.unshift({ kind: "jobpage", value: applyUrl, domain: applyUrl.split("/")[2] ?? "" });
-  return { ...e, company: company || e.company, instruction: e.instruction || (applyUrl ? "Apply on the job page." : ""), id: `${source}-${id}`, source, title, poster, date, text: text.slice(0, 600) };
+  const d = new Date(date);
+  return {
+    ...e, company: company || e.company, instruction: e.instruction || (applyUrl ? "Apply on the job page." : ""),
+    id: `${source}-${id}`, source, title, poster, loc, text: text.slice(0, 300),
+    date: isNaN(+d) ? new Date().toISOString() : d.toISOString(),
+  };
 }
 
 const getJson = async (url: string) => {
-  const r = await fetch(url, { next: { revalidate: 21600 } }); // 6h: stays under Remotive's rate limit
+  const r = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 Jobseeker" } });
   if (!r.ok) throw new Error(`${url} ${r.status}`);
   return r.json();
 };
+// one failing URL must not drop the rest of a source
+const many = async (urls: string[], f: (d: any) => Opp[]): Promise<Opp[]> =>
+  (await Promise.allSettled(urls.map(getJson))).flatMap((r) => (r.status === "fulfilled" ? f(r.value) : []));
 
 async function hn(): Promise<Opp[]> {
   const s = await getJson("https://hn.algolia.com/api/v1/search_by_date?tags=story,author_whoishiring&hitsPerPage=5");
@@ -43,17 +51,37 @@ async function hn(): Promise<Opp[]> {
     });
 }
 
-async function remotive(): Promise<Opp[]> {
-  const d = await getJson("https://remotive.com/api/remote-jobs?limit=60");
-  return d.jobs.map((j: Record<string, string>) => mk("Remotive", j.id, j.title, j.company_name, "", j.publication_date, j.description, j.url));
-}
+const remotive = () => many(["https://remotive.com/api/remote-jobs?limit=60"], (d) =>
+  d.jobs.map((j: Record<string, string>) => mk("Remotive", j.id, j.title, j.company_name, "", j.publication_date, j.description, j.url)));
 
-async function arbeitnow(): Promise<Opp[]> {
-  const d = await getJson("https://www.arbeitnow.com/api/job-board-api");
-  return d.data.slice(0, 60).map((j: Record<string, string | number>) => mk("Arbeitnow", j.slug as string, j.title as string, j.company_name as string, "", new Date((j.created_at as number) * 1000).toISOString(), j.description as string, j.url as string));
-}
+const arbeitnow = () => many(["https://www.arbeitnow.com/api/job-board-api"], (d) =>
+  d.data.slice(0, 60).map((j: Record<string, any>) => mk("Arbeitnow", j.slug, j.title, j.company_name, "", j.created_at * 1000, j.description, j.url, j.location)));
+
+// Finance / strategy / marketing / sales worldwide, plus India cities
+const enc = encodeURIComponent;
+const MUSE = "https://www.themuse.com/api/public/jobs?";
+const museUrls = [
+  ...["Accounting and Finance", "Business and Strategy", "Marketing", "Sales"].flatMap((c) => [0, 1].map((p) => `${MUSE}category=${enc(c)}&page=${p}`)),
+  ...["Mumbai", "Bengaluru", "Gurugram", "Delhi"].map((c) => `${MUSE}category=${enc("Accounting and Finance")}&category=${enc("Business and Strategy")}&location=${enc(c + ", India")}&page=0`),
+];
+const muse = () => many(museUrls, (d) =>
+  d.results.map((j: Record<string, any>) => mk("The Muse", j.id, j.name, j.company.name, "", j.publication_date, j.contents, j.refs.landing_page, j.locations.map((l: { name: string }) => l.name).join("; "))));
+
+const jobicy = () => many(["accounting-finance", "business", "management", "marketing", "legal", "hr"].map((i) => `https://jobicy.com/api/v2/remote-jobs?count=30&industry=${i}`), (d) =>
+  (d.jobs ?? []).map((j: Record<string, any>) => mk("Jobicy", j.id, j.jobTitle, j.companyName, "", j.pubDate, j.jobDescription, j.url, [j.jobGeo].flat().join("; "))));
+
+// country=IN is a Himalayas server-side filter: India-eligible roles only
+const himalayas = () => many(["finance", "investment banking", "consulting", "marketing", "analyst", "accounting"].map((q) => `https://himalayas.app/jobs/api/search?q=${enc(q)}&country=IN&sort=recent`), (d) =>
+  d.jobs.map((j: Record<string, any>) => mk("Himalayas", j.guid, j.title, j.companyName, "", j.pubDate < 1e12 ? j.pubDate * 1000 : j.pubDate, j.description, j.applicationLink, (j.locationRestrictions ?? []).join("; "))));
+
+// Company career boards with public JSON: India fintech/startups first
+const greenhouse = () => many(["groww", "razorpaysoftwareprivatelimited", "slice"].map((b) => `https://boards-api.greenhouse.io/v1/boards/${b}/jobs?content=true`), (d) =>
+  d.jobs.map((j: Record<string, any>) => mk("Greenhouse", j.id, j.title, j.company_name, "", j.first_published ?? j.updated_at, htmlToText(j.content ?? ""), j.absolute_url, j.location?.name)));
+
+const lever = () => many(["cred", "meesho", "paytm"].map((c) => `https://api.lever.co/v0/postings/${c}?mode=json`), (d) =>
+  d.map((j: Record<string, any>) => mk("Lever", j.id, j.text, new URL(j.hostedUrl).pathname.split("/")[1], "", j.createdAt, j.descriptionPlain, j.hostedUrl, j.categories?.location)));
 
 export async function getFeed(): Promise<Opp[]> {
-  const r = await Promise.allSettled([hn(), remotive(), arbeitnow()]);
+  const r = await Promise.allSettled([hn(), remotive(), arbeitnow(), muse(), jobicy(), himalayas(), greenhouse(), lever()]);
   return r.flatMap((x) => (x.status === "fulfilled" ? x.value : [])).sort((a, b) => b.date.localeCompare(a.date));
 }

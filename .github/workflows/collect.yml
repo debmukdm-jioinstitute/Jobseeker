@@ -1,0 +1,22 @@
+name: collect
+on:
+  schedule:
+    - cron: "0 */6 * * *" # every 6 hours (UTC)
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node scripts/collect.ts
+      - name: Commit if changed
+        run: |
+          git config user.name "jobseeker-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/feed.json
+          git diff --cached --quiet || (git commit -m "data: refresh feed" && git push)

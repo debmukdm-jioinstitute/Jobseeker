@@ -57,7 +57,7 @@ export default function Dashboard() {
     const ms = prefs.map(matcher).filter((m): m is RegExp => !!m);
     const needle = q.toLowerCase();
     return (feed ?? []).filter((o) => {
-      const hay = `${o.title} ${o.company} ${o.text}`;
+      const hay = `${o.title} ${o.company} ${o.loc} ${o.text}`;
       return (all || !ms.length || ms.some((m) => m.test(o.title))) && (!needle || hay.toLowerCase().includes(needle));
     }).slice(0, 100);
   }, [feed, prefs, q, all]);
@@ -82,7 +82,7 @@ export default function Dashboard() {
 
       <h2>Live opportunities</h2>
       <div className="row">
-        <input style={{ flex: 1 }} placeholder="Search company, role, keyword…" value={q} onChange={(e) => setQ(e.target.value)} />
+        <input style={{ flex: 1 }} placeholder="Search company, role, city… try India" value={q} onChange={(e) => setQ(e.target.value)} />
         {prefs.length > 0 && <button className="alt" onClick={() => setAll(!all)}>{all ? "Show my areas only" : "Show everything"}</button>}
       </div>
       {!feed && !err && <p className="mut">Loading latest posts…</p>}
@@ -91,7 +91,7 @@ export default function Dashboard() {
       <div className="grid">
         {shown.map((o) => (
           <div className="card" key={o.id}>
-            <b>{o.company || o.title}</b> <span className="tag">{o.source}</span>
+            <b>{o.company || o.title}</b> <span className="tag">{o.source}</span>{o.loc && <> <span className="tag">{o.loc.slice(0, 40)}</span></>}
             {o.company && <div>{o.title}</div>}
             {o.poster && <div className="mut">posted by {o.poster}</div>}
             {o.instruction && <p>{o.instruction}</p>}
@@ -111,7 +111,7 @@ export default function Dashboard() {
       </div>
       <p className="mut" style={{ marginTop: 32 }}>
         Sources: <a href="https://news.ycombinator.com/submitted?id=whoishiring">Hacker News “Who is hiring”</a>,{" "}
-        <a href="https://remotive.com">Remotive</a>, <a href="https://www.arbeitnow.com">Arbeitnow</a>. Refreshed every 6 hours.
+        <a href="https://remotive.com">Remotive</a>, <a href="https://www.arbeitnow.com">Arbeitnow</a>, The Muse, Jobicy, Himalayas, and public career boards (Groww, Razorpay, Slice, CRED, Meesho, Paytm). Refreshed every 6 hours.
       </p>
     </main>
   );
