@@ -5,7 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --test lib/extract.test.ts lib/sources.test.ts"
+    "test": "node --test lib/extract.test.ts lib/filter.test.ts lib/sources.test.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
