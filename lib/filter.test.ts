@@ -20,7 +20,7 @@ test("areaRegex matches whole words only and expands a category", () => {
 
 test("base + facets + counts", () => {
   assert.deepEqual(baseFilter(feed, { ...EMPTY, areas: ["Finance / FP&A"] }).map((x) => x.id), ["1"]);
-  assert.deepEqual(baseFilter(feed, { ...EMPTY, where: "india" }).map((x) => x.id), ["1"]);
+  assert.deepEqual(baseFilter(feed, { ...EMPTY, where: "india" }).map((x) => x.id), ["1", "3"]) // Pune is an Indian city;
   assert.equal(modeOf(feed[1]), "Remote");
   assert.deepEqual(citiesOf(feed[0]), ["Mumbai"]);
   assert.deepEqual(finish(feed, { ...EMPTY, days: 7 }, new Set()).map((x) => x.id).sort(), ["1", "2"]);
@@ -47,4 +47,8 @@ test("area words match job-title variants", () => {
 test("labels: linkedin post link is named, not just Link", () => {
   assert.equal(labelOf({ kind: "link", value: "https://linkedin.com/posts/x", domain: "linkedin.com" }), "LinkedIn post");
   assert.equal(labelOf({ kind: "form", value: "https://forms.gle/a", domain: "forms.gle" }), "Apply form");
+});
+
+test('"India" also finds posts that only name an Indian city', () => {
+  assert.deepEqual(baseFilter([o("1", "Analyst", "Koramangala, Bangalore"), o("2", "Analyst", "London")], { ...EMPTY, where: "India" }).map((x) => x.id), ["1"]);
 });

@@ -40,13 +40,14 @@ export const ago = (iso: string, now = Date.now()) => {
 };
 
 // Stage 1: what the user typed/picked. Facet counts are computed on this set.
+// "India" must also match posts that only name an Indian city (they say "Mumbai", not "India")
 export function baseFilter(feed: Opp[], f: Filters) {
   const words = f.q.toLowerCase().split(/\s+/).filter(Boolean);
   const where = f.where.toLowerCase().trim();
   const area = areaRegex(f.areas);
   return feed.filter((o) => {
     const hay = `${o.title} ${o.company} ${o.loc} ${o.text}`.toLowerCase();
-    return words.every((w) => hay.includes(w)) && (!where || `${o.loc} ${o.text}`.toLowerCase().includes(where)) && (!area || area.test(o.title));
+    return words.every((w) => hay.includes(w)) && (!where || `${o.loc} ${o.text}`.toLowerCase().includes(where) || (where === "india" && citiesIn(o.loc).length > 0)) && (!area || area.test(o.title));
   });
 }
 
