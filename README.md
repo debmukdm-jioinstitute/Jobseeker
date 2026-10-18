@@ -13,5 +13,9 @@ Selected categories sync to the user's Supabase `user_metadata` (no tables neede
 ## Deploy (free)
 Import this repo at vercel.com, add the two env vars, deploy.
 
-## Ingestion note
-Posts are pasted by the user. Automated LinkedIn scraping violates LinkedIn's ToS and gets accounts banned, so it is not built in.
+## Automatic feed
+`/api/feed` pulls hiring posts from free public sources (Hacker News "Who is hiring" via Algolia, Remotive, Arbeitnow),
+runs `lib/extract.ts` to find apply forms, emails and instructions, and is cached for 6 hours by Next.js. No DB, no cron, no keys.
+Add a source = add one function in `lib/sources.ts`.
+
+LinkedIn is not scraped: it has no free API, forbids scraping in its ToS, and blocks/bans accounts that try.
