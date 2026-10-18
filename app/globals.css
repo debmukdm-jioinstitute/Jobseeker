@@ -38,8 +38,6 @@ input, select, textarea { width:100%; background:var(--card); color:var(--fg); b
 .tiles { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; }
 .tile { display:block; color:var(--fg); }
 .tile:hover { border-color:var(--acc); }
-.steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
-.num { width:32px; height:32px; border-radius:50%; background:var(--acc2); color:var(--acc); display:grid; place-items:center; font-weight:700; }
 .stats { display:flex; gap:32px; justify-content:center; flex-wrap:wrap; margin:28px 0; }
 .stats b { font-size:1.6rem; display:block; }
 section { margin-top:40px; }

@@ -41,14 +41,6 @@ export default function Landing() {
         </div>
       </section>
 
-      <section>
-        <h2>How it works</h2>
-        <div className="steps">
-          <div className="card"><div className="num">1</div><h3>Pick your path</h3><p className="mut">Choose a field, then sub-areas like FP&amp;A, Investment Banking or Asset Management.</p></div>
-          <div className="card"><div className="num">2</div><h3>See the action</h3><p className="mut">Every card shows how to apply: form, email or job page, plus the post’s instructions.</p></div>
-          <div className="card"><div className="num">3</div><h3>Know the company</h3><p className="mut">Open a card for one-click research on leadership, funding and reviews. Save roles for later.</p></div>
-        </div>
-      </section>
     </main>
   );
 }
