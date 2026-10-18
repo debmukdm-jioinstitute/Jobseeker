@@ -3,6 +3,7 @@ import data from "@/data/feed.json";
 import { TAXONOMY } from "@/lib/taxonomy";
 import SearchBar from "./SearchBar";
 import ThemeToggle from "./ThemeToggle";
+import Logo from "./Logo";
 
 const feed = data as { source: string }[]; // [] is typed never[] by TS
 const QUICK = [["Remote", "q=remote"], ["India", "where=india"], ["Finance", "area=Finance"], ["Consulting", "area=Consulting"]];
@@ -11,7 +12,7 @@ export default function Landing() {
   return (
     <main>
       <nav>
-        <Link href="/" className="logo"><i />Jobseeker</Link>
+        <Logo />
         <span className="row"><ThemeToggle /><Link href="/dashboard" className="btn alt">Browse jobs</Link><Link href="/login" className="btn">Sign in</Link></span>
       </nav>
 

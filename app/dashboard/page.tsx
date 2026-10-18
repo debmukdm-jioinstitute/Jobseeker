@@ -7,6 +7,7 @@ import type { Opp } from "@/lib/ingest";
 import { EMPTY, ago, baseFilter, citiesOf, count, finish, labelOf, modeOf, srcOf, viaOf, type Filters } from "@/lib/filter";
 import SearchBar from "../SearchBar";
 import ThemeToggle from "../ThemeToggle";
+import Logo from "../Logo";
 
 const read = <T,>(k: string, d: T): T => { try { return JSON.parse(localStorage.getItem(k) ?? "") as T; } catch { return d; } };
 const toggle = (a: string[], v: string) => (a.includes(v) ? a.filter((x) => x !== v) : [...a, v]);
@@ -82,7 +83,7 @@ export default function Dashboard() {
   return (
     <main>
       <nav>
-        <Link href="/" className="logo"><i />Jobseeker</Link>
+        <Logo />
         <span className="row">
           <ThemeToggle />
           {who ? <><span className="mut small">{who}</span><button className="alt" onClick={out}>Sign out</button></> : <Link href="/login" className="btn">Sign in</Link>}

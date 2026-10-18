@@ -1,3 +1,5 @@
+<img src="brand/jobseeker-logo.png" alt="Jobseeker" width="420" />
+
 # Jobseeker
 
 Hiring posts → actions. Landing, sign-in/up, guest mode, dashboard with a top-down category picker

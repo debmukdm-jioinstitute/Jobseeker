@@ -1,6 +1,10 @@
 import "./globals.css";
 
-export const metadata = { title: "Jobseeker", description: "Hiring posts, turned into actions." };
+export const metadata = {
+  metadataBase: new URL("https://jobseeker-sand.vercel.app"), // makes the share-image URLs absolute
+  title: "Jobseeker",
+  description: "Hiring posts, turned into actions.",
+};
 
 export default function Root({ children }: { children: React.ReactNode }) {
   return (

@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ThemeToggle from "../ThemeToggle";
+import Logo from "../Logo";
 
 export default function Login() {
   const router = useRouter();
@@ -30,7 +31,7 @@ export default function Login() {
 
   return (
     <main style={{ maxWidth: 420 }}>
-      <nav><Link href="/" className="logo"><i />Jobseeker</Link><ThemeToggle /></nav>
+      <nav><Logo /><ThemeToggle /></nav>
       <h2>{mode === "login" ? "Sign in" : "Create account"}</h2>
       <form className="card" onSubmit={submit}>
         <input type="email" placeholder="Email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
