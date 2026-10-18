@@ -9,8 +9,8 @@ export default function Landing() {
       </nav>
       <h1>Hiring posts, turned into actions.</h1>
       <p className="mut">
-        Founders and CXOs announce roles in LinkedIn posts. Posts are collected for you automatically. See the apply form, email or job link,
-        what the post asks you to do, and one-click company research. Browse by category, top-down.
+        Founders and hiring teams post roles publicly. We collect them automatically and pull out the apply form, email
+        or job link, what the post asks you to do, and one-click company research. Browse by category, top-down.
       </p>
       <div className="row">
         <Link href="/login" className="btn">Create account</Link>
