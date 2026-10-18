@@ -1,10 +1,11 @@
 import Link from "next/link";
-import feed from "@/data/feed.json";
+import data from "@/data/feed.json";
 import { TAXONOMY } from "@/lib/taxonomy";
 import SearchBar from "./SearchBar";
 import ThemeToggle from "./ThemeToggle";
 
-const QUICK = [["Remote", "q=remote"], ["India", "where=india"], ["Founder & team posts", "src=Founder %26 team posts"], ["Finance", "area=Finance"], ["Consulting", "area=Consulting"], ["Company careers", "src=Company careers"]];
+const feed = data as { source: string }[]; // [] is typed never[] by TS
+const QUICK = [["Remote", "q=remote"], ["India", "where=india"], ["Finance", "area=Finance"], ["Consulting", "area=Consulting"]];
 
 export default function Landing() {
   return (
@@ -16,14 +17,16 @@ export default function Landing() {
 
       <div className="hero">
         <h1>Find roles where the hiring happens</h1>
-        <p className="mut">Founders, hiring teams and company career pages, collected for you every 6 hours. We pull out the apply form, the email, and what the post asks you to do.</p>
+        <p className="mut">Hiring posts from founders and hiring teams, gathered by our research agents. We pull out the apply form, the email, and what the post asks you to do.</p>
         <SearchBar />
         <div className="chips">{QUICK.map(([n, p]) => <Link key={n} className="chip" href={`/dashboard?${p}`}>{n}</Link>)}</div>
-        <div className="stats">
-          <div><b>{feed.length.toLocaleString()}+</b><span className="mut">live opportunities</span></div>
-          <div><b>8</b><span className="mut">sources</span></div>
-          <div><b>6h</b><span className="mut">refresh cycle</span></div>
-        </div>
+        {feed.length > 0 && (
+          <div className="stats">
+            <div><b>{feed.length.toLocaleString()}</b><span className="mut">live opportunities</span></div>
+            <div><b>{new Set(feed.map((o) => o.source)).size}</b><span className="mut">sources</span></div>
+            <div><b>30d</b><span className="mut">of history</span></div>
+          </div>
+        )}
       </div>
 
       <section>

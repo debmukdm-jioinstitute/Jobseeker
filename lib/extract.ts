@@ -19,7 +19,7 @@ export function extract(text: string): Extracted {
     ...emails.map((value): Lead => ({ value, domain: value.split("@")[1], kind: "email" })),
   ];
   const instruction = text.split(/(?<=[.!?])\s+|\n+/).map((s) => s.trim()).filter((s) => ACTION.test(s)).slice(0, 3).join(" ");
-  const named = text.match(/\b(?:hiring at|join|at|@)\s+([A-Z][\w&.-]*(?:\s[A-Z][\w&.-]*)?)/)?.[1];
+  const named = text.match(/\b(?:hiring at|join|at|@)\s+([A-Z][\w&.-]*(?:\s[A-Z][\w&.-]*)?)/)?.[1]?.replace(/[.,;:!?-]+$/, "");
   const dom = leads.map((l) => l.domain).find((d) => d && !FREE_MAIL.test(d) && !NO_COMPANY.test(d));
   return { leads, instruction, company: named ?? dom?.split(".")[0] ?? "" };
 }

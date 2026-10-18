@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { areaRegex, baseFilter, finish, count, modeOf, cityOf, EMPTY } from "./filter.ts";
-import type { Opp } from "./sources.ts";
+import type { Opp } from "./ingest.ts";
 
 const o = (id: string, title: string, loc: string, over: Partial<Opp> = {}): Opp => ({
   id, title, loc, company: "Acme", source: "Remotive", poster: "", date: new Date().toISOString(), text: "", instruction: "", leads: [], ...over,

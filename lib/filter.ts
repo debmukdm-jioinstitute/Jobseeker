@@ -1,5 +1,5 @@
 import { TAXONOMY } from "./taxonomy.ts";
-import type { Opp } from "./sources.ts";
+import type { Opp } from "./ingest.ts";
 
 export type Filters = {
   q: string; where: string; areas: string[]; mode: string[]; src: string[]; via: string[];
@@ -19,7 +19,7 @@ export function areaRegex(areas: string[]) {
 
 export const modeOf = (o: Opp) => (/\bremote\b/i.test(`${o.loc} ${o.title}`) ? "Remote" : /\bhybrid\b/i.test(`${o.loc} ${o.title} ${o.text}`) ? "Hybrid" : "On-site");
 export const cityOf = (o: Opp) => o.loc.split(/[;,]/)[0].trim() || "Not specified";
-export const srcOf = (o: Opp) => (o.source === "Hacker News" ? "Founder & team posts" : o.source === "Greenhouse" || o.source === "Lever" ? "Company careers" : "Job boards");
+export const srcOf = (o: Opp) => o.source;
 const LABEL = { form: "Apply form", email: "Email", jobpage: "Job page", link: "Link" } as const;
 export const viaOf = (o: Opp) => [...new Set(o.leads.map((l) => LABEL[l.kind]))];
 

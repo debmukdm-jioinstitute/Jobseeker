@@ -4,7 +4,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { TAXONOMY } from "@/lib/taxonomy";
 import { lookups } from "@/lib/extract";
-import type { Opp } from "@/lib/sources";
+import type { Opp } from "@/lib/ingest";
 import { EMPTY, ago, baseFilter, cityOf, count, finish, modeOf, srcOf, viaOf, type Filters } from "@/lib/filter";
 import SearchBar from "../SearchBar";
 import ThemeToggle from "../ThemeToggle";
@@ -131,7 +131,8 @@ export default function Dashboard() {
             </div>
           )}
           {err && <p className="mut">{err}</p>}
-          {feed && list.length === 0 && <div className="card"><b>No jobs match.</b><p className="mut">Remove a filter or try a broader search.</p></div>}
+          {feed && feed.length === 0 && <div className="card"><b>No opportunities yet.</b><p className="mut">New posts appear here as soon as our agents deliver their next feed.</p></div>}
+          {feed && feed.length > 0 && list.length === 0 && <div className="card"><b>No jobs match.</b><p className="mut">Remove a filter or try a broader search.</p></div>}
 
           {list.slice(0, shown).map((o) => {
             const isSaved = saved.includes(o.id);
@@ -167,9 +168,7 @@ export default function Dashboard() {
             );
           })}
           {shown < list.length && <button className="alt" style={{ width: "100%" }} onClick={() => setShown(shown + PAGE)}>Show more</button>}
-          <p className="mut small" style={{ marginTop: 32 }}>
-            Sources: Hacker News “Who is hiring”, <a href="https://remotive.com">Remotive</a>, <a href="https://www.arbeitnow.com">Arbeitnow</a>, The Muse, Jobicy, Himalayas and public career boards. Refreshed every 6 hours.
-          </p>
+          <p className="mut small" style={{ marginTop: 32 }}>Posts are gathered by our research agents and added as new feeds arrive. Always verify a company before sharing personal details.</p>
         </section>
       </div>
     </main>
