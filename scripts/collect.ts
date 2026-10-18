@@ -3,9 +3,9 @@ import { normalize, type Opp } from "../lib/ingest.ts";
 
 // Agents (Grok, Muse, ...) deliver JSON in two ways, both merged into data/feed.json:
 //  - data/inbox/*.json: one-off drops, deleted after merging
-//  - jobseeker-*.json (repo root or data/): standing files an agent keeps updating, left in place
+//  - jobseeker-*.json (repo root or data/): standing files an agent keeps updating, left in place (root is read last, so it wins)
 const INBOX = "data/inbox";
-const standing = [".", "data"].flatMap((d) => readdirSync(d).filter((n) => /^jobseeker-.*\.json$/.test(n)).map((n) => `${d}/${n}`));
+const standing = ["data", "."].flatMap((d) => readdirSync(d).filter((n) => /^jobseeker-.*\.json$/.test(n)).map((n) => `${d}/${n}`));
 const FILE = "data/feed.json";
 const KEEP_MS = 30 * 864e5; // keep ~30 days
 type Stored = Opp & { firstSeen: string };
@@ -25,7 +25,7 @@ for (const path of files) {
     const stem = f.replace(/^jobseeker-/, "").replace(/\.json$/, "").split(/[-_.\d]/)[0] || "agent"; // "muse-2026-10-19.json" -> "muse"
     for (const r of rows) {
       const o = normalize(r, stem);
-      if (o) { byId.set(o.id, { ...o, firstSeen: byId.get(o.id)?.firstSeen ?? now }); added++; }
+      if (o) { const prev = byId.get(o.id); byId.set(o.id, { ...o, date: o.date || prev?.date || now, firstSeen: prev?.firstSeen ?? now }); added++; }
     }
     if (path.startsWith(INBOX)) unlinkSync(path);
   } catch (e) {

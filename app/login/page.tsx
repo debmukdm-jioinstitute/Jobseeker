@@ -23,7 +23,7 @@ export default function Login() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!supabase) return setMsg("Accounts need Supabase keys (see README). Use guest for now.");
-    const { error } = mode === "up" ? await supabase.auth.signUp({ email, password }) : await supabase.auth.signInWithPassword({ email, password });
+    const { error } = mode === "up" ? await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${location.origin}/dashboard` } }) : await supabase.auth.signInWithPassword({ email, password });
     if (error) return setMsg(error.message);
     if (mode === "up") return setMsg("Check your email to confirm, then sign in.");
     localStorage.removeItem("js_guest");

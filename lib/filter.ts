@@ -1,5 +1,7 @@
 import { TAXONOMY } from "./taxonomy.ts";
 import type { Opp } from "./ingest.ts";
+import type { Lead } from "./extract.ts";
+import { citiesIn } from "./cities.ts";
 
 export type Filters = {
   q: string; where: string; areas: string[]; mode: string[]; src: string[]; via: string[];
@@ -14,14 +16,23 @@ const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 export function areaRegex(areas: string[]) {
   const ps = areas.flatMap((a) => (a.includes(" / ") ? [a] : (TAXONOMY[a] ?? []).map((s) => `${a} / ${s}`)));
   const w = ps.flatMap((p) => p.slice(p.indexOf(" / ") + 3).toLowerCase().split(/[\s/,()-]+/)).filter((x) => x.length >= 3 && !GENERIC.has(x));
-  return w.length ? new RegExp(`(^|[^\\w])(${[...new Set(w)].map(esc).join("|")})($|[^\\w])`, "i") : null;
+  // "Accounting" must also catch "Accountant"/"Accounts": stems of 4+ letters match as a word prefix
+  const pat = [...new Set(w.map((x) => { const s = x.replace(/(ation|ing|ments?|ers?|ists?|s)$/, ""); return s.length >= 4 ? `${esc(s)}\\w*` : esc(s.length === 3 ? s : x); }))]; // 3-letter stems ("tax") match whole word only
+  return pat.length ? new RegExp(`(^|[^\\w])(${pat.join("|")})($|[^\\w])`, "i") : null;
 }
 
 export const modeOf = (o: Opp) => (/\bremote\b/i.test(`${o.loc} ${o.title}`) ? "Remote" : /\bhybrid\b/i.test(`${o.loc} ${o.title} ${o.text}`) ? "Hybrid" : "On-site");
-export const cityOf = (o: Opp) => o.loc.split(/[;,]/)[0].trim() || "Not specified";
+// Every real city named in the location; unknown places fall back to their first segment.
+export const citiesOf = (o: Opp) => {
+  const c = citiesIn(o.loc);
+  if (c.length) return c;
+  const first = o.loc.replace(/\(.*?\)/g, "").split(/[;,/]/)[0].trim();
+  return !first || /\b(not|n\/a|none|unspecified)\b/i.test(first) ? ["Not specified"] : [first];
+};
 export const srcOf = (o: Opp) => o.source;
 const LABEL = { form: "Apply form", email: "Email", jobpage: "Job page", link: "Link" } as const;
-export const viaOf = (o: Opp) => [...new Set(o.leads.map((l) => LABEL[l.kind]))];
+export const labelOf = (l: Lead) => (l.kind === "link" && /linkedin\.com/.test(l.domain) ? "LinkedIn post" : LABEL[l.kind]);
+export const viaOf = (o: Opp) => [...new Set(o.leads.map(labelOf))];
 
 export const ago = (iso: string, now = Date.now()) => {
   const h = (now - Date.parse(iso)) / 36e5;
@@ -48,7 +59,7 @@ export function finish(base: Opp[], f: Filters, saved: Set<string>, now = Date.n
       (!f.mode.length || f.mode.includes(modeOf(o))) &&
       (!f.src.length || f.src.includes(srcOf(o))) &&
       (!f.via.length || viaOf(o).some((v) => f.via.includes(v))) &&
-      (!f.city.length || f.city.includes(cityOf(o))) &&
+      (!f.city.length || citiesOf(o).some((c) => f.city.includes(c))) &&
       (!f.days || now - Date.parse(o.date) <= f.days * 864e5) &&
       (!f.saved || saved.has(o.id)))
     .sort((a, b) => (f.sort === "rel" ? score(b) - score(a) : 0) || b.date.localeCompare(a.date));

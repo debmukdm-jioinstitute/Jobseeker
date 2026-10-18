@@ -5,14 +5,13 @@ import { supabase } from "@/lib/supabase";
 import { TAXONOMY } from "@/lib/taxonomy";
 import { lookups } from "@/lib/extract";
 import type { Opp } from "@/lib/ingest";
-import { EMPTY, ago, baseFilter, cityOf, count, finish, modeOf, srcOf, viaOf, type Filters } from "@/lib/filter";
+import { EMPTY, ago, baseFilter, citiesOf, count, finish, labelOf, modeOf, srcOf, viaOf, type Filters } from "@/lib/filter";
 import SearchBar from "../SearchBar";
 import ThemeToggle from "../ThemeToggle";
 
 const read = <T,>(k: string, d: T): T => { try { return JSON.parse(localStorage.getItem(k) ?? "") as T; } catch { return d; } };
 const toggle = (a: string[], v: string) => (a.includes(v) ? a.filter((x) => x !== v) : [...a, v]);
 const PAGE = 20;
-const KIND = { form: "Apply form", email: "Email", jobpage: "Job page", link: "Link" } as const;
 
 function Facet({ title, items, sel, onToggle, max = 6 }: { title: string; items: [string, number][]; sel: string[]; onToggle: (v: string) => void; max?: number }) {
   const [all, setAll] = useState(false);
@@ -54,13 +53,14 @@ export default function Dashboard() {
     })();
   }, []);
 
-  useEffect(() => { if (ready) { localStorage.setItem("js_prefs", JSON.stringify(f.areas)); localStorage.setItem("js_saved", JSON.stringify(saved)); } }, [f.areas, saved, ready]);
+  useEffect(() => { if (ready) localStorage.setItem("js_saved", JSON.stringify(saved)); }, [saved, ready]);
   useEffect(() => setShown(PAGE), [f]);
 
   const set = (p: Partial<Filters>) => setF((x) => ({ ...x, ...p }));
-  async function toggleArea(a: string) {
-    const areas = toggle(f.areas, a);
+  // Only the user's own area picks are remembered; an ?area= link from the landing page is just a view.
+  async function setAreas(areas: string[]) {
     set({ areas });
+    localStorage.setItem("js_prefs", JSON.stringify(areas));
     await supabase?.auth.updateUser({ data: { prefs: areas } }); // errors for guests; local copy is kept
   }
   async function out() { await supabase?.auth.signOut(); location.href = "/"; }
@@ -69,7 +69,7 @@ export default function Dashboard() {
   const list = useMemo(() => finish(base, f, new Set(saved)), [base, f, saved]);
 
   const active = [
-    ...f.areas.map((v) => [v, () => set({ areas: toggle(f.areas, v) })] as const),
+    ...f.areas.map((v) => [v, () => setAreas(toggle(f.areas, v))] as const),
     ...f.mode.map((v) => [v, () => set({ mode: toggle(f.mode, v) })] as const),
     ...f.city.map((v) => [v, () => set({ city: toggle(f.city, v) })] as const),
     ...f.src.map((v) => [v, () => set({ src: toggle(f.src, v) })] as const),
@@ -96,7 +96,7 @@ export default function Dashboard() {
           {Object.keys(TAXONOMY).map((c) => <button key={c} className={`chip ${c === cat ? "on" : ""}`} onClick={() => setCat(c)}>{c}</button>)}
         </div>
         <div className="row">
-          {TAXONOMY[cat].map((s) => { const p = `${cat} / ${s}`; return <button key={p} className={`chip ${f.areas.includes(p) ? "on" : ""}`} onClick={() => toggleArea(p)}>{s}</button>; })}
+          {TAXONOMY[cat].map((s) => { const p = `${cat} / ${s}`; return <button key={p} className={`chip ${f.areas.includes(p) ? "on" : ""}`} onClick={() => setAreas(toggle(f.areas, p))}>{s}</button>; })}
         </div>
         {!who && <p className="mut small">Guest: areas are saved on this device. <Link href="/login">Sign in</Link> to keep them everywhere.</p>}
       </details>
@@ -110,7 +110,7 @@ export default function Dashboard() {
           <Facet title="Work mode" items={count(base, modeOf)} sel={f.mode} onToggle={(v) => set({ mode: toggle(f.mode, v) })} />
           <Facet title="Source" items={count(base, srcOf)} sel={f.src} onToggle={(v) => set({ src: toggle(f.src, v) })} />
           <Facet title="Apply via" items={count(base, viaOf)} sel={f.via} onToggle={(v) => set({ via: toggle(f.via, v) })} />
-          <Facet title="Location" items={count(base, cityOf)} sel={f.city} onToggle={(v) => set({ city: toggle(f.city, v) })} />
+          <Facet title="Location" items={count(base, citiesOf)} sel={f.city} onToggle={(v) => set({ city: toggle(f.city, v) })} />
         </aside>
 
         <section style={{ margin: 0 }}>
@@ -118,7 +118,7 @@ export default function Dashboard() {
             <b>{feed ? `${Math.min(shown, list.length)} of ${list.length} jobs` : "Loading latest posts…"}</b>
             <span className="row">
               <button className="alt fbtn" onClick={() => setFOpen(!fOpen)}>Filters</button>
-              <button className={`chip ${f.saved ? "on" : ""}`} onClick={() => set({ saved: !f.saved })}>Saved ({saved.length})</button>
+              <button className={`chip ${f.saved ? "on" : ""}`} onClick={() => set({ saved: !f.saved })}>Saved ({feed ? saved.filter((id) => feed.some((o) => o.id === id)).length : saved.length})</button>
               <select aria-label="Sort" value={f.sort} onChange={(e) => set({ sort: e.target.value as Filters["sort"] })}>
                 <option value="new">Newest</option><option value="rel">Relevance</option>
               </select>
@@ -148,11 +148,12 @@ export default function Dashboard() {
                 </div>
                 <div className="meta">
                   {o.loc && <span>📍 {o.loc.slice(0, 40)}</span>}<span>{modeOf(o)}</span><span>{srcOf(o)}</span><span>{ago(o.date)}</span>
+                  {o.leads.find((l) => l.kind === "link") && <a href={o.leads.find((l) => l.kind === "link")!.value} target="_blank" rel="noopener noreferrer">View original post ↗</a>}
                 </div>
                 {o.instruction && <div className="clamp">{o.instruction}</div>}
                 <div className="leads">
                   {(o.leads.some((x) => x.kind !== "link") ? o.leads.filter((x) => x.kind !== "link") : o.leads).slice(0, 3).map((l, i) => (
-                    <a key={l.value} className={`btn ${i ? "alt" : ""}`} href={l.kind === "email" ? `mailto:${l.value}` : l.value} target="_blank" rel="noopener noreferrer">{KIND[l.kind]}</a>
+                    <a key={l.value} className={`btn ${i ? "alt" : ""}`} href={l.kind === "email" ? `mailto:${l.value}` : l.value} target="_blank" rel="noopener noreferrer">{labelOf(l)}</a>
                   ))}
                   <button className="alt" onClick={() => setOpen(open === o.id ? "" : o.id)}>{open === o.id ? "Hide details" : "Details"}</button>
                 </div>
@@ -160,8 +161,8 @@ export default function Dashboard() {
                   <div className="detail">
                     {o.poster && <p className="mut small">Posted by {o.poster} via {o.source}</p>}
                     <p>{o.text}</p>
-                    {o.leads.map((l) => <div key={l.value}><span className="tag">{KIND[l.kind]}</span> <a href={l.kind === "email" ? `mailto:${l.value}` : l.value} target="_blank" rel="noopener noreferrer">{l.value}</a></div>)}
-                    {o.company && <div className="row" style={{ marginTop: 10 }}><span className="mut small">Research:</span>{lookups(o.company).map(([n, u]) => <a key={n} className="tag" href={u} target="_blank" rel="noopener noreferrer">{n}</a>)}</div>}
+                    {o.leads.map((l) => <div key={l.value}><span className="tag">{labelOf(l)}</span> <a href={l.kind === "email" ? `mailto:${l.value}` : l.value} target="_blank" rel="noopener noreferrer">{l.value}</a></div>)}
+                    {lookups(o.company).length > 0 && <div className="row" style={{ marginTop: 10 }}><span className="mut small">Research:</span>{lookups(o.company).map(([n, u]) => <a key={n} className="tag" href={u} target="_blank" rel="noopener noreferrer">{n}</a>)}</div>}
                   </div>
                 )}
               </article>

@@ -14,3 +14,17 @@ test("falls back to domain, ignores free mail", () => {
   const r = extract("DM me or mail hr@foo.io / me@gmail.com");
   assert.equal(r.company, "foo");
 });
+
+import { researchName, lookups } from "./extract.ts";
+
+test("company guess ignores 'Join Our Team' and cities", () => {
+  assert.equal(extract("Join Our Team today! Based at Mumbai office. We are hiring at Zeta Corp.").company, "Zeta Corp");
+  assert.equal(extract("Join Our Team. Work at Bengaluru.").company, "");
+});
+
+test("research name uses the agency, never junk", () => {
+  assert.equal(researchName("Leading US-based CPA firm (via Spectral Consultants)"), "Spectral Consultants");
+  assert.equal(researchName("Acme Capital (inferred from contact email)"), "Acme Capital");
+  assert.equal(researchName("Not named in post"), "");
+  assert.equal(lookups("Not named in post").length, 0);
+});

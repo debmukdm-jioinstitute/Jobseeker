@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { areaRegex, baseFilter, finish, count, modeOf, cityOf, EMPTY } from "./filter.ts";
+import { areaRegex, baseFilter, finish, count, modeOf, citiesOf, labelOf, EMPTY } from "./filter.ts";
 import type { Opp } from "./ingest.ts";
 
 const o = (id: string, title: string, loc: string, over: Partial<Opp> = {}): Opp => ({
@@ -22,8 +22,29 @@ test("base + facets + counts", () => {
   assert.deepEqual(baseFilter(feed, { ...EMPTY, areas: ["Finance / FP&A"] }).map((x) => x.id), ["1"]);
   assert.deepEqual(baseFilter(feed, { ...EMPTY, where: "india" }).map((x) => x.id), ["1"]);
   assert.equal(modeOf(feed[1]), "Remote");
-  assert.equal(cityOf(feed[0]), "Mumbai");
+  assert.deepEqual(citiesOf(feed[0]), ["Mumbai"]);
   assert.deepEqual(finish(feed, { ...EMPTY, days: 7 }, new Set()).map((x) => x.id).sort(), ["1", "2"]);
   assert.deepEqual(finish(feed, { ...EMPTY, saved: true }, new Set(["3"])).map((x) => x.id), ["3"]);
   assert.deepEqual(count(feed, modeOf)[0], ["On-site", 2]);
+});
+
+test("locations resolve to real cities, many allowed", () => {
+  const c = (loc: string) => citiesOf(o("x", "t", loc));
+  assert.deepEqual(c("Koramangala, Bangalore"), ["Bengaluru"]);
+  assert.deepEqual(c("Delhi, Noida, Mumbai").sort(), ["Delhi NCR", "Mumbai", "Noida"]);
+  assert.ok(c("Gurgaon (Hybrid)").includes("Gurugram"));
+  assert.deepEqual(c("Not stated in post"), ["Not specified"]);
+  assert.deepEqual(c("Singapore"), ["Singapore"]);
+});
+
+test("area words match job-title variants", () => {
+  assert.ok(areaRegex(["Finance / Accounting & Audit"])!.test("Accounts Executive"));
+  assert.ok(areaRegex(["Finance / Taxation"])!.test("Tax Manager"));
+  assert.ok(areaRegex(["Technology / Software Engineering"])!.test("Senior Software Engineer"));
+  assert.ok(!areaRegex(["Finance / Treasury"])!.test("Treasurer-General Office Dog"));
+});
+
+test("labels: linkedin post link is named, not just Link", () => {
+  assert.equal(labelOf({ kind: "link", value: "https://linkedin.com/posts/x", domain: "linkedin.com" }), "LinkedIn post");
+  assert.equal(labelOf({ kind: "form", value: "https://forms.gle/a", domain: "forms.gle" }), "Apply form");
 });

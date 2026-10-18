@@ -33,6 +33,6 @@ export function normalize(r: any, fallbackSource = "agent"): Opp | null {
     leads, company, instruction: s(r.instruction, 300) || e.instruction,
     id: rid ? (rid.startsWith(source) ? rid : `${source}-${rid}`) : `${source}-${hash(title + company + (leads[0]?.value ?? full.slice(0, 80)))}`,
     source, title: title || full.slice(0, 120), poster: s(r.poster ?? r.author ?? r.posted_by, 100), loc: s(r.loc ?? r.location, 100),
-    text: full.slice(0, 300), date: isNaN(+d) ? new Date().toISOString() : d.toISOString(),
+    text: full.slice(0, 300), date: isNaN(+d) ? "" : d.toISOString(), // collector keeps the first-seen date, so undated posts still expire
   };
 }
