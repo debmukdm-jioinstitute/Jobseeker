@@ -3,12 +3,17 @@
 Hiring posts → actions. Landing, sign-in/up, guest mode, dashboard with a top-down category picker
 (Finance → FP&A, IB, Asset Mgmt …), post link/email/instruction extractor, and one-click company research.
 
-Stack (all free tier): Next.js on Vercel Hobby, Supabase Auth, GitHub Actions.
+Stack (all free tier): Next.js on Vercel Hobby, in-house auth, Vercel Blob (private) for accounts, GitHub Actions.
 
 ## Run
     npm i && npm run dev
-Guest mode works with no config. For accounts: create a free Supabase project, copy `.env.example` to `.env.local`, fill keys.
-Selected categories sync to the user's Supabase `user_metadata` (no tables needed).
+Guests need nothing. Accounts need two env vars on Vercel (Production):
+- `BLOB_READ_WRITE_TOKEN`: created by `vercel blob create-store jobseeker-users --access private`.
+- `SESSION_SECRET`: any long random string (`openssl rand -hex 32`).
+
+Accounts are in-house: scrypt-hashed passwords, a signed HttpOnly cookie, one private blob per user
+(`users/<sha256(email)>.json`) holding their saved areas and saved jobs. No email verification or password
+reset (no email service); add one before inviting the public.
 
 ## Deploy (free)
 Import this repo at vercel.com, add the two env vars, deploy.

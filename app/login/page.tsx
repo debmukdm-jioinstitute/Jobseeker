@@ -1,48 +1,48 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
 import ThemeToggle from "../ThemeToggle";
 
 export default function Login() {
   const router = useRouter();
-  const [mode, setMode] = useState<"in" | "up">("in");
+  const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
-
-  useEffect(() => {
-    if (new URLSearchParams(location.search).get("guest")) guest();
-  }, []);
-
-  function guest() {
-    localStorage.setItem("js_guest", "1");
-    router.push("/dashboard");
-  }
+  const [busy, setBusy] = useState(false);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!supabase) return setMsg("Accounts need Supabase keys (see README). Use guest for now.");
-    const { error } = mode === "up" ? await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${location.origin}/dashboard` } }) : await supabase.auth.signInWithPassword({ email, password });
-    if (error) return setMsg(error.message);
-    if (mode === "up") return setMsg("Check your email to confirm, then sign in.");
-    localStorage.removeItem("js_guest");
-    router.push("/dashboard");
+    setBusy(true);
+    setMsg("");
+    try {
+      const r = await fetch(`/api/auth/${mode}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) return setMsg(d.error ?? "Something went wrong. Try again.");
+      router.push("/dashboard");
+    } catch {
+      setMsg("Network problem. Try again.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
     <main style={{ maxWidth: 420 }}>
-      <div className="row" style={{ justifyContent: "space-between" }}><h2>{mode === "in" ? "Sign in" : "Create account"}</h2><ThemeToggle /></div>
+      <nav><Link href="/" className="logo"><i />Jobseeker</Link><ThemeToggle /></nav>
+      <h2>{mode === "login" ? "Sign in" : "Create account"}</h2>
       <form className="card" onSubmit={submit}>
-        <input type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password (min 6)" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit">{mode === "in" ? "Sign in" : "Sign up"}</button>{" "}
-        <button type="button" className="alt" onClick={() => setMode(mode === "in" ? "up" : "in")}>
-          {mode === "in" ? "Need an account?" : "Have an account?"}
+        <input type="email" placeholder="Email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" placeholder="Password (min 8 characters)" required minLength={8} autoComplete={mode === "login" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} />
+        <button type="submit" disabled={busy}>{busy ? "Please wait…" : mode === "login" ? "Sign in" : "Sign up"}</button>{" "}
+        <button type="button" className="alt" onClick={() => { setMode(mode === "login" ? "signup" : "login"); setMsg(""); }}>
+          {mode === "login" ? "Need an account?" : "Have an account?"}
         </button>
         {msg && <p className="mut">{msg}</p>}
       </form>
-      <button className="alt" onClick={guest}>Continue as guest</button>
+      <Link href="/dashboard" className="btn alt">Continue as guest</Link>
+      <p className="mut small">No email verification yet, so use an email you control. Passwords cannot be reset by email.</p>
     </main>
   );
 }

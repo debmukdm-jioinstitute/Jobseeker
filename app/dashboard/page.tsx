@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
 import { TAXONOMY } from "@/lib/taxonomy";
 import { lookups } from "@/lib/extract";
 import type { Opp } from "@/lib/ingest";
@@ -41,29 +40,30 @@ export default function Dashboard() {
 
   useEffect(() => {
     (async () => {
-      const { data } = (await supabase?.auth.getSession()) ?? { data: { session: null } };
-      const user = data.session?.user;
-      if (user) setWho(user.email ?? "You");
+      const me = await fetch("/api/me").then((r) => r.json()).catch(() => ({ email: null }));
+      if (me.email) setWho(me.email);
       const p = new URLSearchParams(location.search);
-      const prefs: string[] = user?.user_metadata?.prefs ?? read("js_prefs", []);
+      // Signed in: the account's saved data wins; first login after guest use adopts the device's data.
+      const prefs: string[] = me.email && me.prefs?.length ? me.prefs : read("js_prefs", []);
       setF({ ...EMPTY, q: p.get("q") ?? "", where: p.get("where") ?? "", areas: p.get("area") ? [p.get("area")!] : prefs, src: p.get("src") ? [p.get("src")!] : [] });
-      setSaved(read("js_saved", []));
+      setSaved(me.email && me.saved?.length ? me.saved : read("js_saved", []));
       setReady(true);
       fetch("/api/feed").then((r) => r.json()).then(setFeed).catch(() => setErr("Could not load the feed. Try again in a minute."));
     })();
   }, []);
 
-  useEffect(() => { if (ready) localStorage.setItem("js_saved", JSON.stringify(saved)); }, [saved, ready]);
+  const sync = (body: object) => who && fetch("/api/me", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).catch(() => {});
+  useEffect(() => { if (ready) { localStorage.setItem("js_saved", JSON.stringify(saved)); sync({ saved }); } }, [saved, ready, who]);
   useEffect(() => setShown(PAGE), [f]);
 
   const set = (p: Partial<Filters>) => setF((x) => ({ ...x, ...p }));
   // Only the user's own area picks are remembered; an ?area= link from the landing page is just a view.
-  async function setAreas(areas: string[]) {
+  function setAreas(areas: string[]) {
     set({ areas });
     localStorage.setItem("js_prefs", JSON.stringify(areas));
-    await supabase?.auth.updateUser({ data: { prefs: areas } }); // errors for guests; local copy is kept
+    sync({ prefs: areas });
   }
-  async function out() { await supabase?.auth.signOut(); location.href = "/"; }
+  async function out() { await fetch("/api/auth/logout", { method: "POST" }); location.href = "/"; }
 
   const base = useMemo(() => baseFilter(feed ?? [], f), [feed, f.q, f.where, f.areas]);
   const list = useMemo(() => finish(base, f, new Set(saved)), [base, f, saved]);
