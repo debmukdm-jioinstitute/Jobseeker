@@ -58,7 +58,7 @@ export default function Dashboard() {
     const needle = q.toLowerCase();
     return (feed ?? []).filter((o) => {
       const hay = `${o.title} ${o.company} ${o.text}`;
-      return (all || !ms.length || ms.some((m) => m.test(hay))) && (!needle || hay.toLowerCase().includes(needle));
+      return (all || !ms.length || ms.some((m) => m.test(o.title))) && (!needle || hay.toLowerCase().includes(needle));
     }).slice(0, 100);
   }, [feed, prefs, q, all]);
 
