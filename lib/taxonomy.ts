@@ -6,13 +6,5 @@ export const TAXONOMY: Record<string, string[]> = {
   Consulting: ["Strategy Consulting", "Management Consulting", "Technology Consulting", "Financial Advisory", "Risk & Compliance Advisory", "HR Consulting", "Sustainability / ESG"],
   Technology: ["Software Engineering", "Data Science & ML", "Data Engineering", "DevOps / Cloud", "Cybersecurity", "QA / Testing", "UI / UX Design", "Technical Writing", "IT Support"],
   Sales: ["Enterprise Sales", "SDR / BDR", "Inside Sales", "Account Management", "Pre-Sales / Solutions", "Channel & Partnerships"],
-  "HR & People": ["Talent Acquisition", "HR Business Partner", "Learning & Development", "Compensation & Benefits", "People Analytics", "Employer Branding"],
-  Legal: ["Corporate Law", "Compliance", "Contracts", "IP & Technology Law", "Litigation", "Company Secretary"],
-  Healthcare: ["Hospital Administration", "Pharma / Biotech", "Clinical Research", "Healthtech", "Medical Devices"],
-  "Energy & Industrials": ["Oil & Gas", "Petrochemicals", "Renewables", "Manufacturing", "Automotive", "Infrastructure", "Logistics"],
   "Consumer & Retail": ["FMCG", "E-commerce", "Retail Operations", "Category Management", "D2C Brands"],
-  "Media & Creative": ["Journalism", "Video & Production", "Graphic Design", "Gaming", "Entertainment"],
-  Education: ["Teaching & Academia", "EdTech", "Research", "Admissions & Student Services"],
-  "Public Sector & NGO": ["Policy & Research", "Development / NGO", "Government Programs", "Public Finance"],
-  "Real Estate": ["Real Estate Investment", "Property Management", "Construction & Projects", "Urban Planning"],
 };
