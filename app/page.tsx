@@ -2,6 +2,7 @@ import Link from "next/link";
 import feed from "@/data/feed.json";
 import { TAXONOMY } from "@/lib/taxonomy";
 import SearchBar from "./SearchBar";
+import ThemeToggle from "./ThemeToggle";
 
 const QUICK = [["Remote", "q=remote"], ["India", "where=india"], ["Founder & team posts", "src=Founder %26 team posts"], ["Finance", "area=Finance"], ["Consulting", "area=Consulting"], ["Company careers", "src=Company careers"]];
 
@@ -10,7 +11,7 @@ export default function Landing() {
     <main>
       <nav>
         <Link href="/" className="logo"><i />Jobseeker</Link>
-        <span className="row"><Link href="/dashboard" className="btn alt">Browse jobs</Link><Link href="/login" className="btn">Sign in</Link></span>
+        <span className="row"><ThemeToggle /><Link href="/dashboard" className="btn alt">Browse jobs</Link><Link href="/login" className="btn">Sign in</Link></span>
       </nav>
 
       <div className="hero">

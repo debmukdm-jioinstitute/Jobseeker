@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import ThemeToggle from "../ThemeToggle";
 
 export default function Login() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function Login() {
 
   return (
     <main style={{ maxWidth: 420 }}>
-      <h2>{mode === "in" ? "Sign in" : "Create account"}</h2>
+      <div className="row" style={{ justifyContent: "space-between" }}><h2>{mode === "in" ? "Sign in" : "Create account"}</h2><ThemeToggle /></div>
       <form className="card" onSubmit={submit}>
         <input type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} />
         <input type="password" placeholder="Password (min 6)" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
