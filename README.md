@@ -16,7 +16,7 @@ Import this repo at vercel.com, add the two env vars, deploy.
 ## Feed: agents only
 The site shows only what our research agents (Grok, Muse, ...) deliver. No website is fetched by the site itself.
 
-1. An agent produces a `.json` file (format: `data/inbox/README.md`).
-2. Upload it to `data/inbox/` on GitHub (Add file → Upload files).
-3. The `collect` workflow merges it into `data/feed.json` within about a minute, clears the inbox, and Vercel redeploys.
-4. Posts are kept 30 days. A 6-hour schedule also sweeps and expires old ones.
+1. An agent produces JSON in the format of `data/inbox/README.md`.
+2. It delivers either by (a) updating its own standing file `jobseeker-<name>.json` in the repo root (e.g. `jobseeker-linkedin.json`), or (b) uploading a one-off file to `data/inbox/` (deleted after merging).
+3. Every push to those paths runs the `collect` workflow, which merges into `data/feed.json` (deduped by id) within about a minute; Vercel then redeploys.
+4. Posts older than 30 days (by their own `date`) are dropped. A 6-hour schedule also sweeps.

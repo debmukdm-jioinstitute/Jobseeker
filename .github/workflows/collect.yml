@@ -1,7 +1,7 @@
 name: collect
 on:
   push:
-    paths: ["data/inbox/**"] # agent uploaded a file: merge right away
+    paths: ["data/inbox/**", "jobseeker-*.json", "data/jobseeker-*.json"] # agent delivered a file: merge right away
   schedule:
     - cron: "0 */6 * * *" # backup sweep + 30-day cleanup
   workflow_dispatch: {}
