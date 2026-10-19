@@ -7,7 +7,7 @@ const strs = (v: unknown) => (Array.isArray(v) ? v.filter((x): x is string => ty
 export async function GET() {
   const email = sessionEmail();
   const u = email ? await readUser(email) : null;
-  return Response.json(u ? { email: u.email, prefs: u.prefs, saved: u.saved } : { email: null });
+  return Response.json(u ? { email: u.email, prefs: u.prefs, saved: u.saved, keywords: u.keywords ?? [] } : { email: null });
 }
 
 export async function PUT(req: Request) {
@@ -15,6 +15,6 @@ export async function PUT(req: Request) {
   const u = email ? await readUser(email) : null;
   if (!u) return Response.json({ error: "Sign in first." }, { status: 401 });
   const b = await req.json().catch(() => ({}));
-  await saveUser({ ...u, prefs: strs(b.prefs) ?? u.prefs, saved: strs(b.saved) ?? u.saved });
+  await saveUser({ ...u, prefs: strs(b.prefs) ?? u.prefs, saved: strs(b.saved) ?? u.saved, keywords: strs(b.keywords)?.slice(0, 60) ?? u.keywords });
   return Response.json({ ok: true });
 }

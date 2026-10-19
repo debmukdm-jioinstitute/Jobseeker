@@ -2,7 +2,7 @@ import { BlobPreconditionFailedError, get, put } from "@vercel/blob";
 import { cookies } from "next/headers";
 import { hashPassword, makeToken, readToken, userKey, verifyPassword } from "./crypto.ts";
 
-export type User = { email: string; salt: string; hash: string; prefs: string[]; saved: string[] };
+export type User = { email: string; salt: string; hash: string; prefs: string[]; saved: string[]; keywords?: string[] };
 
 const secret = () => {
   const s = process.env.SESSION_SECRET;

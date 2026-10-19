@@ -4,6 +4,7 @@ import { TAXONOMY } from "@/lib/taxonomy";
 import SearchBar from "./SearchBar";
 import ThemeToggle from "./ThemeToggle";
 import Logo from "./Logo";
+import ForYou from "./ForYou";
 
 const feed = data as { source: string }[]; // [] is typed never[] by TS
 const QUICK = [["Remote", "q=remote"], ["India", "where=india"], ["Finance", "area=Finance"], ["Consulting", "area=Consulting"]];
@@ -13,7 +14,7 @@ export default function Landing() {
     <main>
       <nav>
         <Logo />
-        <span className="row"><ThemeToggle /><Link href="/dashboard" className="btn alt">Browse jobs</Link><Link href="/login" className="btn">Sign in</Link></span>
+        <span className="row"><ThemeToggle /><Link href="/dashboard" className="btn alt">Browse jobs</Link><Link href="/profile" className="btn alt">Profile</Link><Link href="/login" className="btn">Sign in</Link></span>
       </nav>
 
       <div className="hero">
@@ -29,6 +30,8 @@ export default function Landing() {
           </div>
         )}
       </div>
+
+      <ForYou />
 
       <section>
         <h2>Browse by field</h2>

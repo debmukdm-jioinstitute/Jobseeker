@@ -5,9 +5,9 @@ import { citiesIn } from "./cities.ts";
 
 export type Filters = {
   q: string; where: string; areas: string[]; mode: string[]; src: string[]; via: string[];
-  city: string[]; days: number; sort: "new" | "rel"; saved: boolean;
+  city: string[]; days: number; sort: "new" | "rel"; saved: boolean; forYou: boolean;
 };
-export const EMPTY: Filters = { q: "", where: "", areas: [], mode: [], src: [], via: [], city: [], days: 0, sort: "new", saved: false };
+export const EMPTY: Filters = { q: "", where: "", areas: [], mode: [], src: [], via: [], city: [], days: 0, sort: "new", saved: false, forYou: false };
 
 const GENERIC = new Set(["and", "the", "management", "analysis", "services", "operations"]);
 const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

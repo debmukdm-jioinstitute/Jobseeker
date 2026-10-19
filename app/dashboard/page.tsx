@@ -4,6 +4,8 @@ import Link from "next/link";
 import { TAXONOMY } from "@/lib/taxonomy";
 import { lookups } from "@/lib/extract";
 import type { Opp } from "@/lib/ingest";
+import { match } from "@/lib/resume";
+import { loadProfile } from "@/lib/profile-client";
 import { EMPTY, ago, baseFilter, citiesOf, count, finish, labelOf, modeOf, srcOf, viaOf, type Filters } from "@/lib/filter";
 import SearchBar from "../SearchBar";
 import ThemeToggle from "../ThemeToggle";
@@ -38,6 +40,7 @@ export default function Dashboard() {
   const [open, setOpen] = useState("");
   const [cat, setCat] = useState(Object.keys(TAXONOMY)[0]);
   const [fOpen, setFOpen] = useState(false);
+  const [kws, setKws] = useState<string[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -46,8 +49,9 @@ export default function Dashboard() {
       const p = new URLSearchParams(location.search);
       // Signed in: the account's saved data wins; first login after guest use adopts the device's data.
       const prefs: string[] = me.email && me.prefs?.length ? me.prefs : read("js_prefs", []);
-      setF({ ...EMPTY, q: p.get("q") ?? "", where: p.get("where") ?? "", areas: p.get("area") ? [p.get("area")!] : prefs, src: p.get("src") ? [p.get("src")!] : [] });
+      setF({ ...EMPTY, q: p.get("q") ?? "", where: p.get("where") ?? "", areas: p.get("area") ? [p.get("area")!] : prefs, src: p.get("src") ? [p.get("src")!] : [], forYou: p.get("foryou") === "1" });
       setSaved(me.email && me.saved?.length ? me.saved : read("js_saved", []));
+      loadProfile().then((pr) => setKws(pr.keywords));
       setReady(true);
       fetch("/api/feed").then((r) => r.json()).then(setFeed).catch(() => setErr("Could not load the feed. Try again in a minute."));
     })();
@@ -67,7 +71,13 @@ export default function Dashboard() {
   async function out() { await fetch("/api/auth/logout", { method: "POST" }); location.href = "/"; }
 
   const base = useMemo(() => baseFilter(feed ?? [], f), [feed, f.q, f.where, f.areas]);
-  const list = useMemo(() => finish(base, f, new Set(saved)), [base, f, saved]);
+  const filtered = useMemo(() => finish(base, f, new Set(saved)), [base, f, saved]);
+  // ATS-style matches against the keywords scanned from the user's resume
+  const scored = useMemo(() => new Map(filtered.map((o) => [o.id, match(o, kws)])), [filtered, kws]);
+  const list = useMemo(
+    () => (f.forYou && kws.length ? filtered.filter((o) => scored.get(o.id)!.score > 0).sort((a, b) => scored.get(b.id)!.score - scored.get(a.id)!.score || b.date.localeCompare(a.date)) : filtered),
+    [filtered, scored, f.forYou, kws],
+  );
 
   const active = [
     ...f.areas.map((v) => [v, () => setAreas(toggle(f.areas, v))] as const),
@@ -77,6 +87,7 @@ export default function Dashboard() {
     ...f.via.map((v) => ["Apply: " + v, () => set({ via: toggle(f.via, v) })] as const),
     ...(f.days ? [[`Last ${f.days} days`, () => set({ days: 0 })] as const] : []),
     ...(f.saved ? [["Saved only", () => set({ saved: false })] as const] : []),
+    ...(f.forYou ? [["For you", () => set({ forYou: false })] as const] : []),
   ];
 
   if (!ready) return null;
@@ -87,6 +98,7 @@ export default function Dashboard() {
         <span className="row">
           <ThemeToggle />
           {who ? <><span className="mut small">{who}</span><button className="alt" onClick={out}>Sign out</button></> : <Link href="/login" className="btn">Sign in</Link>}
+          <Link href="/profile" className="btn alt">Profile</Link>
         </span>
       </nav>
       <SearchBar q={f.q} where={f.where} onSearch={(q, where) => set({ q, where })} />
@@ -119,6 +131,7 @@ export default function Dashboard() {
             <b>{feed ? `${Math.min(shown, list.length)} of ${list.length} jobs` : "Loading latest posts…"}</b>
             <span className="row">
               <button className="alt fbtn" onClick={() => setFOpen(!fOpen)}>Filters</button>
+              <button className={`chip ${f.forYou ? "on" : ""}`} onClick={() => set({ forYou: !f.forYou })}>For you</button>
               <button className={`chip ${f.saved ? "on" : ""}`} onClick={() => set({ saved: !f.saved })}>Saved ({feed ? saved.filter((id) => feed.some((o) => o.id === id)).length : saved.length})</button>
               <select aria-label="Sort" value={f.sort} onChange={(e) => set({ sort: e.target.value as Filters["sort"] })}>
                 <option value="new">Newest</option><option value="rel">Relevance</option>
@@ -131,6 +144,7 @@ export default function Dashboard() {
               <button className="plain small" onClick={() => setF({ ...EMPTY, q: f.q, where: f.where })}>Clear all</button>
             </div>
           )}
+          {f.forYou && !kws.length && <div className="card" style={{ marginBottom: 12 }}><b>Upload your resume to see jobs for you</b><p className="mut">We scan it for keywords in your browser and match them to the jobs here.</p><Link href="/profile" className="btn">Upload resume</Link></div>}
           {err && <p className="mut">{err}</p>}
           {feed && feed.length === 0 && <div className="card"><b>No opportunities yet.</b><p className="mut">New posts appear here as soon as our agents deliver their next feed.</p></div>}
           {feed && feed.length > 0 && list.length === 0 && <div className="card"><b>No jobs match.</b><p className="mut">Remove a filter or try a broader search.</p></div>}
@@ -151,6 +165,7 @@ export default function Dashboard() {
                   {o.loc && <span>📍 {o.loc.slice(0, 40)}</span>}<span>{modeOf(o)}</span><span>{srcOf(o)}</span><span>{ago(o.date)}</span>
                   {o.leads.find((l) => l.kind === "link") && <a href={o.leads.find((l) => l.kind === "link")!.value} target="_blank" rel="noopener noreferrer">View original post ↗</a>}
                 </div>
+                {(scored.get(o.id)?.score ?? 0) > 0 && kws.length > 0 && <div className="small"><span className="tag">Match {scored.get(o.id)!.pct}%</span> <span className="mut">{scored.get(o.id)!.hits.slice(0, 5).join(" · ")}</span></div>}
                 {o.instruction && <div className="clamp">{o.instruction}</div>}
                 <div className="leads">
                   {(o.leads.some((x) => x.kind !== "link") ? o.leads.filter((x) => x.kind !== "link") : o.leads).slice(0, 3).map((l, i) => (
