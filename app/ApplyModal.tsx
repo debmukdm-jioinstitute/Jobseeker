@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import "./apply.css";
 import Link from "next/link";
 import type { Opp } from "@/lib/ingest";
 import type { Profile, Template } from "@/lib/profile";

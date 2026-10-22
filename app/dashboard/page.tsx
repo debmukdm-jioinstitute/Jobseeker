@@ -9,6 +9,7 @@ import { loadProfile } from "@/lib/profile-client";
 import { EMPTY, ago, baseFilter, citiesOf, count, finish, labelOf, modeOf, srcOf, viaOf, type Filters } from "@/lib/filter";
 import { DEFAULT_TEMPLATE, missingProfile } from "@/lib/profile";
 import ApplyModal, { type ApplyMe } from "../ApplyModal";
+import "../apply.css";
 import SearchBar from "../SearchBar";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
