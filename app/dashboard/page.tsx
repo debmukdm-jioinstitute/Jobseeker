@@ -158,13 +158,54 @@ export default function Dashboard() {
   return (
     <main>
       <nav>
-        <Logo />
-        <span className="row">
-          <BackButton />
+        <div className="nav-left">
+          <Logo />
           <ThemeToggle />
-          {who ? <><Link href="/applications" className="small">My applications</Link><span className="mut small">{who}</span><button className="alt" onClick={out}>Sign out</button></> : <Link href="/login" className="btn">Sign in</Link>}
-          <Link href="/profile" className="btn alt">Profile</Link>
-        </span>
+          <Link href="/applications" className="nav-apps-link">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            </svg>
+            <span>My applications</span>
+          </Link>
+        </div>
+        <div className="nav-right">
+          {who ? (
+            <>
+              <span className="nav-email">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+                <span>{who}</span>
+              </span>
+              <span className="nav-vdiv">|</span>
+              <button className="nav-signout-btn" onClick={out}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                  <polyline points="16 17 21 12 16 7"/>
+                  <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                <span>Sign out</span>
+              </button>
+              <Link href="/profile" className="nav-profile-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span>Profile</span>
+              </Link>
+            </>
+          ) : (
+            <Link href="/login" className="nav-profile-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              <span>Sign in</span>
+            </Link>
+          )}
+        </div>
       </nav>
       <SearchBar q={f.q} where={f.where} onSearch={(q, where) => set({ q, where })} />
 
@@ -201,21 +242,82 @@ export default function Dashboard() {
         </aside>
 
         <section style={{ margin: 0 }}>
-          <div className="toolbar">
-            <b>{feed ? `${Math.min(shown, list.length)} of ${list.length} jobs` : "Loading latest posts…"}</b>
-            <span className="row">
-              <button className="alt fbtn" onClick={() => setFOpen(!fOpen)}>Filters</button>
-              <button className={`chip ${f.forYou ? "on" : ""}`} onClick={() => set({ forYou: !f.forYou })}>For you</button>
-              <button className={`chip ${f.saved ? "on" : ""}`} onClick={() => set({ saved: !f.saved })}>Saved ({feed ? saved.filter((id) => feed.some((o) => o.id === id)).length : saved.length})</button>
-              <select aria-label="Sort" value={f.sort} onChange={(e) => set({ sort: e.target.value as Filters["sort"] })}>
-                <option value="new">Newest</option><option value="fresh">Freshness</option><option value="rel">Relevance</option>
-              </select>
+          {/* Toolbar (Image 3) */}
+          <div className="tb-bar">
+            <span className="tb-stat-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
+              <span>{feed ? `${Math.min(shown, list.length)} of ${list.length} jobs` : "Loading jobs…"}</span>
             </span>
+
+            <span className="tb-divider">|</span>
+
+            <button
+              className={`tb-tab-btn ${f.forYou ? "active" : ""}`}
+              onClick={() => set({ forYou: !f.forYou })}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M19 8v6m-3-3h6"/>
+              </svg>
+              <span>For you</span>
+            </button>
+
+            <button
+              className={`tb-tab-btn ${f.saved ? "active" : ""}`}
+              onClick={() => set({ saved: !f.saved })}
+            >
+              <svg width="17" height="17" viewBox="0 0 24 24" fill={f.saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span>Saved ({feed ? saved.filter((id) => feed.some((o) => o.id === id)).length : saved.length})</span>
+            </button>
+
+            <button className="alt fbtn" style={{ marginLeft: "auto" }} onClick={() => setFOpen(!fOpen)}>Filters</button>
+
+            <span className="tb-divider">|</span>
+
+            <div className="tb-sort-select">
+              <span className="tb-sort-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="4" y1="6" x2="20" y2="6"/>
+                  <line x1="4" y1="12" x2="16" y2="12"/>
+                  <line x1="4" y1="18" x2="12" y2="18"/>
+                </svg>
+              </span>
+              <select
+                aria-label="Sort"
+                value={f.sort}
+                onChange={(e) => set({ sort: e.target.value as Filters["sort"] })}
+              >
+                <option value="new">Newest</option>
+                <option value="fresh">Freshness</option>
+                <option value="rel">Relevance</option>
+              </select>
+              <span className="tb-sort-chevron">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </span>
+            </div>
           </div>
+
+          {/* Active Filter Chips (Image 3) */}
           {active.length > 0 && (
-            <div className="active">
-              {active.map(([l, rm]) => <button key={l} className="chip on x" onClick={rm}>{l}</button>)}
-              <button className="plain small" onClick={() => setF({ ...EMPTY, q: f.q, where: f.where })}>Clear all</button>
+            <div className="active-filters-row">
+              {active.map(([l, rm]) => (
+                <button key={l} className="active-pill" onClick={rm}>
+                  <span>{l}</span>
+                  <span className="x-icon">✕</span>
+                </button>
+              ))}
+              <span className="tb-divider">|</span>
+              <button className="active-clear-all" onClick={() => setF({ ...EMPTY, q: f.q, where: f.where })}>
+                Clear all
+              </button>
             </div>
           )}
           {f.forYou && !kws.length && <div className="card" style={{ marginBottom: 12 }}><b>Upload your resume to see jobs for you</b><p className="mut">We scan it for keywords in your browser and match them to the jobs here.</p><Link href="/profile" className="btn">Upload resume</Link></div>}
