@@ -7,6 +7,8 @@ import type { Opp } from "@/lib/ingest";
 import { match } from "@/lib/resume";
 import { loadProfile } from "@/lib/profile-client";
 import { EMPTY, ago, baseFilter, citiesOf, count, finish, labelOf, modeOf, srcOf, viaOf, type Filters } from "@/lib/filter";
+import { DEFAULT_TEMPLATE, missingProfile } from "@/lib/profile";
+import ApplyModal, { type ApplyMe } from "../ApplyModal";
 import SearchBar from "../SearchBar";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
@@ -89,11 +91,17 @@ export default function Dashboard() {
   const [open, setOpen] = useState("");
   const [fOpen, setFOpen] = useState(false);
   const [kws, setKws] = useState<string[]>([]);
+  const [am, setAm] = useState<ApplyMe | null>(null);
+  const [apps, setApps] = useState<Record<string, string>>({});
+  const [sel, setSel] = useState<string[]>([]);
+  const [modal, setModal] = useState<Opp[] | null>(null);
 
   useEffect(() => {
     (async () => {
       const me = await fetch("/api/me").then((r) => r.json()).catch(() => ({ email: null }));
       if (me.email) setWho(me.email);
+      if (me.profile && me.cv && me.cvFile && !missingProfile(me.profile).length) setAm({ profile: me.profile, cv: me.cv, hasFile: !!me.cvFile, cvLink: me.cvLink, template: me.template ?? DEFAULT_TEMPLATE });
+      setApps(Object.fromEntries((me.apps ?? []).map((a: { postId: string; status: string }) => [a.postId, a.status])));
       const p = new URLSearchParams(location.search);
       // Signed in: the account's saved data wins; first login after guest use adopts the device's data.
       const prefs: string[] = me.email && me.prefs?.length ? me.prefs : read("js_prefs", []);
@@ -149,7 +157,7 @@ export default function Dashboard() {
         <Logo />
         <span className="row">
           <ThemeToggle />
-          {who ? <><span className="mut small">{who}</span><button className="alt" onClick={out}>Sign out</button></> : <Link href="/login" className="btn">Sign in</Link>}
+          {who ? <><Link href="/applications" className="small">My applications</Link><span className="mut small">{who}</span><button className="alt" onClick={out}>Sign out</button></> : <Link href="/login" className="btn">Sign in</Link>}
           <Link href="/profile" className="btn alt">Profile</Link>
         </span>
       </nav>
@@ -260,6 +268,12 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="ab-actions">
+                    {o.apply_email && (apps[o.id] === "applied" ? <span className="applied-tag">Applied ✓</span> : !who ? <Link className="action-btn" href="/login"><span>Sign in to apply</span></Link> : !am ? <Link className="action-btn" href="/profile#apply"><span>Complete profile to apply</span></Link> : (
+                      <>
+                        <label className="small"><input type="checkbox" style={{ width: "auto", margin: "0 4px 0 0" }} checked={sel.includes(o.id)} disabled={!sel.includes(o.id) && sel.length >= 10} onChange={() => setSel(toggle(sel, o.id))} />Queue</label>
+                        <button className="action-btn" onClick={() => setModal([o])}><IconEmail /><span>{apps[o.id] === "opened" ? "Continue applying" : "Apply"}</span></button>
+                      </>
+                    ))}
                     {primaryLead && (
                       <a
                         className="action-btn"
@@ -371,10 +385,12 @@ export default function Dashboard() {
               </article>
             );
           })}
+          {sel.length > 0 && <div className="queue-bar"><b>{sel.length} selected (max 10)</b><span className="row"><button className="alt" onClick={() => setSel([])}>Clear</button><button onClick={() => setModal(sel.map((id) => feed!.find((x) => x.id === id)!).filter(Boolean))}>Apply to selected →</button></span></div>}
           {shown < list.length && <button className="alt" style={{ width: "100%" }} onClick={() => setShown(shown + PAGE)}>Show more</button>}
           <p className="mut small" style={{ marginTop: 32 }}>Posts are gathered by our research agents and added as new feeds arrive. Always verify a company before sharing personal details.</p>
         </section>
       </div>
+      {modal && am && <ApplyModal posts={modal} me={am} onClose={() => setModal(null)} onStatus={(id, st) => { setApps((a) => ({ ...a, [id]: st })); if (st === "applied") setSel((x) => x.filter((y) => y !== id)); }} />}
     </main>
   );
 }
