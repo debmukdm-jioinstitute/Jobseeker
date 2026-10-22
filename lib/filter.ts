@@ -5,7 +5,7 @@ import { citiesIn } from "./cities.ts";
 
 export type Filters = {
   q: string; where: string; areas: string[]; mode: string[]; src: string[]; via: string[];
-  city: string[]; days: number; sort: "new" | "rel"; saved: boolean; forYou: boolean;
+  city: string[]; days: number; sort: "new" | "rel" | "fresh"; saved: boolean; forYou: boolean;
 };
 export const EMPTY: Filters = { q: "", where: "", areas: [], mode: [], src: [], via: [], city: [], days: 0, sort: "new", saved: false, forYou: false };
 
@@ -63,7 +63,7 @@ export function finish(base: Opp[], f: Filters, saved: Set<string>, now = Date.n
       (!f.city.length || citiesOf(o).some((c) => f.city.includes(c))) &&
       (!f.days || now - Date.parse(o.date) <= f.days * 864e5) &&
       (!f.saved || saved.has(o.id)))
-    .sort((a, b) => (f.sort === "rel" ? score(b) - score(a) : 0) || b.date.localeCompare(a.date));
+    .sort((a, b) => (f.sort === "rel" ? score(b) - score(a) : 0) || (f.sort === "fresh" ? (b.firstSeen ?? b.date).localeCompare(a.firstSeen ?? a.date) : 0) || b.date.localeCompare(a.date));
 }
 
 export function count(list: Opp[], key: (o: Opp) => string | string[]) {

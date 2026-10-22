@@ -52,3 +52,12 @@ test("labels: linkedin post link is named, not just Link", () => {
 test('"India" also finds posts that only name an Indian city', () => {
   assert.deepEqual(baseFilter([o("1", "Analyst", "Koramangala, Bangalore"), o("2", "Analyst", "London")], { ...EMPTY, where: "India" }).map((x) => x.id), ["1"]);
 });
+
+test("freshness sort: last collected comes first, even with an older post date", () => {
+  const f = [
+    o("a", "A", "x", { date: "2026-10-22T00:00:00Z", firstSeen: "2026-10-22T06:00:00Z" }),
+    o("b", "B", "x", { date: "2026-10-21T00:00:00Z", firstSeen: "2026-10-22T12:00:00Z" }),
+    o("c", "C", "x", { date: "2026-10-22T00:00:00Z" }),
+  ];
+  assert.deepEqual(finish(f, { ...EMPTY, sort: "fresh" }, new Set()).map((x) => x.id), ["b", "a", "c"]);
+});

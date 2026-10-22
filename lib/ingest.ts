@@ -1,6 +1,6 @@
 import { extract, type Extracted } from "./extract.ts";
 
-export type Opp = Extracted & { id: string; source: string; title: string; poster: string; date: string; loc: string; text: string };
+export type Opp = Extracted & { id: string; source: string; title: string; poster: string; date: string; loc: string; text: string; firstSeen?: string };
 
 const KINDS = ["form", "email", "jobpage", "link"];
 const s = (v: unknown, max = 300) => (typeof v === "string" ? v.trim().slice(0, max) : typeof v === "number" ? String(v) : "");

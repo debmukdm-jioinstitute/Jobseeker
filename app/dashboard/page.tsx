@@ -134,7 +134,7 @@ export default function Dashboard() {
               <button className={`chip ${f.forYou ? "on" : ""}`} onClick={() => set({ forYou: !f.forYou })}>For you</button>
               <button className={`chip ${f.saved ? "on" : ""}`} onClick={() => set({ saved: !f.saved })}>Saved ({feed ? saved.filter((id) => feed.some((o) => o.id === id)).length : saved.length})</button>
               <select aria-label="Sort" value={f.sort} onChange={(e) => set({ sort: e.target.value as Filters["sort"] })}>
-                <option value="new">Newest</option><option value="rel">Relevance</option>
+                <option value="new">Newest</option><option value="fresh">Freshness</option><option value="rel">Relevance</option>
               </select>
             </span>
           </div>
