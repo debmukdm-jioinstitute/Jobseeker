@@ -71,13 +71,13 @@ function Facet({ title, items, sel, onToggle, max = 6 }: { title: string; items:
   const [all, setAll] = useState(false);
   if (!items.length) return null;
   return (
-    <>
+    <div className="facet">
       <h4>{title}</h4>
       {(all ? items : items.slice(0, max)).map(([v, n]) => (
         <label className="opt" key={v}><input type="checkbox" checked={sel.includes(v)} onChange={() => onToggle(v)} /><span>{v}</span><span className="n">{n}</span></label>
       ))}
       {items.length > max && <button className="plain small" onClick={() => setAll(!all)}>{all ? "Show less" : "View more"}</button>}
-    </>
+    </div>
   );
 }
 
@@ -150,9 +150,6 @@ export default function Dashboard() {
     ...(f.forYou ? [["For you", () => set({ forYou: false })] as const] : []),
   ];
 
-  const activeCats = Object.keys(TAXONOMY).filter((c) => f.areas.includes(c) || f.areas.some((p) => p.startsWith(`${c} / `)));
-  const showCats = activeCats.length ? activeCats : Object.keys(TAXONOMY);
-
   if (!ready) return null;
   return (
     <main>
@@ -166,39 +163,59 @@ export default function Dashboard() {
       </nav>
       <SearchBar q={f.q} where={f.where} onSearch={(q, where) => set({ q, where })} />
 
-      <details className="card" style={{ margin: "16px 0" }}>
-        <summary>Choose your areas {f.areas.length > 0 && `(${f.areas.length})`}</summary>
-        <div className="row" style={{ margin: "12px 0" }}>
-          {Object.keys(TAXONOMY).map((c) => (
-            <button key={c} className={`chip ${f.areas.includes(c) ? "on" : ""}`} onClick={() => setAreas(toggle(f.areas, c))}>{c}</button>
-          ))}
-        </div>
-        {showCats.map((c) => (
-          <div key={c} className="row" style={{ marginTop: 8 }}>
-            {showCats.length > 1 && <span className="mut small" style={{ alignSelf: "center", minWidth: 90 }}>{c}:</span>}
-            {TAXONOMY[c].map((s) => {
-              const p = `${c} / ${s}`;
-              return <button key={p} className={`chip ${f.areas.includes(p) ? "on" : ""}`} onClick={() => setAreas(toggle(f.areas, p))}>{s}</button>;
-            })}
-          </div>
-        ))}
-        {!who && <p className="mut small">Guest: areas are saved on this device. <Link href="/login">Sign in</Link> to keep them everywhere.</p>}
-      </details>
-
       <div className="layout">
-        <aside className={`card filters ${fOpen ? "open" : ""}`}>
-          <h4>Posted</h4>
-          {[[0, "Any time"], [1, "Last 24 hours"], [7, "Last 7 days"], [30, "Last 30 days"]].map(([d, l]) => (
-            <label className="opt" key={d}><input type="radio" name="days" checked={f.days === d} onChange={() => set({ days: d as number })} /><span>{l}</span></label>
-          ))}
-          <Facet title="Sector" items={sectors} sel={f.sector} onToggle={(v) => set({ sector: toggle(f.sector, v) })} max={8} />
+        <aside className={`filters ${fOpen ? "open" : ""}`}>
+          <div className="facet">
+            <h4>Posted</h4>
+            {[[0, "Any time"], [1, "Last 24 hours"], [7, "Last 7 days"], [30, "Last 30 days"]].map(([d, l]) => (
+              <label className="opt" key={d}><input type="radio" name="days" checked={f.days === d} onChange={() => set({ days: d as number })} /><span>{l}</span></label>
+            ))}
+          </div>
           <Facet title="Work mode" items={count(base, modeOf)} sel={f.mode} onToggle={(v) => set({ mode: toggle(f.mode, v) })} />
           <Facet title="Source" items={count(base, srcOf)} sel={f.src} onToggle={(v) => set({ src: toggle(f.src, v) })} />
           <Facet title="Apply via" items={count(base, viaOf)} sel={f.via} onToggle={(v) => set({ via: toggle(f.via, v) })} />
           <Facet title="Location" items={count(base, citiesOf)} sel={f.city} onToggle={(v) => set({ city: toggle(f.city, v) })} />
+          <Facet title="Sector" items={sectors} sel={f.sector} onToggle={(v) => set({ sector: toggle(f.sector, v) })} max={8} />
         </aside>
 
         <section style={{ margin: 0 }}>
+          <div className="areas">
+            <div className="areas-head">
+              <h2>Choose your areas</h2>
+              <p>Select a primary area and the specific areas you&apos;re interested in.</p>
+              <button className="clear" disabled={f.areas.length === 0} onClick={() => setAreas([])}>Clear all</button>
+            </div>
+            <div className="areas-primary">
+              {Object.keys(TAXONOMY).map((c) => {
+                const on = f.areas.includes(c);
+                return (
+                  <label className={`area-card ${on ? "on" : ""}`} key={c}>
+                    <input type="checkbox" checked={on} onChange={() => setAreas(toggle(f.areas, c))} />
+                    <span>{c}</span>
+                  </label>
+                );
+              })}
+            </div>
+            {Object.keys(TAXONOMY).map((c) => (
+              <div className="area-group" key={c}>
+                <div className="area-cat">{c}</div>
+                <div className="area-subs">
+                  {TAXONOMY[c].map((s) => {
+                    const p = `${c} / ${s}`;
+                    const on = f.areas.includes(p);
+                    return (
+                      <label className={`area-chip ${on ? "on" : ""}`} key={p}>
+                        <input type="checkbox" checked={on} onChange={() => setAreas(toggle(f.areas, p))} />
+                        <span>{s}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+            {!who && <p className="mut small" style={{ margin: "16px 0 0" }}>Guest: areas are saved on this device. <Link href="/login">Sign in</Link> to keep them everywhere.</p>}
+          </div>
+
           <div className="toolbar">
             <b>{feed ? `${Math.min(shown, list.length)} of ${list.length} jobs` : "Loading latest posts…"}</b>
             <span className="row">

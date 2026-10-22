@@ -42,11 +42,35 @@ input, select, textarea { width:100%; background:var(--card); color:var(--fg); b
 .stats b { font-size:1.6rem; display:block; }
 section { margin-top:40px; }
 
-.layout { display:grid; grid-template-columns:280px 1fr; gap:28px; align-items:start; }
-.filters { position:sticky; top:12px; max-height:calc(100vh - 24px); overflow:auto; padding:20px; border-radius:16px; }
-.filters h4 { margin:16px 0 6px; font-size:.95rem; } .filters h4:first-child { margin-top:0; }
-.opt { display:flex; gap:8px; align-items:center; padding:3px 0; font-size:.92rem; cursor:pointer; }
-.opt input { width:auto; margin:0; } .opt .n { margin-left:auto; color:var(--mut); font-size:.8rem; }
+.layout { display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:34px; align-items:start; }
+.layout > aside { grid-column:2; grid-row:1; }
+.layout > section { grid-column:1; grid-row:1; }
+.filters { position:sticky; top:12px; max-height:calc(100vh - 24px); overflow:auto; padding:6px 0 6px 26px; border-left:1px solid var(--line); }
+.filters h4 { margin:0 0 8px; font-size:.95rem; font-weight:800; }
+.filters .facet + .facet { border-top:1px solid var(--line); margin-top:16px; padding-top:16px; }
+.opt { display:flex; gap:10px; align-items:center; padding:4px 0; font-size:.93rem; cursor:pointer; }
+.opt input { width:17px; height:17px; margin:0; padding:0; border:0; accent-color:var(--acc); }
+.opt .n { margin-left:auto; color:var(--mut); font-size:.85rem; }
+
+/* ---------- Choose your areas panel ---------- */
+.areas { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:26px 30px; box-shadow:var(--shadow); margin:16px 0 24px; }
+.areas-head { position:relative; text-align:center; margin-bottom:22px; }
+.areas-head h2 { font-size:1.75rem; font-weight:800; letter-spacing:-.02em; margin:0 0 6px; }
+.areas-head p { margin:0; color:var(--mut); font-size:.95rem; }
+.areas-head .clear { position:absolute; right:0; top:2px; background:none; border:0; color:var(--acc); font-size:.92rem; font-weight:600; padding:4px 2px; cursor:pointer; }
+.areas-head .clear:disabled { opacity:.4; cursor:default; }
+.areas-primary { display:flex; flex-wrap:wrap; gap:12px; padding-bottom:20px; }
+.area-card { display:inline-flex; align-items:center; gap:10px; padding:13px 18px; border:1px solid var(--line); border-radius:12px; background:var(--card); font-size:.95rem; font-weight:600; cursor:pointer; transition:border-color .15s, background .15s, color .15s; }
+.area-card:hover { border-color:var(--acc); }
+.area-card.on { border-color:var(--acc); background:var(--acc2); color:var(--acc); }
+.area-card input, .area-chip input { width:17px; height:17px; margin:0; padding:0; border:0; accent-color:var(--acc); cursor:pointer; }
+.area-group { display:grid; grid-template-columns:170px minmax(0,1fr); gap:18px; padding:18px 0; border-top:1px solid var(--line); }
+.area-cat { font-size:1rem; font-weight:800; padding-top:5px; }
+.area-subs { display:flex; flex-wrap:wrap; gap:10px; }
+.area-chip { display:inline-flex; align-items:center; gap:9px; padding:9px 14px; border:1px solid var(--line); border-radius:10px; background:var(--card); font-size:.9rem; font-weight:500; cursor:pointer; transition:border-color .15s, background .15s, color .15s; }
+.area-chip:hover { border-color:var(--acc); }
+.area-chip.on { border-color:var(--acc); background:var(--acc2); color:var(--acc); }
+@media (max-width:720px) { .area-group { grid-template-columns:1fr; gap:10px; } }
 .toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin:0 0 16px; flex-wrap:wrap; }
 .toolbar select { width:auto; }
 .active { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
@@ -366,5 +390,5 @@ section { margin-top:40px; }
   color: var(--acc);
 }
 .fbtn { display:none; }
-@media (max-width:860px) { .layout { grid-template-columns:1fr; } .filters { display:none; position:static; max-height:none; } .filters.open { display:block; } .fbtn { display:inline-block; } }
+@media (max-width:860px) { .layout { grid-template-columns:1fr; } .layout > aside, .layout > section { grid-column:auto; grid-row:auto; } .filters { display:none; position:static; max-height:none; border-left:0; border-top:1px solid var(--line); padding:16px 0 0; } .filters.open { display:block; } .fbtn { display:inline-block; } }
 button.theme { background:transparent; border:1px solid var(--line); color:var(--fg); padding:8px 12px; }
