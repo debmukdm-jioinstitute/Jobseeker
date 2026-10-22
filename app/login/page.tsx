@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
+import BackButton from "../BackButton";
 
 export default function Login() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function Login() {
 
   return (
     <main style={{ maxWidth: 420 }}>
-      <nav><Logo /><ThemeToggle /></nav>
+      <nav><Logo /><span className="row"><BackButton /><ThemeToggle /></span></nav>
       <h2>{mode === "login" ? "Sign in" : "Create account"}</h2>
       <form className="card" onSubmit={submit}>
         <input type="email" placeholder="Email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />

@@ -6,6 +6,7 @@ import { loadProfile, saveKeywords } from "@/lib/profile-client";
 import type { Opp } from "@/lib/ingest";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
+import BackButton from "../BackButton";
 import { readResume } from "./parse";
 import ApplyProfile from "./ApplyProfile";
 
@@ -48,6 +49,7 @@ export default function Profile() {
       <nav>
         <Logo />
         <span className="row">
+          <BackButton fallback="/dashboard" />
           <ThemeToggle />
           <Link href="/dashboard" className="btn alt">Browse jobs</Link>
           {who && <Link href="/applications" className="btn alt">My applications</Link>}

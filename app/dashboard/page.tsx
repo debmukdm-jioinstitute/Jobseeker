@@ -13,6 +13,7 @@ import "../apply.css";
 import SearchBar from "../SearchBar";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
+import BackButton from "../BackButton";
 
 const read = <T,>(k: string, d: T): T => { try { return JSON.parse(localStorage.getItem(k) ?? "") as T; } catch { return d; } };
 const toggle = (a: string[], v: string) => (a.includes(v) ? a.filter((x) => x !== v) : [...a, v]);
@@ -159,6 +160,7 @@ export default function Dashboard() {
       <nav>
         <Logo />
         <span className="row">
+          <BackButton />
           <ThemeToggle />
           {who ? <><Link href="/applications" className="small">My applications</Link><span className="mut small">{who}</span><button className="alt" onClick={out}>Sign out</button></> : <Link href="/login" className="btn">Sign in</Link>}
           <Link href="/profile" className="btn alt">Profile</Link>
