@@ -7,6 +7,7 @@ import type { Opp } from "@/lib/ingest";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
 import BackButton from "../BackButton";
+import Bell from "../Bell";
 import { readResume } from "./parse";
 import ApplyProfile from "./ApplyProfile";
 
@@ -64,6 +65,8 @@ export default function Profile() {
           )}
         </div>
         <div className="nav-right">
+          <BackButton fallback="/dashboard" />
+          <Bell />
           <Link href="/dashboard" className="nav-profile-btn">
             Browse jobs
           </Link>
