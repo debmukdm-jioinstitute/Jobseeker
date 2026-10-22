@@ -1,26 +1,39 @@
 [
   {
     "id": "LinkedIn-7519098342434304002",
-    "title": "CA / CMA Freshers",
+    "title": "CA/CMA Freshers",
     "company": "AU Small Finance Bank",
-    "loc": "Coimbatore, India",
+    "loc": "Coimbatore",
     "date": "2026-10-22",
     "source": "LinkedIn",
-    "poster": "Siddharth Damke, MBA Finance",
-    "instruction": "Email anbazhagan.jayaraj@aubank.in.",
+    "poster": "Siddharth Damke (job-share)",
+    "instruction": "See post",
     "leads": [
       {
         "kind": "link",
-        "value": "https://www.linkedin.com/posts/siddharth-damke_au-small-finance-bank-is-hiring-cacma-freshers-share-7519098342434304002-1Io9/",
+        "value": "https://www.linkedin.com/posts/siddharth-damke_au-small-finance-bank-is-hiring-cacma-freshers-share-7519098342434304002-1Io9",
         "domain": "linkedin.com"
-      },
-      {
-        "kind": "email",
-        "value": "anbazhagan.jayaraj@aubank.in",
-        "domain": "aubank.in"
       }
     ],
-    "text": "AU Small Finance Bank is hiring CA/CMA Freshers !! Location - Coimbatore Salary - CTC up to 7 Lacs PA for CMA CTC up to 9 Lacs PA for CA We are looking for Freshly qualified CA / CMA Strong analytical & financial skills Keen to work in banking & finance Excellent communication anbazhagan.jayaraj@aub"
+    "text": "AU Small Finance Bank is hiring CA/CMA Freshers !! Location - Coimbatore. CTC up to 7 LPA for CMA, up to 9 LPA for CA. Freshly qualified..."
+  },
+  {
+    "id": "LinkedIn-7519098153971638272",
+    "title": "Trading Operations Executive",
+    "company": "Dolat Capital",
+    "loc": "Mumbai",
+    "date": "2026-10-22",
+    "source": "LinkedIn",
+    "poster": "Siddharth Damke (MBA Finance, job-share)",
+    "instruction": "Freshers/recent grads also welcome; 6 months+ exp; MBA Fin/BAF/BBA/BMS",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/siddharth-damke_we-are-hiring-i-trading-operations-executive-share-7519098153971638272-w3cX",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "WE ARE HIRING | TRADING OPERATIONS EXECUTIVE. Dolat Capital is looking for enthusiastic candidates with 6 months of experience to join our team in Mumbai. Client onboarding, KYC, settlements..."
   },
   {
     "id": "LinkedIn-7519097843920293888",
@@ -69,6 +82,24 @@
     "text": "BARCLAYS IS HIRING! Role: KYC Processing Analyst. Location: Gurugram, India. Looking for an opportunity to grow your career in KYC? Here's your chance! Apply Now: https://lnkd.in/gTnm2-gg"
   },
   {
+    "id": "LinkedIn-7519021050609942531",
+    "title": "Associate Analyst (Open Finance services monitoring)",
+    "company": "Mastercard",
+    "loc": "Mumbai",
+    "date": "2026-10-22",
+    "source": "LinkedIn",
+    "poster": "Dr. Shubhra Chakraborty (job-share, not Mastercard staff)",
+    "instruction": "Apply via Mastercard careers listing; 0-3 yrs, SQL/Excel, rotational shifts hybrid",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/dr-shubhra-chakraborty_associate-analyst-at-mastercard-based-in-share-7519021050609942531-TAmQ",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "Associate Analyst at Mastercard. Based in Mumbai, for graduates with 0 to 3 years of experience in analytics or operations. Tracks Open Finance services performance..."
+  },
+  {
     "id": "LinkedIn-7519012622323605504",
     "title": "Trading Operations Executive (6 months+ experience)",
     "company": "Dolat Capital",
@@ -92,6 +123,42 @@
     "text": "🔆 WE ARE HIRING I TRADING OPERATIONS EXECUTIVE Dolat Capital is looking for enthusiastic candidates with 6 months of experience and excellent communication skills to join our team in Mumbai. Location: Mumbai Experience: 6 months and above Key Responsibilities: • Client onboarding and documentation. "
   },
   {
+    "id": "LinkedIn-7518962893690777600",
+    "title": "Analyst, Corporate Planning & Management (Global Procurement)",
+    "company": "Goldman Sachs",
+    "loc": "Bengaluru",
+    "date": "2026-10-22",
+    "source": "LinkedIn",
+    "poster": "Dr. Shubhra Chakraborty (job-share)",
+    "instruction": "Apply via GS careers; 0-3 yrs",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/dr-shubhra-chakraborty_goldman-sachs-is-hiring-an-analyst-in-corporate-share-7518962893690777600-R4L_",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "Goldman Sachs is hiring an Analyst in Corporate Planning and Management, based in Bengaluru. Suits early career professionals with 0-3 years of experience..."
+  },
+  {
+    "id": "LinkedIn-7518927328354340864",
+    "title": "Analyst - Risk (EWS & MIU), MBA Finance",
+    "company": "IndusInd Bank",
+    "loc": "India (not stated)",
+    "date": "2026-10-22",
+    "source": "LinkedIn",
+    "poster": "HR Garima Srivastava (getabrhired)",
+    "instruction": "MBA Finance, 0-2 yrs, 10.5-14.5 LPA; see post",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/getabrhired-hiring-indusindbank-share-7518927328354340864-6l77",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "MBA FRESHERS OPENING | ANALYST – RISK | INDUSIND BANK. Risk Management – EWS & MIU. Qualification: MBA (Finance). Experience: 0–2 years. Compensation 10.5-14.5 LPA."
+  },
+  {
     "id": "LinkedIn-7518904208276971520",
     "title": "Founder's Office Intern; HR Intern; Creative Strategy Intern",
     "company": "Content Mafia",
@@ -113,6 +180,24 @@
       }
     ],
     "text": "We’re growing, and adding to the team that keeps Content Mafia running. Open roles - full-time, in-office: 1. Founder’s Office Intern 2. HR Admin (0.6 - 2 years) 3. HR Intern 4. Creative Strategy Team (Intern) Location: Sector 18, Noida. In-office only. If you take ownership and like being where the"
+  },
+  {
+    "id": "LinkedIn-7518682612480045056",
+    "title": "Fresher graduates 2022-2026 (South India branches)",
+    "company": "Muthoot Finance Ltd",
+    "loc": "South India",
+    "date": "2026-10-21",
+    "source": "LinkedIn",
+    "poster": "Prakash B (Talent Acquisition Manager)",
+    "instruction": "See post",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/prakash-b-593736113_muthootfinance-freshershiring-southindiajobs-share-7518682612480045056-69FJ",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "GREAT CAREER OPPORTUNITY WITH MUTHOOT FINANCE LTD! Recent graduate or fresher from 2022-2026? Build a career with Muthoot Finance across South India."
   },
   {
     "id": "LinkedIn-7518613974867791873",
@@ -177,6 +262,24 @@
       }
     ],
     "text": "*🔆 WE ARE HIRING I TRADING OPERATIONS EXECUTIVE* Dolat Capital is looking for enthusiastic candidates with 6 months of experience and excellent communication skills to join our team in Mumbai. *Location:* Mumbai *Experience:* 6 months and above *Key Responsibilities:* • Client onboarding and documen"
+  },
+  {
+    "id": "LinkedIn-7518535561964490752",
+    "title": "Data Analyst - Operations",
+    "company": "Kroll",
+    "loc": "Bangalore (in office)",
+    "date": "2026-10-21",
+    "source": "LinkedIn",
+    "poster": "ACTE Technologies (reposter/aggregator)",
+    "instruction": "Apply via link in post (lnkd.in/gnqPk4Ap); Exp 0-2 yrs",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/kroll-dataanalystjobs-operationsjobs-share-7518535561964490752-EvFt",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "HIRING ALERT | KROLL. Position: Data Analyst – Operations. Experience: 0–2 Years. Salary: Not Disclosed. Location: Bangalore. Work Mode: In Office. Apply Now link. #Kroll #DataAnalystJobs #FreshersJobs"
   },
   {
     "id": "LinkedIn-7518498625778368512",
@@ -422,6 +525,42 @@
     "text": "Citi is Hiring Role: Operations Support Analyst Estimated Salary: Rs. 4 – 7 LPA (via AmbitionBox) Eligibility: Any Graduate Experience: Entry Level Location: Chennai Closing date: ASAP (Before the link Expires) Full Details & Apply Link: https://lnkd.in/ddegiNYH Join our WhatsApp: https://lnkd.in/dK"
   },
   {
+    "id": "LinkedIn-7519114896161071105",
+    "title": "Management Intern (MBA freshers 2025/2026), 2 months",
+    "company": "Niwas Housing Finance Ltd.",
+    "loc": "Hyderabad",
+    "date": "2026-10-23",
+    "source": "LinkedIn",
+    "poster": "Ambati Chinna (Deputy Manager HRBP)",
+    "instruction": "See post; stipend per policy",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/ambati-chinna-913534272_hiring-mba-hyderabad-share-7519114896161071105-o_ZA",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "We are Hiring MBA fresher interns. Company: Niwas Housing Finance Ltd. Position: Management Intern. Eligibility: MBA Freshers (2025 & 2026). Internship: 2 months."
+  },
+  {
+    "id": "LinkedIn-7519105857092071424",
+    "title": "Financial Analyst (Apprentice) - Saturday walk-in drive",
+    "company": "eClerx",
+    "loc": "Pune",
+    "date": "2026-10-23",
+    "source": "LinkedIn",
+    "poster": "Nishita Santoshi (TA, eClerx)",
+    "instruction": "Walk-in drive Saturday; freshers",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/nishitasantoshi_freshershiring-walkinpune-financejobs-share-7519105857092071424-LHXb",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "eClerx is hosting a mega walk-in drive in Pune for aspiring Financial Analysts (Apprentice). Freshers, start your finance career here..."
+  },
+  {
     "id": "LinkedIn-7519099975184736256",
     "title": "Interns: Founder's Office, Marketing, Tech",
     "company": "Aymora",
@@ -443,6 +582,24 @@
       }
     ],
     "text": "🚀 We’re Hiring Interns at Aymora! 🖤 We’re building a new-age AI dating platform, and we need people who are as excited about building it as we are. Less corporate jargon. More building cool things. ✨ We’re looking for interns in: 💻 Tech — Build, break, fix, repeat. 🧠 Founder’s Office — Big ideas, me"
+  },
+  {
+    "id": "LinkedIn-7519099693654736896",
+    "title": "Audit & Taxation: CA (freshers welcome) / CA-pursuing",
+    "company": "ADMS & Co. Chartered Accountants",
+    "loc": "Delhi NCR",
+    "date": "2026-10-22",
+    "source": "LinkedIn",
+    "poster": "Muskan Gupta (CA Inter student)",
+    "instruction": "See post",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/muskan-gupta-694a58410_were-hiring-at-adms-co-chartered-accountants-share-7519099693654736896-D_wC",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "We're hiring at ADMS & Co. Chartered Accountants! Audit & Taxation team in Delhi NCR. Qualified CAs — freshers welcome; up to 3 yrs; CA-pursuing candidates."
   },
   {
     "id": "LinkedIn-7519098679245455360",
@@ -469,26 +626,62 @@
   },
   {
     "id": "LinkedIn-7519098016935604226",
-    "title": "CA Fresher - Finance (budgeting, forecasting, modelling, MIS; 2025/2026 pass-outs)",
+    "title": "CA Fresher (Finance team)",
     "company": "Zensar Technologies",
-    "loc": "Kharadi, Pune, India",
+    "loc": "Pune",
     "date": "2026-10-22",
     "source": "LinkedIn",
-    "poster": "Siddharth Damke, MBA Finance",
-    "instruction": "Share your resume with sayantani.ghosh@zensar.com.",
+    "poster": "Siddharth Damke (job-share)",
+    "instruction": "See post",
     "leads": [
       {
         "kind": "link",
-        "value": "https://www.linkedin.com/posts/siddharth-damke_zensar-technologies-hiring-ca-fresher-share-7519098016935604226-s2-_/",
+        "value": "https://www.linkedin.com/posts/siddharth-damke_zensar-technologies-hiring-ca-fresher-share-7519098016935604226-s2-_",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "Zensar Technologies Hiring: CA Fresher - Pune. Recently qualified Chartered Accountant looking to kickstart career, join our Finance team..."
+  },
+  {
+    "id": "LinkedIn-7519094471314079744",
+    "title": "Trainee - Accounts Finalisation/Bookkeeping (UK shift)",
+    "company": "Outbooks Outsourcing",
+    "loc": "Delhi (remote)",
+    "date": "2026-10-22",
+    "source": "LinkedIn",
+    "poster": "Ruksar R. (HR Executive, Outbooks Outsourcing)",
+    "instruction": "Freshers; Delhi candidates only",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/ruksar-r-49902a17b_were-hiring-trainee-accounts-finalisation-share-7519094471314079744-Irwj",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "We're Hiring | Trainee – Accounts Finalisation/Bookkeeping | Experience: Freshers | Location: Delhi | Remote | UK Shift | Mon-Fri."
+  },
+  {
+    "id": "LinkedIn-7519079946632290304",
+    "title": "Audit Assistant (freshers) / Article Trainee",
+    "company": "Maiya & Maiya, Chartered Accountants",
+    "loc": "Hubballi, Udupi, Udyavara",
+    "date": "2026-10-22",
+    "source": "LinkedIn",
+    "poster": "Archana Maiya (Partner)",
+    "instruction": "Email arcmaiya@gmail.com; +91 87920 21224",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/archana-maiya-78a05478_hiring-auditassistant-articletrainee-share-7519079946632290304-BBAS",
         "domain": "linkedin.com"
       },
       {
         "kind": "email",
-        "value": "sayantani.ghosh@zensar.com",
-        "domain": "zensar.com"
+        "value": "arcmaiya@gmail.com",
+        "domain": "gmail.com"
       }
     ],
-    "text": "🔆 Zensar Technologies Hiring: CA Fresher - Pune Are you a recently qualified Chartered Accountant (CA) looking to kickstart your career, come join our dynamic Finance team and gain exposure to: • Budgeting & Forecasting • Financial Modeling & Business Analysis • MIS Reporting • Variance Analysis • B"
+    "text": "WE'RE HIRING! Maiya & Maiya, Chartered Accountants. Audit Assistant (B.Com/M.Com/MBA Fin, freshers welcome); Article Trainee (CA Inter cleared)."
   },
   {
     "id": "LinkedIn-7519044161736630273",
@@ -652,6 +845,24 @@
     "text": "Hiring | Founder’s Office — MyOnlineJet I’m looking to bring a driven, resourceful individual into the Founder’s Office at MyOnlineJet to work closely with me across strategy, research, innovation and special projects. The role calls for strong thinking, exceptional organisation, clear communication"
   },
   {
+    "id": "LinkedIn-7518954277508276224",
+    "title": "Controllership Analyst (Indirect Tax), CA/CMA fresher",
+    "company": "Accenture",
+    "loc": "Pune, Mumbai",
+    "date": "2026-10-22",
+    "source": "LinkedIn",
+    "poster": "Fincom Nexus (job aggregator)",
+    "instruction": "Apply via Fincom Nexus portal link; fresher-1yr",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/new-vacancy-alert-accenture-is-share-7518954277508276224-JVFr",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "Accenture is hiring for Controllership Analyst. Experience: Fresher to 1 year. Education: CA Fresher and CMA Fresher. Skillset: Indirect Tax. Location: Pune, Mumbai."
+  },
+  {
     "id": "LinkedIn-7518926841257144321",
     "title": "Founder's Office Intern (zero experience welcome; Canva skills)",
     "company": "PGC",
@@ -790,6 +1001,24 @@
     "text": "🚀 WE’RE HIRING | CHARTERED ACCOUNTANT – INTERNAL AUDIT & SAP LINFOI is looking for a motivated and detail-oriented Chartered Accountant (CA Fresher) to join our team in Mumbai – BKC! If you have strong analytical skills, knowledge of SAP, and experience in Internal Audit during your articleship, thi"
   },
   {
+    "id": "LinkedIn-7518910354278600705",
+    "title": "Accounts Executive Trainee (freshers)",
+    "company": "Veloces Engg & Services",
+    "loc": "Sriperumbudur, Tamil Nadu",
+    "date": "2026-10-22",
+    "source": "LinkedIn",
+    "poster": "Veloces Engg & Services (company page)",
+    "instruction": "B.Com/BBA Finance; see post",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/hiring-accountsjobs-freshershiring-share-7518910354278600705-LOVG",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "WE'RE HIRING – ACCOUNTS EXECUTIVE TRAINEE (FRESHERS). Veloces Engg and Services is looking for detail-oriented freshers for Accounts team. Sriperumbudur, Tamil Nadu."
+  },
+  {
     "id": "LinkedIn-7518907356492050432",
     "title": "EA to Founders (MBA); Marketing, SEO and Content Interns",
     "company": "Kidbea",
@@ -901,26 +1130,21 @@
   },
   {
     "id": "LinkedIn-7518890296269594624",
-    "title": "Finance Intern (BCom/MCom freshers)",
+    "title": "Finance Intern (2026 & 2027 batch)",
     "company": "NEC Software Solutions India",
-    "loc": "Navi Mumbai, India",
+    "loc": "Navi Mumbai",
     "date": "2026-10-22",
     "source": "LinkedIn",
-    "poster": "Jobinsider - Freshers Jobs & Internship",
-    "instruction": "Apply through the link in the post.",
+    "poster": "Jobinsider (aggregator)",
+    "instruction": "Apply link in post; BCom/MCom",
     "leads": [
       {
         "kind": "link",
-        "value": "https://www.linkedin.com/posts/internship-hiring-analyst-share-7518890296269594624-wrxh/",
+        "value": "https://www.linkedin.com/posts/internship-hiring-analyst-share-7518890296269594624-wrxh",
         "domain": "linkedin.com"
-      },
-      {
-        "kind": "jobpage",
-        "value": "https://lnkd.in/gtWBgj9g",
-        "domain": "lnkd.in"
       }
     ],
-    "text": "👩‍🎓 #Internship for freshers 👨‍🎓 💼 NEC Software Solutions India 💡 Role: Finance Intern 📚 Edu: BCom, MCom Apply Now: 👉 https://lnkd.in/gtWBgj9g Share with your friends 🤗 #hiring #Analyst #Corporate #DataAnalyst #Finance #Graduate #Management #Mumbai #jobs #india"
+    "text": "Internship for freshers: NEC Software Solutions India, Role: Finance Intern, Edu: BCom, MCom. Apply Now link."
   },
   {
     "id": "LinkedIn-7518756586509553664",
@@ -995,6 +1219,24 @@
       }
     ],
     "text": "Aymora is building a better way to find meaningful connections. We’re growing our team, and internships are now open! 🚀 We’re looking for passionate people to join us across: 📣 Marketing 💻 Tech 🤝 Founders’ Office 📩 Drop your resume at aymora.hiring@gmail.com and mention your preferred domain in the "
+  },
+  {
+    "id": "LinkedIn-7518679892734140416",
+    "title": "Financial Analyst (Apprentice) - Investment Banking, walk-in drive",
+    "company": "eClerx",
+    "loc": "Airoli, Navi Mumbai",
+    "date": "2026-10-21",
+    "source": "LinkedIn",
+    "poster": "Harsh Bhadra (Talent Acquisition, eClerx)",
+    "instruction": "Walk-in 22-24 Oct, 11am-2pm; B.Com/M.Com/BBA/BAF/BMS 2024-26 grads, 0-2 yrs, EMEA/night shifts",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/harsh-bhadra-671712254_financial-analyst-apprentice-walkin-drive-share-7518679892734140416-gWde",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "Financial Analyst (Apprentice) Walkin Drive- Investment Banking. Shift Timings - Fixed EMEA & Night Shifts. Management Level: Analyst Location: Airoli (Navi Mumbai) Exp: 0-2 yrs / Immediate Joiners. Looking for B.Com/M.com/BBA/BAF/BMS (2024/2025/2026 Graduates) freshers or max 1 year exp."
   },
   {
     "id": "LinkedIn-7518676640709644290",
@@ -1184,6 +1426,24 @@
       }
     ],
     "text": "📢 We’re Hiring: Junior Accountant Join Deccan Nutraceuticals Pvt. Ltd. and grow with us! 🌱 📍 Location: Viman Nagar, Pune 🎓 Qualification: B.Com / M.Com / MBA Finance 💼 Experience: Fresher to 1 Year Interested candidates can share their resumes at: 📩 recruitment@dnplfactory.com 📱 WhatsApp: 8956760759"
+  },
+  {
+    "id": "LinkedIn-7518638074441035776",
+    "title": "PMS/AIF Executive",
+    "company": "CA Aneel Lasod and Associates",
+    "loc": "Goregaon, Mumbai",
+    "date": "2026-10-21",
+    "source": "LinkedIn",
+    "poster": "Keren Rodrigues (HR Manager)",
+    "instruction": "6 months-1 yr exp; freshers with finance knowledge welcome",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/keren-rodrigues-92ba353b8_hiring-aif-pms-share-7518638074441035776-mYXg",
+        "domain": "linkedin.com"
+      }
+    ],
+    "text": "We're hiring at CA Aneel Lasod and Associates. Position - PMS/AIF Executive. Location - Goregaon, Mumbai. Experience: 6 months to 1 year. Freshers with prior knowledge of finance also welcome."
   },
   {
     "id": "LinkedIn-7518633433225490432",
