@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { normalize, type Opp } from "../lib/ingest.ts";
+import { enrich } from "../lib/enrich.ts";
 
 // Agents (Grok, Muse, ...) deliver JSON in two ways, both merged into data/feed.json:
 //  - data/inbox/*.json: one-off drops, deleted after merging
@@ -33,6 +34,7 @@ for (const path of files) {
   }
 }
 
+for (const o of byId.values()) if (!o.apply_type) Object.assign(o, enrich(o)); // posts stored before enrichment existed
 const cutoff = Date.now() - KEEP_MS; // age = the post's own date, so re-delivered old posts expire too
 const out = [...byId.values()].filter((o) => Date.parse(o.date) >= cutoff).sort((a, b) => b.date.localeCompare(a.date));
 writeFileSync(FILE, "[\n" + out.map((o) => JSON.stringify(o)).join(",\n") + "\n]\n"); // one item per line = small git diffs

@@ -15,7 +15,7 @@ const loadPdfJs = () =>
 async function pdfText(buf: ArrayBuffer) {
   const pdf = await (await loadPdfJs()).getDocument({ data: buf }).promise;
   let out = "";
-  for (let i = 1; i <= Math.min(pdf.numPages, 8); i++) out += (await (await pdf.getPage(i)).getTextContent()).items.map((x: any) => x.str).join(" ") + "\n";
+  for (let i = 1; i <= Math.min(pdf.numPages, 8); i++) out += (await (await pdf.getPage(i)).getTextContent()).items.map((x: any) => x.str + (x.hasEOL ? "\n" : " ")).join("") + "\n"; // keep line breaks: the CV parser needs them
   return out;
 }
 

@@ -1,6 +1,7 @@
 import { extract, type Extracted } from "./extract.ts";
+import { enrich, type Enriched } from "./enrich.ts";
 
-export type Opp = Extracted & { id: string; source: string; title: string; poster: string; date: string; loc: string; text: string; firstSeen?: string };
+export type Opp = Extracted & Partial<Enriched> & { id: string; source: string; title: string; poster: string; date: string; loc: string; text: string; firstSeen?: string };
 
 const KINDS = ["form", "email", "jobpage", "link"];
 const s = (v: unknown, max = 300) => (typeof v === "string" ? v.trim().slice(0, max) : typeof v === "number" ? String(v) : "");
@@ -29,10 +30,13 @@ export function normalize(r: any, fallbackSource = "agent"): Opp | null {
   const company = s(r.company ?? r.company_name ?? r.employer, 100) || e.company;
   const rid = s(r.id, 120);
   const d = new Date(r.date ?? r.posted_at ?? r.created_at ?? "");
+  const poster = s(r.poster ?? r.author ?? r.posted_by, 100);
+  const instruction = s(r.instruction, 300) || e.instruction;
   return {
-    leads, company, instruction: s(r.instruction, 300) || e.instruction,
+    ...enrich({ title, poster, text: full, instruction, leads }), // from the full text, before it is cut to 300 chars
+    leads, company, instruction,
     id: rid ? (rid.startsWith(source) ? rid : `${source}-${rid}`) : `${source}-${hash(title + company + (leads[0]?.value ?? full.slice(0, 80)))}`,
-    source, title: title || full.slice(0, 120), poster: s(r.poster ?? r.author ?? r.posted_by, 100), loc: s(r.loc ?? r.location, 100),
+    source, title: title || full.slice(0, 120), poster, loc: s(r.loc ?? r.location, 100),
     text: full.slice(0, 300), date: isNaN(+d) ? "" : d.toISOString(), // collector keeps the first-seen date, so undated posts still expire
   };
 }

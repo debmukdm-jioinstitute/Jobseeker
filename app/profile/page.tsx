@@ -7,6 +7,7 @@ import type { Opp } from "@/lib/ingest";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
 import { readResume } from "./parse";
+import ApplyProfile from "./ApplyProfile";
 
 export default function Profile() {
   const [who, setWho] = useState("");
@@ -49,6 +50,7 @@ export default function Profile() {
         <span className="row">
           <ThemeToggle />
           <Link href="/dashboard" className="btn alt">Browse jobs</Link>
+          {who && <Link href="/applications" className="btn alt">My applications</Link>}
           {!who && <Link href="/login" className="btn">Sign in</Link>}
         </span>
       </nav>
@@ -82,6 +84,7 @@ export default function Profile() {
           <Link href="/dashboard?foryou=1" className="btn">See jobs for you</Link>
         </div>
       )}
+      {who ? <ApplyProfile name={who.split("@")[0]} /> : <p className="mut" style={{ marginTop: 24 }}><Link href="/login">Sign in</Link> to set up one-click apply.</p>}
     </main>
   );
 }

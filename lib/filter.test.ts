@@ -16,6 +16,8 @@ test("areaRegex matches whole words only and expands a category", () => {
   assert.ok(areaRegex(["Finance / FP&A"])!.test("Senior FP&A Manager"));
   assert.ok(!areaRegex(["Legal / Corporate Law"])!.test("Flawless Tailor"));
   assert.ok(areaRegex(["Finance"])!.test("Equity Research Analyst"));
+  assert.ok(areaRegex(["Finance", "Marketing"])!.test("Brand Marketing Manager"));
+  assert.ok(areaRegex(["Finance", "Marketing"])!.test("Senior FP&A Manager"));
 });
 
 test("base + facets + counts", () => {

@@ -1,4 +1,6 @@
-import { readUser, saveUser, sessionEmail } from "@/lib/auth";
+import { cvLinkFor, readUser, saveUser, sessionEmail } from "@/lib/auth";
+import { cleanProfile, cleanTemplate } from "@/lib/profile";
+import { cleanCv } from "@/lib/cv";
 
 export const dynamic = "force-dynamic";
 
@@ -7,7 +9,12 @@ const strs = (v: unknown) => (Array.isArray(v) ? v.filter((x): x is string => ty
 export async function GET() {
   const email = sessionEmail();
   const u = email ? await readUser(email) : null;
-  return Response.json(u ? { email: u.email, prefs: u.prefs, saved: u.saved, keywords: u.keywords ?? [] } : { email: null });
+  if (!u) return Response.json({ email: null });
+  return Response.json({
+    email: u.email, prefs: u.prefs, saved: u.saved, keywords: u.keywords ?? [],
+    profile: u.profile ?? null, cv: u.cv ?? null, template: u.template ?? null, cvFile: u.cvFile ? { name: u.cvFile.name, size: u.cvFile.size } : null,
+    cvLink: u.cvFile ? cvLinkFor(u.email) : "", apps: (u.apps ?? []).map(({ body, ...a }) => a),
+  });
 }
 
 export async function PUT(req: Request) {
@@ -15,6 +22,9 @@ export async function PUT(req: Request) {
   const u = email ? await readUser(email) : null;
   if (!u) return Response.json({ error: "Sign in first." }, { status: 401 });
   const b = await req.json().catch(() => ({}));
-  await saveUser({ ...u, prefs: strs(b.prefs) ?? u.prefs, saved: strs(b.saved) ?? u.saved, keywords: strs(b.keywords)?.slice(0, 60) ?? u.keywords });
+  await saveUser({
+    ...u, prefs: strs(b.prefs) ?? u.prefs, saved: strs(b.saved) ?? u.saved, keywords: strs(b.keywords)?.slice(0, 60) ?? u.keywords,
+    profile: b.profile ? cleanProfile(b.profile) : u.profile, cv: b.cv ? cleanCv(b.cv) : u.cv, template: b.template ? cleanTemplate(b.template) : u.template,
+  });
   return Response.json({ ok: true });
 }

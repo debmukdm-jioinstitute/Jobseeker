@@ -15,6 +15,55 @@ const read = <T,>(k: string, d: T): T => { try { return JSON.parse(localStorage.
 const toggle = (a: string[], v: string) => (a.includes(v) ? a.filter((x) => x !== v) : [...a, v]);
 const PAGE = 20;
 
+const posterInitials = (p?: string) =>
+  p?.replace(/[^A-Za-z ]/g, "").split(" ").filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("") || "HR";
+
+const IconBriefcase = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+  </svg>
+);
+const IconPin = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z" /><circle cx="12" cy="10" r="3" />
+  </svg>
+);
+const IconLink = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+  </svg>
+);
+const IconClock = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+  </svg>
+);
+const IconBookmark = ({ on }: { on: boolean }) => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill={on ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+  </svg>
+);
+const IconEmail = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />
+  </svg>
+);
+const IconForm = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
+  </svg>
+);
+const IconChevron = ({ open }: { open: boolean }) => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
+    <polyline points={open ? "18 15 12 9 6 15" : "6 9 12 15 18 9"} />
+  </svg>
+);
+const IconLinkedIn = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+  </svg>
+);
+
 function Facet({ title, items, sel, onToggle, max = 6 }: { title: string; items: [string, number][]; sel: string[]; onToggle: (v: string) => void; max?: number }) {
   const [all, setAll] = useState(false);
   if (!items.length) return null;
@@ -38,7 +87,6 @@ export default function Dashboard() {
   const [saved, setSaved] = useState<string[]>([]);
   const [shown, setShown] = useState(PAGE);
   const [open, setOpen] = useState("");
-  const [cat, setCat] = useState(Object.keys(TAXONOMY)[0]);
   const [fOpen, setFOpen] = useState(false);
   const [kws, setKws] = useState<string[]>([]);
 
@@ -49,7 +97,8 @@ export default function Dashboard() {
       const p = new URLSearchParams(location.search);
       // Signed in: the account's saved data wins; first login after guest use adopts the device's data.
       const prefs: string[] = me.email && me.prefs?.length ? me.prefs : read("js_prefs", []);
-      setF({ ...EMPTY, q: p.get("q") ?? "", where: p.get("where") ?? "", areas: p.get("area") ? [p.get("area")!] : prefs, src: p.get("src") ? [p.get("src")!] : [], forYou: p.get("foryou") === "1" });
+      const urlAreas = p.getAll("area").flatMap((x) => x.split(",")).filter(Boolean);
+      setF({ ...EMPTY, q: p.get("q") ?? "", where: p.get("where") ?? "", areas: urlAreas.length ? urlAreas : prefs, src: p.get("src") ? [p.get("src")!] : [], forYou: p.get("foryou") === "1" });
       setSaved(me.email && me.saved?.length ? me.saved : read("js_saved", []));
       loadProfile().then((pr) => setKws(pr.keywords));
       setReady(true);
@@ -90,6 +139,9 @@ export default function Dashboard() {
     ...(f.forYou ? [["For you", () => set({ forYou: false })] as const] : []),
   ];
 
+  const activeCats = Object.keys(TAXONOMY).filter((c) => f.areas.includes(c) || f.areas.some((p) => p.startsWith(`${c} / `)));
+  const showCats = activeCats.length ? activeCats : Object.keys(TAXONOMY);
+
   if (!ready) return null;
   return (
     <main>
@@ -106,11 +158,19 @@ export default function Dashboard() {
       <details className="card" style={{ margin: "16px 0" }}>
         <summary>Choose your areas {f.areas.length > 0 && `(${f.areas.length})`}</summary>
         <div className="row" style={{ margin: "12px 0" }}>
-          {Object.keys(TAXONOMY).map((c) => <button key={c} className={`chip ${c === cat ? "on" : ""}`} onClick={() => setCat(c)}>{c}</button>)}
+          {Object.keys(TAXONOMY).map((c) => (
+            <button key={c} className={`chip ${f.areas.includes(c) ? "on" : ""}`} onClick={() => setAreas(toggle(f.areas, c))}>{c}</button>
+          ))}
         </div>
-        <div className="row">
-          {TAXONOMY[cat].map((s) => { const p = `${cat} / ${s}`; return <button key={p} className={`chip ${f.areas.includes(p) ? "on" : ""}`} onClick={() => setAreas(toggle(f.areas, p))}>{s}</button>; })}
-        </div>
+        {showCats.map((c) => (
+          <div key={c} className="row" style={{ marginTop: 8 }}>
+            {showCats.length > 1 && <span className="mut small" style={{ alignSelf: "center", minWidth: 90 }}>{c}:</span>}
+            {TAXONOMY[c].map((s) => {
+              const p = `${c} / ${s}`;
+              return <button key={p} className={`chip ${f.areas.includes(p) ? "on" : ""}`} onClick={() => setAreas(toggle(f.areas, p))}>{s}</button>;
+            })}
+          </div>
+        ))}
         {!who && <p className="mut small">Guest: areas are saved on this device. <Link href="/login">Sign in</Link> to keep them everywhere.</p>}
       </details>
 
@@ -151,34 +211,161 @@ export default function Dashboard() {
 
           {list.slice(0, shown).map((o) => {
             const isSaved = saved.includes(o.id);
+            const isOpen = open === o.id;
+            const primaryLead = o.leads.find((x) => x.kind !== "link") ?? o.leads[0];
+            const originalLink = o.leads.find((l) => l.kind === "link");
+            const otherLeads = o.leads.filter((l) => l !== primaryLead);
+            const isEmail = primaryLead?.kind === "email";
+            const researchItems = lookups(o.company);
+
             return (
               <article className="card job" key={o.id}>
+                {/* Top Section */}
                 <div className="top">
-                  <div className="ava">{(o.company || o.title)[0]?.toUpperCase()}</div>
-                  <div style={{ minWidth: 0 }}>
-                    <h3 onClick={() => setOpen(open === o.id ? "" : o.id)}>{o.company ? o.title : o.title.slice(0, 80)}</h3>
-                    <div className="mut">{o.company || o.poster}</div>
+                  <div className="company-badge">
+                    <span style={{ fontSize: o.company && o.company.length > 9 ? 11 : 13, lineHeight: 1.15 }}>
+                      {o.company || (o.title ? o.title.slice(0, 8) : "Role")}
+                    </span>
                   </div>
-                  <button className={`save ${isSaved ? "on" : ""}`} onClick={() => setSaved(isSaved ? saved.filter((x) => x !== o.id) : [...saved, o.id])}>{isSaved ? "Saved" : "Save"}</button>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <h3 onClick={() => setOpen(isOpen ? "" : o.id)}>{o.company ? o.title : o.title.slice(0, 80)}</h3>
+                    <div className="co-name">{o.company || o.poster}</div>
+                    <div className="meta-row">
+                      <span className="meta-item"><IconBriefcase /> {o.loc ? o.loc.slice(0, 36) : "Not stated in post"}</span>
+                      <span className="meta-div">|</span>
+                      <span className="meta-item"><IconPin /> {modeOf(o)}</span>
+                      <span className="meta-div">|</span>
+                      <span className="meta-item"><IconLink /> {srcOf(o)}</span>
+                      <span className="meta-div">|</span>
+                      <span className="meta-item"><IconClock /> {ago(o.date)}</span>
+                    </div>
+                  </div>
+                  <button className={`save-btn ${isSaved ? "on" : ""}`} onClick={() => setSaved(isSaved ? saved.filter((x) => x !== o.id) : [...saved, o.id])}>
+                    <IconBookmark on={isSaved} />
+                    <span>{isSaved ? "Saved" : "Save"}</span>
+                  </button>
                 </div>
-                <div className="meta">
-                  {o.loc && <span>📍 {o.loc.slice(0, 40)}</span>}<span>{modeOf(o)}</span><span>{srcOf(o)}</span><span>{ago(o.date)}</span>
-                  {o.leads.find((l) => l.kind === "link") && <a href={o.leads.find((l) => l.kind === "link")!.value} target="_blank" rel="noopener noreferrer">View original post ↗</a>}
+
+                {/* HOW TO APPLY Banner */}
+                <div className="apply-banner">
+                  <div className="ab-left">
+                    <div className="ab-icon">
+                      {isEmail ? <IconEmail /> : <IconForm />}
+                    </div>
+                    <div>
+                      <div className="ab-tag">HOW TO APPLY</div>
+                      <div className="ab-text">
+                        {o.instruction || (primaryLead ? `Send your application to ${primaryLead.value}` : "See post details to apply")}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="ab-actions">
+                    {primaryLead && (
+                      <a
+                        className="action-btn"
+                        href={primaryLead.kind === "email" ? `mailto:${primaryLead.value}` : primaryLead.value}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {isEmail ? <IconEmail /> : <IconForm />}
+                        <span>{isEmail ? "Email" : labelOf(primaryLead)}</span>
+                      </a>
+                    )}
+                    <button className="toggle-btn" onClick={() => setOpen(isOpen ? "" : o.id)}>
+                      <span>{isOpen ? "Hide details" : "Details"}</span>
+                      <IconChevron open={isOpen} />
+                    </button>
+                  </div>
                 </div>
-                {(scored.get(o.id)?.score ?? 0) > 0 && kws.length > 0 && <div className="small"><span className="tag">Match {scored.get(o.id)!.pct}%</span> <span className="mut">{scored.get(o.id)!.hits.slice(0, 5).join(" · ")}</span></div>}
-                {o.instruction && <div className="clamp">{o.instruction}</div>}
-                <div className="leads">
-                  {(o.leads.some((x) => x.kind !== "link") ? o.leads.filter((x) => x.kind !== "link") : o.leads).slice(0, 3).map((l, i) => (
-                    <a key={l.value} className={`btn ${i ? "alt" : ""}`} href={l.kind === "email" ? `mailto:${l.value}` : l.value} target="_blank" rel="noopener noreferrer">{labelOf(l)}</a>
-                  ))}
-                  <button className="alt" onClick={() => setOpen(open === o.id ? "" : o.id)}>{open === o.id ? "Hide details" : "Details"}</button>
-                </div>
-                {open === o.id && (
-                  <div className="detail">
-                    {o.poster && <p className="mut small">Posted by {o.poster} via {o.source}</p>}
-                    <p>{o.text}</p>
-                    {o.leads.map((l) => <div key={l.value}><span className="tag">{labelOf(l)}</span> <a href={l.kind === "email" ? `mailto:${l.value}` : l.value} target="_blank" rel="noopener noreferrer">{l.value}</a></div>)}
-                    {lookups(o.company).length > 0 && <div className="row" style={{ marginTop: 10 }}><span className="mut small">Research:</span>{lookups(o.company).map(([n, u]) => <a key={n} className="tag" href={u} target="_blank" rel="noopener noreferrer">{n}</a>)}</div>}
+
+                {/* Match score from resume if available */}
+                {(scored.get(o.id)?.score ?? 0) > 0 && kws.length > 0 && (
+                  <div className="small" style={{ margin: "4px 0 10px" }}>
+                    <span className="tag" style={{ background: "#ede9fe", color: "#5b46db", fontWeight: 700 }}>
+                      Match {scored.get(o.id)!.pct}%
+                    </span>{" "}
+                    <span className="mut">{scored.get(o.id)!.hits.slice(0, 5).join(" · ")}</span>
+                  </div>
+                )}
+
+                {/* Expanded Details */}
+                {isOpen && (
+                  <div className="expanded-detail">
+                    <h4 className="detail-heading">Job description</h4>
+                    <p className="detail-text">{o.text}</p>
+
+                    {/* Additional leads if any */}
+                    {otherLeads.length > 0 && (
+                      <div style={{ marginBottom: 18 }}>
+                        <span className="col-label">OTHER APPLICATION LINKS</span>
+                        <div className="row">
+                          {otherLeads.map((l) => (
+                            <a key={l.value} className="btn alt" style={{ fontSize: "0.85rem", padding: "6px 12px" }} href={l.kind === "email" ? `mailto:${l.value}` : l.value} target="_blank" rel="noopener noreferrer">
+                              {labelOf(l)}: {l.value.slice(0, 45)}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Bottom 3-column Footer: SOURCE | POSTED BY | RESEARCH */}
+                    <div className="card-footer">
+                      <div>
+                        <span className="col-label">SOURCE</span>
+                        <a
+                          className="source-link"
+                          href={originalLink?.value || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <IconLinkedIn />
+                          <span>{srcOf(o)}</span>
+                        </a>
+                        {originalLink && (
+                          <a
+                            className="source-url"
+                            href={originalLink.value}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title={originalLink.value}
+                          >
+                            {originalLink.value}
+                          </a>
+                        )}
+                      </div>
+
+                      <div>
+                        <span className="col-label">POSTED BY</span>
+                        <div className="poster-row">
+                          <div className="poster-ava">{posterInitials(o.poster)}</div>
+                          <div className="poster-text">
+                            Posted by {o.poster || "Hiring team"} via {o.source}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="col-label">RESEARCH</span>
+                        {researchItems.length > 0 ? (
+                          <div className="research-grid">
+                            {researchItems.map(([n, u]) => (
+                              <a
+                                key={n}
+                                className="research-pill"
+                                href={u}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {n.includes("LinkedIn") ? "🏢" : n.includes("Founders") ? "👥" : n.includes("Funding") ? "📊" : "⭐"}{" "}
+                                <span>{n}</span>
+                              </a>
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="mut small">Company not specified</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 )}
               </article>

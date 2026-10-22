@@ -1,8 +1,14 @@
 import { BlobPreconditionFailedError, get, put } from "@vercel/blob";
 import { cookies } from "next/headers";
+import type { Profile, Template } from "./profile.ts";
+import type { Cv } from "./cv.ts";
 import { hashPassword, makeToken, readToken, userKey, verifyPassword } from "./crypto.ts";
 
-export type User = { email: string; salt: string; hash: string; prefs: string[]; saved: string[]; keywords?: string[] };
+export type App = { postId: string; title: string; company: string; to: string; subject: string; body: string; cv: "tailored" | "original"; status: "opened" | "applied"; at: string };
+export type User = {
+  email: string; salt: string; hash: string; prefs: string[]; saved: string[]; keywords?: string[];
+  profile?: Profile; cv?: Cv; template?: Template; cvFile?: { key: string; name: string; size: number }; apps?: App[];
+};
 
 const secret = () => {
   const s = process.env.SESSION_SECRET;
@@ -38,3 +44,7 @@ export const startSession = (email: string) =>
   cookies().set("js_session", makeToken(email, secret()), { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: 30 * 86400 });
 export const endSession = () => cookies().delete("js_session");
 export const sessionEmail = () => readToken(cookies().get("js_session")?.value ?? "", secret());
+
+// Link put in application emails so the CV is reachable even if the attachment is forgotten. Valid 90 days.
+export const cvLinkFor = (email: string) => `/api/cv/file?t=${makeToken(email, secret(), Date.now(), 90 * 864e5)}`;
+export const emailFromToken = (t: string) => readToken(t, secret());
