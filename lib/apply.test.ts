@@ -70,3 +70,11 @@ test("enrich keeps apostrophes inside a quoted subject", () => {
   const o = normalize({ id: "2", title: "FO", text: 'Email us with the subject line "Founder\'s Office".' }, "x")!;
   assert.equal(o.subject_template, "Founder's Office");
 });
+
+import { newest, unread } from "./notify.ts";
+test("bell: unread counts posts that went live after the last visit; newest is first", () => {
+  const p = (id: string, firstSeen: string) => ({ ...post, id, firstSeen });
+  const feed = [p("a", "2026-10-20T00:00:00Z"), p("b", "2026-10-23T00:00:00Z"), p("c", "2026-10-22T00:00:00Z")];
+  assert.equal(unread(feed, Date.parse("2026-10-21T00:00:00Z")), 2);
+  assert.deepEqual(newest(feed, 2).map((x) => x.id), ["b", "c"]);
+});

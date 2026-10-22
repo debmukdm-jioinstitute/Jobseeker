@@ -14,6 +14,7 @@ import SearchBar from "../SearchBar";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
 import BackButton from "../BackButton";
+import Bell from "../Bell";
 
 const read = <T,>(k: string, d: T): T => { try { return JSON.parse(localStorage.getItem(k) ?? "") as T; } catch { return d; } };
 const toggle = (a: string[], v: string) => (a.includes(v) ? a.filter((x) => x !== v) : [...a, v]);
@@ -167,6 +168,8 @@ export default function Dashboard() {
           </Link>
         </div>
         <div className="nav-right">
+          <BackButton />
+          <Bell />
           {who ? (
             <>
               <span className="nav-email">
