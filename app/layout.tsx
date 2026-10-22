@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  metadataBase: new URL("https://jobseeker-sand.vercel.app"), // makes the share-image URLs absolute
-  title: "Jobseeker",
+  metadataBase: new URL("https://opentowork.work"), // makes the share-image URLs absolute
+  title: "OpenToWork",
   description: "Hiring posts, turned into actions.",
 };
 

@@ -1,5 +1,5 @@
 {
-  "name": "jobseeker",
+  "name": "opentowork",
   "private": true,
   "scripts": {
     "dev": "next dev",

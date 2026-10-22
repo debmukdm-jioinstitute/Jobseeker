@@ -1,6 +1,6 @@
-<img src="brand/jobseeker-logo.png" alt="Jobseeker" width="420" />
+<img src="brand/jobseeker-logo.png" alt="OpenToWork" width="420" />
 
-# Jobseeker
+# OpenToWork
 
 Hiring posts → actions. Landing, sign-in/up, guest mode, dashboard with a top-down category picker
 (Finance → FP&A, IB, Asset Mgmt …), post link/email/instruction extractor, and one-click company research.

@@ -23,7 +23,7 @@ export default function ForYou() {
         <h2>For you</h2>
         <div className="card">
           <b>Get jobs matched to your resume</b>
-          <p className="mut">Upload your resume and we scan it for keywords, then show the jobs on Jobseeker that match. Your resume is read in your browser and never uploaded.</p>
+          <p className="mut">Upload your resume and we scan it for keywords, then show the jobs on OpenToWork that match. Your resume is read in your browser and never uploaded.</p>
           <Link href="/profile" className="btn">Upload resume</Link>
         </div>
       </section>
