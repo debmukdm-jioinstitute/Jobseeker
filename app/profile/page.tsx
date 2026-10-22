@@ -7,6 +7,7 @@ import type { Opp } from "@/lib/ingest";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
 import BackButton from "../BackButton";
+import Footer from "../Footer";
 import Bell from "../Bell";
 import { readResume } from "./parse";
 import ApplyProfile from "./ApplyProfile";
@@ -56,7 +57,7 @@ export default function Profile() {
           <ThemeToggle />
           {who && (
             <Link href="/applications" className="nav-apps-link">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
                 <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
               </svg>
@@ -118,11 +119,11 @@ export default function Profile() {
               <line x1="82" y1="76" x2="104" y2="76" stroke="#cbd5e1" strokeWidth="2.5" strokeLinecap="round"/>
             </g>
 
-            <line x1="114" y1="23" x2="114" y2="18" stroke="#1a73e8" strokeWidth="2.5" strokeLinecap="round"/>
-            <line x1="122" y1="26" x2="127" y2="21" stroke="#1a73e8" strokeWidth="2.5" strokeLinecap="round"/>
-            <line x1="126" y1="35" x2="131" y2="35" stroke="#1a73e8" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="114" y1="23" x2="114" y2="18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="122" y1="26" x2="127" y2="21" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="126" y1="35" x2="131" y2="35" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
 
-            <circle cx="114" cy="62" r="14" fill="#1a73e8" />
+            <circle cx="114" cy="62" r="14" fill="currentColor" />
             <path d="M114 68V56M114 56L109 61M114 56L119 61" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
@@ -149,7 +150,7 @@ export default function Profile() {
         <div className="upload-legal-note">
           PDF, DOCX or TXT, up to 5 MB. Your resume is read inside your browser and is{" "}
           <span className="shield-lock">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="#1a73e8" stroke="#1a73e8" strokeWidth="1">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
               <path d="M10 10v-1a2 2 0 1 1 4 0v1h1v4h-6v-4h1zm1-1a1 1 0 1 1 2 0v1h-2v-1z" fill="#fff"/>
             </svg>
@@ -180,6 +181,7 @@ export default function Profile() {
         </div>
       )}
       {who ? <ApplyProfile name={who.split("@")[0]} /> : <p className="mut" style={{ marginTop: 24 }}><Link href="/login">Sign in</Link> to set up one-click apply.</p>}
+    <Footer />
     </main>
   );
 }

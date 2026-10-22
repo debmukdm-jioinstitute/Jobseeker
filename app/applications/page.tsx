@@ -4,6 +4,7 @@ import Link from "next/link";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
 import BackButton from "../BackButton";
+import Footer from "../Footer";
 import Bell from "../Bell";
 
 type A = { postId: string; title: string; company: string; to: string; subject: string; cv: string; status: string; at: string };
@@ -27,6 +28,7 @@ export default function Applications() {
         </div>
       ))}
       {apps?.length === 0 && who && <p className="mut">None yet. Press Apply on a post with an email address.</p>}
+    <Footer />
     </main>
   );
 }

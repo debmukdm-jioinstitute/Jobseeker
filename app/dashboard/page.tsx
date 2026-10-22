@@ -14,6 +14,7 @@ import SearchBar from "../SearchBar";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
 import BackButton from "../BackButton";
+import Footer from "../Footer";
 import Bell from "../Bell";
 
 const read = <T,>(k: string, d: T): T => { try { return JSON.parse(localStorage.getItem(k) ?? "") as T; } catch { return d; } };
@@ -160,7 +161,7 @@ export default function Dashboard() {
           <Logo />
           <ThemeToggle />
           <Link href="/applications" className="nav-apps-link">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
               <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
             </svg>
@@ -181,7 +182,7 @@ export default function Dashboard() {
               </span>
               <span className="nav-vdiv">|</span>
               <button className="nav-signout-btn" onClick={out}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
                   <polyline points="16 17 21 12 16 7"/>
                   <line x1="21" y1="12" x2="9" y2="12"/>
@@ -209,6 +210,10 @@ export default function Dashboard() {
       </nav>
       <SearchBar q={f.q} where={f.where} onSearch={(q, where) => set({ q, where })} />
 
+      <header className="hero-row">
+        <h1>Now <i>hiring.</i></h1>
+        <p><span className="eyebrow">{new Date().toLocaleString("en-US", { month: "long", year: "numeric" })}</span>{feed ? `${feed.length} live posts from founders and hiring teams, with the apply route extracted for you.` : "Loading the latest posts…"}</p>
+      </header>
       <div className="layout">
         <aside className={`filters ${fOpen ? "open" : ""}`}>
           <div className="facet">
@@ -424,7 +429,7 @@ export default function Dashboard() {
                 {/* Match score from resume if available */}
                 {(scored.get(o.id)?.score ?? 0) > 0 && kws.length > 0 && (
                   <div className="small" style={{ margin: "4px 0 10px" }}>
-                    <span className="tag" style={{ background: "#ede9fe", color: "#5b46db", fontWeight: 700 }}>
+                    <span className="tag" style={{ background: "var(--acc2)", color: "var(--acc)", fontWeight: 700 }}>
                       Match {scored.get(o.id)!.pct}%
                     </span>{" "}
                     <span className="mut">{scored.get(o.id)!.hits.slice(0, 5).join(" · ")}</span>
@@ -520,6 +525,7 @@ export default function Dashboard() {
         </section>
       </div>
       {modal && am && <ApplyModal posts={modal} me={am} onClose={() => setModal(null)} onStatus={(id, st) => { setApps((a) => ({ ...a, [id]: st })); if (st === "applied") setSel((x) => x.filter((y) => y !== id)); }} />}
+    <Footer />
     </main>
   );
 }

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
 import BackButton from "../BackButton";
+import Footer from "../Footer";
 
 export default function Login() {
   const router = useRouter();
@@ -45,6 +46,7 @@ export default function Login() {
       </form>
       <Link href="/dashboard" className="btn alt">Continue as guest</Link>
       <p className="mut small">No email verification yet, so use an email you control. Passwords cannot be reset by email.</p>
+    <Footer />
     </main>
   );
 }

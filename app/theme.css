@@ -1,0 +1,63 @@
+/* OpenToWork design language: warm cream, black ink, logo blue. Loaded after globals.css so it wins. */
+:root { --bg:#fcf7ec; --card:#fffdf8; --line:#d9d2c0; --fg:#0b0d12; --mut:#5d6372; --acc:#2563eb; --acc2:#e8effd; --on:#ffffff; --ok:#17803f; --shadow:none; --brand:#2f7bf6; --ink:#0b0d12; }
+:root[data-theme="dark"] { --bg:#0b0d12; --card:#12151c; --line:#282d39; --fg:#f4efe3; --mut:#9aa1b2; --acc:#5b9bff; --acc2:#14223d; --on:#0b0d12; --ok:#4cd6a0; --ink:#f4efe3; }
+* { font-family:"Figtree",system-ui,sans-serif; }
+body { background:var(--bg); color:var(--fg); -webkit-font-smoothing:antialiased; }
+h1, h2, h3, h4 { font-family:"Outfit",sans-serif; letter-spacing:-.025em; }
+h1 { font-weight:500; line-height:.98; letter-spacing:-.04em; }
+h2, h3 { font-weight:600; }
+::selection { background:var(--acc); color:#fff; }
+a { color:var(--acc); }
+
+/* logo: dark ink on light pages, white ink on dark */
+.logo .logo-dark { display:none; } :root[data-theme="dark"] .logo .logo-light { display:none; } :root[data-theme="dark"] .logo .logo-dark { display:block; }
+.logo img { height:34px; width:auto; }
+
+/* buttons: pills; blue primary, hairline secondary */
+.btn, button { border-radius:999px; font-weight:600; letter-spacing:-.005em; }
+.btn, button { background:var(--acc); color:#fff; }
+button.alt, .btn.alt, button.plain { background:transparent; color:var(--fg); }
+button.alt, .btn.alt { border:1px solid var(--line); }
+button.alt:hover, .btn.alt:hover { border-color:var(--fg); }
+button.plain { color:var(--acc); }
+.chip { border-radius:999px; font-weight:500; }
+.chip.on { background:var(--ink); color:var(--bg); border-color:var(--ink); }
+input, select, textarea { border-radius:14px; background:var(--card); }
+input:focus, select:focus, textarea:focus { outline:2px solid var(--acc); outline-offset:1px; border-color:transparent; }
+
+/* cards: flat, hairline */
+.card { box-shadow:none; border-radius:20px; background:var(--card); }
+nav { border-bottom:1px solid var(--line); margin-bottom:8px; }
+
+/* eyebrow labels, like the "OCTOBER 2026" tag */
+.ab-tag, .col-label, .detail-heading, .eyebrow { text-transform:uppercase; letter-spacing:.14em; font-size:.72rem; font-weight:800; color:var(--acc); font-family:"Figtree",sans-serif; }
+.eyebrow { display:block; margin-bottom:10px; }
+
+/* "Now hiring." page header */
+.hero-row { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; padding:28px 0 22px; border-bottom:1px solid var(--line); margin-bottom:20px; }
+.hero-row h1 { font-size:clamp(3rem,9vw,6.5rem); margin:0; color:var(--ink); }
+.hero-row h1 i { font-style:normal; color:var(--acc); }
+.hero-row p { margin:0; max-width:30ch; font-size:1.1rem; line-height:1.35; color:var(--fg); }
+.hero-row .eyebrow { margin:0 0 8px; }
+
+/* job cards: company in blue, hairline rows */
+.job { border-radius:18px; box-shadow:none; }
+.job .co-name { color:var(--acc); font-weight:700; }
+.job h3 { font-family:"Outfit",sans-serif; font-weight:600; letter-spacing:-.02em; }
+.job .apply-banner { background:var(--acc2); border:1px solid transparent; }
+.job .ab-icon { background:var(--card); color:var(--acc); }
+.job .ab-text { color:var(--fg); }
+.job .action-btn { background:var(--acc); color:#fff; border-radius:999px; border:0; }
+.job .toggle-btn { border-radius:999px; }
+
+/* brand panel footer (the black rounded panel) */
+.otw-foot { display:flex; align-items:center; gap:28px; flex-wrap:wrap; background:#0b0d12; color:#f4efe3; border-radius:22px; padding:28px 32px; margin:56px 0 0; }
+.otw-foot img { height:34px; width:auto; display:block; }
+.otw-vr { width:1px; align-self:stretch; background:rgba(244,239,227,.22); }
+.otw-tag { flex:1; min-width:220px; }
+.otw-tag b { display:block; font-family:"Outfit",sans-serif; font-weight:500; font-size:clamp(1.3rem,3vw,1.9rem); line-height:1.1; letter-spacing:-.02em; }
+.otw-tag small { display:block; margin-top:10px; font-size:.7rem; letter-spacing:.14em; font-weight:700; color:#6ea4ff; }
+.otw-foot .btn { background:#2f7bf6; color:#fff; }
+@media (max-width:640px) { .otw-vr { display:none; } .otw-foot { padding:22px; } }
+
+nav a, nav button, .nav-right * { white-space:nowrap; }

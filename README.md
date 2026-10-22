@@ -1,4 +1,4 @@
-<img src="brand/jobseeker-logo.png" alt="OpenToWork" width="420" />
+<img src="brand/opentowork-logo.png" alt="OpenToWork" width="420" />
 
 # OpenToWork
 
