@@ -5,9 +5,9 @@ import { citiesIn } from "./cities.ts";
 
 export type Filters = {
   q: string; where: string; areas: string[]; mode: string[]; src: string[]; via: string[];
-  city: string[]; days: number; sort: "new" | "rel" | "fresh"; saved: boolean; forYou: boolean;
+  city: string[]; sector: string[]; days: number; sort: "new" | "rel" | "fresh"; saved: boolean; forYou: boolean;
 };
-export const EMPTY: Filters = { q: "", where: "", areas: [], mode: [], src: [], via: [], city: [], days: 0, sort: "new", saved: false, forYou: false };
+export const EMPTY: Filters = { q: "", where: "", areas: [], mode: [], src: [], via: [], city: [], sector: [], days: 0, sort: "new", saved: false, forYou: false };
 
 const GENERIC = new Set(["and", "the", "management", "analysis", "services", "operations"]);
 const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -28,6 +28,20 @@ export const citiesOf = (o: Opp) => {
   if (c.length) return c;
   const first = o.loc.replace(/\(.*?\)/g, "").split(/[;,/]/)[0].trim();
   return !first || /\b(not|n\/a|none|unspecified)\b/i.test(first) ? ["Not specified"] : [first];
+};
+// Sector of the hiring firm. [name, phrases that count anywhere in the post, names/short tags that count only in company + title
+// (so "PE", "AMC" or a firm name in a long description cannot mislabel a post)]. A post can be in several sectors.
+export const SECTORS: [string, RegExp, RegExp][] = [
+  ["Investment Banking", /investment bank/i, /\b(IB|M&A|ECM|DCM|capital markets?|leveraged finance|barclays|goldman|morgan stanley|jp ?morgan|nomura|jefferies|avendus|ambit|spark capital|jm financial|axis capital|kotak mahindra capital|iifl capital|dam capital|equirus|o3 capital|rothschild|lazard|evercore|motilal oswal)\b/i],
+  ["PE / VC", /private equity|venture capital|growth equity|buyout/i, /\b(PE|VC|ventures?|capital partners|kedaara|chryscapital|multiples|temasek|kkr|blackstone|carlyle|warburg|tpg|a91|elevation|lightspeed|sequoia|blume|accel)\b/i],
+  ["Asset Management", /asset management|mutual funds?|hedge funds?|wealth management|portfolio management|fund management/i, /\b(AMC|PMS|AIF|asset|wealth|nippon|prudential)\b/i],
+  ["Research & Broking", /equity research|stock ?broking|brokerage|sell[- ]side|buy[- ]side/i, /\b(securities|broking)\b/i],
+  ["Boutique & Advisory", /boutique|transaction advisory|deal advisory|corporate finance advisory/i, /\b(boutique|advisory|advisors?|consulting|consultancy|restructuring|valuations?)\b/i],
+];
+export const sectorOf = (o: Opp) => {
+  const ct = `${o.company} ${o.title}`, all = `${ct} ${o.text} ${o.instruction}`;
+  const hit = SECTORS.filter(([, anywhere, short]) => anywhere.test(all) || short.test(ct)).map(([n]) => n);
+  return hit.length ? hit : ["Other"];
 };
 export const srcOf = (o: Opp) => o.source;
 const LABEL = { form: "Apply form", email: "Email", jobpage: "Job page", link: "Link" } as const;
@@ -59,6 +73,7 @@ export function finish(base: Opp[], f: Filters, saved: Set<string>, now = Date.n
     .filter((o) =>
       (!f.mode.length || f.mode.includes(modeOf(o))) &&
       (!f.src.length || f.src.includes(srcOf(o))) &&
+      (!f.sector.length || sectorOf(o).some((x) => f.sector.includes(x))) &&
       (!f.via.length || viaOf(o).some((v) => f.via.includes(v))) &&
       (!f.city.length || citiesOf(o).some((c) => f.city.includes(c))) &&
       (!f.days || now - Date.parse(o.date) <= f.days * 864e5) &&

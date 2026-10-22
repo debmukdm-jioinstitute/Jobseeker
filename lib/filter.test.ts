@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { areaRegex, baseFilter, finish, count, modeOf, citiesOf, labelOf, EMPTY } from "./filter.ts";
+import { areaRegex, baseFilter, finish, count, modeOf, citiesOf, labelOf, sectorOf, EMPTY } from "./filter.ts";
 import type { Opp } from "./ingest.ts";
 
 const o = (id: string, title: string, loc: string, over: Partial<Opp> = {}): Opp => ({
@@ -62,4 +62,14 @@ test("freshness sort: last collected comes first, even with an older post date",
     o("c", "C", "x", { date: "2026-10-22T00:00:00Z" }),
   ];
   assert.deepEqual(finish(f, { ...EMPTY, sort: "fresh" }, new Set()).map((x) => x.id), ["b", "a", "c"]);
+});
+
+test("sectorOf tags the hiring firm, multi-tag allowed, long text cannot mislabel", () => {
+  const sec = (title: string, company: string, text = "") => sectorOf(o("s", title, "Mumbai", { company, text }));
+  assert.deepEqual(sec("Analyst (Investment Banking)", "Motilal Oswal"), ["Investment Banking"]);
+  assert.deepEqual(sec("Private Equity Analyst", "JM Financial Private Equity"), ["Investment Banking", "PE / VC"]);
+  assert.deepEqual(sec("Fund Accountant", "Acme", "mutual fund back office"), ["Asset Management"]);
+  assert.deepEqual(sec("Associate", "Acme Advisory"), ["Boutique & Advisory"]);
+  assert.deepEqual(sec("Marketing Intern", "Meraqi Consulting", "market research"), ["Boutique & Advisory"]);
+  assert.deepEqual(sec("Marketing Intern", "Acme", "we are an ambitious PE-backed startup"), ["Other"]);
 });
