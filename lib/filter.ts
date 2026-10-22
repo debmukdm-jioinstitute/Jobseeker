@@ -38,10 +38,29 @@ export const SECTORS: [string, RegExp, RegExp][] = [
   ["Research & Broking", /equity research|stock ?broking|brokerage|sell[- ]side|buy[- ]side/i, /\b(securities|broking)\b/i],
   ["Boutique & Advisory", /boutique|transaction advisory|deal advisory|corporate finance advisory/i, /\b(boutique|advisory|advisors?|consulting|consultancy|restructuring|valuations?)\b/i],
 ];
+// Firm types beyond finance, matched on company + title only.
+SECTORS.push(
+  ["Banking & NBFC", /(?!)/, /\b(banks?|nbfc|finserv|small finance|housing finance|financial services|loans?|mortgage|lending|credit|trade finance|structured finance|citi|northern trust|bse india|home first|oxyzo|fatakpay|satin|drive finance)\b/i],
+  ["Big 4 & Consulting", /(?!)/, /\b(deloitte|ey|kpmg|pwc|mckinsey|bcg|bain|rsm|genpact|protiviti|grant thornton|consultant)\b/i],
+  ["Technology & IT", /(?!)/, /\b(software|developer|engineer(ing)?|programmer|AI|(?<!\.)tech|technologies|technology|systems|infosys|mphasis|accenture|tcs|wipro|zensar|saas|fintech|it services)\b/i],
+);
+// What the role is, matched on the title only. Gives every post a tag the firm-type rules cannot.
+export const FUNCTIONS: [string, RegExp][] = [
+  ["Founder's Office & Strategy", /founders?['’]?s?\b|founding|chief of staff|chairman|\bstrateg/i],
+  ["Marketing & Brand", /marketing|brand|\bseo\b|content|copywrit|social media|influencer|\bpr\b|public relations|publicist|creative|designer|graphic|video edit|communications?|events?/i],
+  ["Growth & Sales", /growth|business development|\bBD\b|\bsales\b|account executive|category|gtm|relationship manager|lead generation|commercial|quick commerce|client relations/i],
+  ["Accounting, Audit & Tax", /accountant|accounting|audit|\bCA\b|chartered|\bCMA\b|\btax\b|\bGST\b|bookkeeping|\bCPA\b|internal controls?|order to cash/i],
+  ["Finance & FP&A", /FP&A|financ|budgeting|\bCFO\b|treasury|working capital/i],
+  ["Risk & Compliance", /\brisk\b|compliance|\bkyc\b|forensic|surveillance|validation|underwriting|fraud/i],
+  ["Operations & Trainee", /operations?|management trainee|\bMT\b|\bPMO\b|project (manager|associate)|program|supply chain|procurement|logistics|trainee|executive assistant|\bEA\b/i],
+  ["HR & Talent", /\bHR\b|talent|recruit|people ops|human resources/i],
+  ["Analytics & Research", /analyst|research|analytics|\bdata\b|insights|\bMIS\b/i],
+];
+export const SECTOR_NAMES = [...SECTORS.map(([n]) => n), ...FUNCTIONS.map(([n]) => n), "General Roles"];
 export const sectorOf = (o: Opp) => {
   const ct = `${o.company} ${o.title}`, all = `${ct} ${o.text} ${o.instruction}`;
-  const hit = SECTORS.filter(([, anywhere, short]) => anywhere.test(all) || short.test(ct)).map(([n]) => n);
-  return hit.length ? hit : ["Other"];
+  const hit = [...SECTORS.filter(([, anywhere, short]) => anywhere.test(all) || short.test(ct)).map(([n]) => n), ...FUNCTIONS.filter(([, re]) => re.test(o.title)).map(([n]) => n)];
+  return hit.length ? hit : ["General Roles"];
 };
 export const srcOf = (o: Opp) => o.source;
 const LABEL = { form: "Apply form", email: "Email", jobpage: "Job page", link: "Link" } as const;

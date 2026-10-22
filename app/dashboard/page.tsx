@@ -6,7 +6,7 @@ import { lookups } from "@/lib/extract";
 import type { Opp } from "@/lib/ingest";
 import { match } from "@/lib/resume";
 import { loadProfile } from "@/lib/profile-client";
-import { EMPTY, ago, baseFilter, citiesOf, count, finish, labelOf, modeOf, SECTORS, sectorOf, srcOf, viaOf, type Filters } from "@/lib/filter";
+import { EMPTY, ago, baseFilter, citiesOf, count, finish, labelOf, modeOf, SECTOR_NAMES, sectorOf, srcOf, viaOf, type Filters } from "@/lib/filter";
 import { DEFAULT_TEMPLATE, missingProfile } from "@/lib/profile";
 import ApplyModal, { type ApplyMe } from "../ApplyModal";
 import "../apply.css";
@@ -129,7 +129,7 @@ export default function Dashboard() {
   async function out() { await fetch("/api/auth/logout", { method: "POST" }); location.href = "/"; }
 
   const base = useMemo(() => baseFilter(feed ?? [], f), [feed, f.q, f.where, f.areas]);
-  const sectors = useMemo(() => { const c = new Map(count(base, sectorOf)); return [...SECTORS.map(([n]) => n), "Other"].map((n) => [n, c.get(n) ?? 0] as [string, number]).filter(([n, k]) => k || f.sector.includes(n)); }, [base, f.sector]);
+  const sectors = useMemo(() => { const c = new Map(count(base, sectorOf)); return SECTOR_NAMES.map((n) => [n, c.get(n) ?? 0] as [string, number]).filter(([n, k]) => k || f.sector.includes(n)); }, [base, f.sector]);
   const filtered = useMemo(() => finish(base, f, new Set(saved)), [base, f, saved]);
   // ATS-style matches against the keywords scanned from the user's resume
   const scored = useMemo(() => new Map(filtered.map((o) => [o.id, match(o, kws)])), [filtered, kws]);
@@ -191,7 +191,7 @@ export default function Dashboard() {
           {[[0, "Any time"], [1, "Last 24 hours"], [7, "Last 7 days"], [30, "Last 30 days"]].map(([d, l]) => (
             <label className="opt" key={d}><input type="radio" name="days" checked={f.days === d} onChange={() => set({ days: d as number })} /><span>{l}</span></label>
           ))}
-          <Facet title="Sector" items={sectors} sel={f.sector} onToggle={(v) => set({ sector: toggle(f.sector, v) })} max={7} />
+          <Facet title="Sector" items={sectors} sel={f.sector} onToggle={(v) => set({ sector: toggle(f.sector, v) })} max={8} />
           <Facet title="Work mode" items={count(base, modeOf)} sel={f.mode} onToggle={(v) => set({ mode: toggle(f.mode, v) })} />
           <Facet title="Source" items={count(base, srcOf)} sel={f.src} onToggle={(v) => set({ src: toggle(f.src, v) })} />
           <Facet title="Apply via" items={count(base, viaOf)} sel={f.via} onToggle={(v) => set({ via: toggle(f.via, v) })} />

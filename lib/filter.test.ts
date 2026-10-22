@@ -66,10 +66,12 @@ test("freshness sort: last collected comes first, even with an older post date",
 
 test("sectorOf tags the hiring firm, multi-tag allowed, long text cannot mislabel", () => {
   const sec = (title: string, company: string, text = "") => sectorOf(o("s", title, "Mumbai", { company, text }));
-  assert.deepEqual(sec("Analyst (Investment Banking)", "Motilal Oswal"), ["Investment Banking"]);
-  assert.deepEqual(sec("Private Equity Analyst", "JM Financial Private Equity"), ["Investment Banking", "PE / VC"]);
+  assert.deepEqual(sec("Analyst (Investment Banking)", "Motilal Oswal"), ["Investment Banking", "Analytics & Research"]);
+  assert.deepEqual(sec("Private Equity Analyst", "JM Financial Private Equity"), ["Investment Banking", "PE / VC", "Analytics & Research"]);
   assert.deepEqual(sec("Fund Accountant", "Acme", "mutual fund back office"), ["Asset Management"]);
   assert.deepEqual(sec("Associate", "Acme Advisory"), ["Boutique & Advisory"]);
   assert.deepEqual(sec("Marketing Intern", "Meraqi Consulting", "market research"), ["Boutique & Advisory"]);
-  assert.deepEqual(sec("Marketing Intern", "Acme", "we are an ambitious PE-backed startup"), ["Other"]);
+  assert.deepEqual(sec("Marketing Intern", "Acme", "we are an ambitious PE-backed startup"), ["Marketing & Brand"]);
+  assert.deepEqual(sec("Founder's Office Intern", "Acme"), ["Founder's Office & Strategy"]);
+  assert.deepEqual(sec("Intern (MBA / Graduate)", "Acme"), ["General Roles"]);
 });
