@@ -7,7 +7,7 @@ export type Enriched = {
 };
 
 // A subject the post dictates, in quotes ("with subject 'X'") or after "Subject:". Stored verbatim.
-const SUBJ = /\bsubject(?:\s*line)?\s*(?:(?:as|of|is|to|should\s+(?:be|read))\s*)?[:=-]?\s*["'“‘]([^"'”’\n]{3,120})["'”’]/i;
+const SUBJ = /\bsubject(?:\s*line)?\s*(?:(?:as|of|is|to|should\s+(?:be|read))\s*)?[:=-]?\s*["“‘']([^\n]{3,120}?)["”’'](?=[\s.,;)]|$)/i; // closing quote must end a word, so "Founder's Office" survives
 const SUBJ_PLAIN = /\bsubject\s*[:=]\s*([^\n.]{3,100})/i;
 const HIGHLIGHT = /\b(?:is|are|we're|we are)\s+(entering a new phase|expanding|growing|scaling)\b/i;
 

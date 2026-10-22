@@ -65,3 +65,8 @@ test("profile completeness and url cleaning", () => {
   assert.equal(cleanProfile({ linkedin_url: "javascript:alert(1)" }).linkedin_url, "");
   assert.equal(cleanProfile({ linkedin_url: "linkedin.com/in/asha" }).linkedin_url, "https://linkedin.com/in/asha");
 });
+
+test("enrich keeps apostrophes inside a quoted subject", () => {
+  const o = normalize({ id: "2", title: "FO", text: 'Email us with the subject line "Founder\'s Office".' }, "x")!;
+  assert.equal(o.subject_template, "Founder's Office");
+});
