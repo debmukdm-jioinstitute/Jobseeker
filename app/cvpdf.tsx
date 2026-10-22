@@ -2,7 +2,7 @@
 import type { Cv } from "@/lib/cv";
 import type { Profile } from "@/lib/profile";
 
-export async function downloadCv(cv: Cv, p: Profile, filename: string) {
+export async function buildCv(cv: Cv, p: Profile): Promise<Blob> {
   const { Document, Page, Text, View, StyleSheet, pdf } = await import("@react-pdf/renderer");
   const st = StyleSheet.create({
     page: { padding: 36, fontSize: 10, fontFamily: "Helvetica", lineHeight: 1.35 }, name: { fontSize: 20, fontFamily: "Helvetica-Bold" },
@@ -25,8 +25,13 @@ export async function downloadCv(cv: Cv, p: Profile, filename: string) {
       </Page>
     </Document>
   );
-  const url = URL.createObjectURL(await pdf(doc).toBlob());
-  const a = Object.assign(document.createElement("a"), { href: url, download: filename });
-  a.click();
+  return pdf(doc).toBlob();
+}
+
+export function saveBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  Object.assign(document.createElement("a"), { href: url, download: filename }).click();
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
+
+export const downloadCv = async (cv: Cv, p: Profile, filename: string) => saveBlob(await buildCv(cv, p), filename);

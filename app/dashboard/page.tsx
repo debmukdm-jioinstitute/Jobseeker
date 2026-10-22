@@ -279,6 +279,7 @@ export default function Dashboard() {
                       <a
                         className="action-btn"
                         href={primaryLead.kind === "email" ? `mailto:${primaryLead.value}` : primaryLead.value}
+                        onClick={(e) => { if (isEmail && o.apply_email && am && apps[o.id] !== "applied") { e.preventDefault(); setModal([o]); } }} // opens the filled-in template, not a blank mail
                         target="_blank"
                         rel="noopener noreferrer"
                       >
