@@ -1,250 +1,71 @@
 [
   {
-    "id": "LinkedIn-7518572430768951296",
-    "title": "Digital Marketing Executive",
-    "company": "ARYU Enterprises",
-    "loc": "Aminjikarai, Chennai (work from office)",
-    "date": "2026-10-21",
+    "id": "LinkedIn-7518920960415166465",
+    "title": "HR Operations – Employee Data Management (EDM) (Fresher)",
+    "company": "Accenture (inferred from contact email)",
+    "loc": "Airoli, Navi Mumbai (Night Shift: 9-hour shift between 5 PM and 5 AM)",
+    "date": "2026-10-22",
     "source": "LinkedIn",
-    "poster": "Aravind D (HR, ARYU Enterprises)",
-    "instruction": "Email hr@aryuenterprises.com to apply; the role is full-time, work-from-office in Aminjikarai, Chennai, and freshers may apply.",
+    "poster": "Shrikant Donadkar",
+    "instruction": "Email your updated CV to shrikant.donadkar@accenture.com; only candidates currently based in Mumbai should apply.",
     "leads": [
       {
         "kind": "link",
-        "value": "https://www.linkedin.com/posts/aravind-hr-_hiring-digitalmarketingexecutive-freshershiring-activity-7518572430768951296-uuYA",
+        "value": "https://www.linkedin.com/posts/shrikant-donadkar-1b09961a7_hiring-freshershiring-hroperations-activity-7518920960415166465-w8u5",
         "domain": "linkedin.com"
       },
       {
         "kind": "email",
-        "value": "hr@aryuenterprises.com",
-        "domain": "aryuenterprises.com"
+        "value": "shrikant.donadkar@accenture.com",
+        "domain": "accenture.com"
       }
     ],
-    "text": "🚀 WE ARE HIRING – DIGITAL MARKETING EXECUTIVE! 🚀\n\nAre you passionate about digital marketing and social media? Here’s your opportunity to start your career with ARYU Enterprises! 💼✨\n\n📌 Position: Digital Marketing Executive\n\n🎓 Eligibility: Freshers can apply\n\n💼 Job Type: Full-Time\n\n🏢 Work Mode: Work "
+    "text": "🚀 We’re Hiring Freshers | HR Operation-Employee Data Management (EDM) Looking to kick-start your career in HR Operations? We are hiring enthusiastic freshers for an Employee Data Management (EDM) role. 📌 Role: HR Operations – Employee Data Management (EDM) 🎓 Experience: Fresher 📍 Location: Airoli, N"
   },
   {
-    "id": "LinkedIn-7516874863245058048",
-    "title": "Digital Content Creator",
-    "company": "Bizee (inferred from contact email)",
-    "loc": "Koramangala, Bangalore",
-    "date": "2026-10-16",
-    "source": "LinkedIn",
-    "poster": "Shanmugapriya Velumani",
-    "instruction": "Share your resume at shanmugapriya@bizee.in to apply for the Digital Content Creator role (2+ years experience).",
-    "leads": [
-      {
-        "kind": "link",
-        "value": "https://www.linkedin.com/posts/shanmugapriya-velumani-b77a181a9_we-are-hiring-digital-content-creator-activity-7516874863245058048-pOAa",
-        "domain": "linkedin.com"
-      },
-      {
-        "kind": "email",
-        "value": "shanmugapriya@bizee.in",
-        "domain": "bizee.in"
-      }
-    ],
-    "text": "📢 We Are Hiring – Digital Content Creator\n\n📍 Location: Koramangala, Bangalore\n\n💼 Experience: 2+ Years\n\nWe are looking for a creative professional to create engaging content for motorcycles, scooters, and dealership activities.\n\nResponsibilities:\n\nShoot and edit Instagram Reels and YouTube Shorts.\n\nC"
-  },
-  {
-    "id": "LinkedIn-7514031286148194304",
-    "title": "Influencer Marketing Executive",
-    "company": "un:fltrd",
-    "loc": "Mumbai, full-time, in-office",
-    "date": "2026-10-08",
-    "source": "LinkedIn",
-    "poster": "Ghazal Gupta (founder, un:fltrd)",
-    "instruction": "Write to ghazal@unfltrd.in (cc anisa@unfltrd.in) explaining why you should run influencer marketing at unfltrd, attaching your LinkedIn or past work.",
-    "leads": [
-      {
-        "kind": "link",
-        "value": "https://www.linkedin.com/posts/ghazalfounderofunfltrd_so-many-beauty-brands-plug-in-a-prompt-and-activity-7514031286148194304-oNZ8",
-        "domain": "linkedin.com"
-      },
-      {
-        "kind": "email",
-        "value": "ghazal@unfltrd.in",
-        "domain": "unfltrd.in"
-      },
-      {
-        "kind": "email",
-        "value": "anisa@unfltrd.in",
-        "domain": "unfltrd.in"
-      }
-    ],
-    "text": "so many beauty brands plug in a prompt and generate ai ugc videos today. we love ai tbh, but we HATE it for this use case. it's an absolute NEVER at un:fltrd. we're hiring for influencer marketing executive!! a beauty brand builds trust only with real faces. we're building a ugc creator engine and w"
-  },
-  {
-    "company": "Yulu",
-    "date": "2026-10-19",
-    "id": "LinkedIn-7517998950751232001",
-    "instruction": "Apply or message the poster if you have 2-5 years in startups, ops, sales or growth and love building from scratch; full roles list at the dashboard link in the post.",
-    "leads": [
-      {
-        "domain": "linkedin.com",
-        "kind": "link",
-        "value": "https://www.linkedin.com/posts/muthu-krishnan-s-6b6b04a7_were-hiring-at-yulu-join-our-team-in-activity-7517998950751232001-erEO"
-      },
-      {
-        "domain": "shorturl.at",
-        "kind": "link",
-        "value": "https://shorturl.at/KHFn0"
-      }
-    ],
-    "loc": "Bangalore",
-    "poster": "Muthu Krishnan S",
-    "source": "LinkedIn",
-    "text": "We're hiring at Yulu! Join our team in Bangalore as Manager - Growth & Expansion and help take Yulu to new cities. Hands-on, numbers-driven, from first partner call to city go-live. If you have 2-5 years in startups, ops, sales or growth and love building from scratch, apply or DM me.",
-    "title": "Manager - Growth & Expansion"
-  },
-  {
-    "company": "Iwerks & Co.",
-    "date": "2026-10-12",
-    "id": "LinkedIn-7515493987936309248",
-    "instruction": "Direct your resume to info@iwerksandco.com; 5+ years professional film industry experience plus references required.",
-    "leads": [
-      {
-        "domain": "linkedin.com",
-        "kind": "link",
-        "value": "https://www.linkedin.com/posts/leslie-iwerks_iwerks-co-is-hiring-iwerks-co-the-activity-7515493987936309248-fX-8"
-      },
-      {
-        "domain": "iwerksandco.com",
-        "kind": "email",
-        "value": "info@iwerksandco.com"
-      }
-    ],
-    "loc": "Not specified in post",
-    "poster": "Leslie Iwerks (founder, Iwerks & Co.)",
-    "source": "LinkedIn",
-    "text": "Iwerks & Co. IS HIRING! Iwerks & Co., the award-winning documentary and film production company is looking for top tier industry leaders in the following roles for Iwerks & Co. corporate, as well as our ongoing projects in development, production and post. 5+ years professional film industry experie",
-    "title": "Chief Financial Officer, Executive in Charge of Production, Publicist/Social Media, Line Producer, Accountant, Assistant to Director/Producers, Documentary Editors, Writers, Motion Graphic Artists"
-  },
-  {
-    "id": "LinkedIn-7517936016893108225",
-    "title": "Experienced professionals across high-performing teams (Project Management, Architecture, Design, Planning, Corporate Affairs, Contracts)",
-    "company": "Adani Realty",
-    "loc": "Mumbai",
-    "date": "2026-10-19",
-    "source": "LinkedIn",
-    "poster": "Pooja H",
-    "instruction": "Apply by scanning the QR code, using the application link in the post, or email your updated CV to pooja.hatle@adani.com.",
-    "leads": [
-      {
-        "kind": "link",
-        "value": "https://www.linkedin.com/posts/pooja-h-36886422a_adanirealty-hiringnow-realestatejobs-activity-7517936016893108225-nbTT",
-        "domain": "linkedin.com"
-      },
-      {
-        "kind": "email",
-        "value": "pooja.hatle@adani.com",
-        "domain": "adani.com"
-      }
-    ],
-    "text": "We're Hiring | Adani Realty | Mumbai. Adani Realty is expanding, and we are looking to onboard experienced professionals to be part of our high-performing teams. If you are passionate about building world-class developments and contributing to landmark real estate projects, we invite you to explore "
-  },
-  {
-    "id": "LinkedIn-7518206799477411841",
-    "title": "AI Artist",
-    "company": "Xelta.ai",
-    "loc": "Gurugram",
+    "id": "LinkedIn-7518279464905187328",
+    "title": "Interns (Lead Generation & Research)",
+    "company": "JuneHires",
+    "loc": "Remote (4 PM–10 PM IST)",
     "date": "2026-10-20",
     "source": "LinkedIn",
-    "poster": "Xelta.ai (company page)",
-    "instruction": "DM Xelta.ai your portfolio or social links, along with a few lines about the work you're most proud of.",
+    "poster": "JuneHires",
+    "instruction": "Email your resume to recruiter@junehires.com for this 3-month remote internship (stipend ₹5,000/month).",
     "leads": [
       {
         "kind": "link",
-        "value": "https://www.linkedin.com/posts/thexelta_hiring-aiartist-generativeai-activity-7518206799477411841-HTHU",
-        "domain": "linkedin.com"
-      }
-    ],
-    "text": "🎨 We're hiring: AI Artist. 📍 Gurugram, India | Xelta.ai. Have a vivid idea? Show us what AI can make of it. Xelta.ai is building an AI-powered creative platform, and we're looking for an AI Artist who loves experimenting with generative tools and turning ideas into striking visual work. What you'll "
-  },
-  {
-    "id": "LinkedIn-7515722906732077056",
-    "title": "Senior Analyst, Investment Banking",
-    "company": "IDLC Investments Limited",
-    "loc": "Not specified in post",
-    "date": "2026-10-13",
-    "source": "LinkedIn",
-    "poster": "IDLC Investments Limited (company page)",
-    "instruction": "Apply now at https://lnkd.in/gptdujDn before the October 24, 2026 deadline.",
-    "leads": [
-      {
-        "kind": "link",
-        "value": "https://www.linkedin.com/posts/idlc-investments-limited_hiring-careeropportunity-activity-7515722906732077056-V7_w",
-        "domain": "linkedin.com"
-      },
-      {
-        "kind": "jobpage",
-        "value": "https://lnkd.in/gptdujDn",
-        "domain": "lnkd.in"
-      }
-    ],
-    "text": "Apply Now: https://lnkd.in/gptdujDn IDLC Investments Limited is looking for a Senior Analyst, Investment Banking. Deadline: October 24, 2026. #Hiring #CareerOpportunity"
-  },
-  {
-    "id": "LinkedIn-7516533372400254976",
-    "title": "Branch Manager, Regional Business Head, Talent Acquisition Specialist, Fraud Control Officer, CA Intern, Relationship Manager, Regional Trainer, Business Analyst - HR Operations, Assistant Branch Manager",
-    "company": "Satin Finserv Limited",
-    "loc": "Not specified in post",
-    "date": "2026-10-15",
-    "source": "LinkedIn",
-    "poster": "Satin Finserv Limited (company page)",
-    "instruction": "Share your resume with the respective email ID mentioned for each role in the post's carousel.",
-    "leads": [
-      {
-        "kind": "link",
-        "value": "https://www.linkedin.com/posts/satin-finserv-limited_we-are-hiring-activity-7516533372400254976-H9xk",
-        "domain": "linkedin.com"
-      }
-    ],
-    "text": "We’re Hiring | Build Your Career with Satin Finserv Limited. Explore the open positions in the carousel and find the opportunity that aligns with your experience and aspirations. 1. Branch Manager 2. Regional Business Head 3. Talent Acquisition Specialist 4. Fraud Control Officer 5. CA Intern 6. Rel"
-  },
-  {
-    "id": "LinkedIn-7516035976343990272",
-    "title": "Business Development Manager – Managed Print Services (MPS)",
-    "company": "Team Computers",
-    "loc": "Delhi, Mumbai, Pune",
-    "date": "2026-10-14",
-    "source": "LinkedIn",
-    "poster": "Astu Sahrawat",
-    "instruction": "Share your resume directly at astu.sahrawat@teamcomputers.com.",
-    "leads": [
-      {
-        "kind": "link",
-        "value": "https://www.linkedin.com/posts/astu-sahrawat-789a261bb_we-are-hiring-bdm-managed-print-services-activity-7516035976343990272-0i5H",
+        "value": "https://www.linkedin.com/posts/junehires_we-are-hiring-interns-duration-3-months-activity-7518279464905187328-z1e3",
         "domain": "linkedin.com"
       },
       {
         "kind": "email",
-        "value": "astu.sahrawat@teamcomputers.com",
-        "domain": "teamcomputers.com"
+        "value": "recruiter@junehires.com",
+        "domain": "junehires.com"
       }
     ],
-    "text": "We are Hiring: BDM – Managed Print Services (MPS). Team Computers is expanding! We are looking for sharp Business Development Managers to drive enterprise growth across Delhi, Mumbai and Pune. What you’ll do: Own and scale large enterprise accounts. Sell comprehensive imaging solutions (Printers, Co"
+    "text": "We are Hiring! Interns. Duration: 3 Months. Stipend: ₹5,000 per month. Location: Remote (4PM - 10PM IST). Role Overview: We are looking for a proactive and adaptable intern to support lead generation and research. Key Responsibilities: Generate leads and identify potential clients through online res"
   },
   {
-    "id": "LinkedIn-7512827705227378688",
-    "title": "Consulting / strategy / program management role (position in the poster's team)",
-    "company": "Not named in post",
-    "loc": "Not specified in post",
-    "date": "2026-10-05",
+    "id": "LinkedIn-7510618040305164288",
+    "title": "HR Recruiter / HR Generalist",
+    "company": "Unison International (inferred from contact email)",
+    "loc": "Gurgaon",
+    "date": "2026-09-29",
     "source": "LinkedIn",
-    "poster": "Bhavya Aggarwal",
-    "instruction": "Apply on the link below the post if you fit the requirements (1-2 years in consulting / strategy / program management; aviation experience preferred but not required).",
+    "poster": "Ridip Dutta",
+    "instruction": "Share your updated CV at ridip.dutta@unisoninternational.net for this 3–6 years, up to ₹8 LPA role.",
     "leads": [
       {
         "kind": "link",
-        "value": "https://www.linkedin.com/posts/bhavya-aggarwal-2176668a_hiring-for-a-position-in-my-team-looking-activity-7512827705227378688-1-07",
+        "value": "https://www.linkedin.com/posts/ridip-dutta-388388219_we-are-hiring-hr-recruiter-hr-generalist-activity-7510618040305164288-UDA4",
         "domain": "linkedin.com"
       },
       {
-        "kind": "link",
-        "value": "https://shorturl.at/KHFn0",
-        "domain": "shorturl.at"
+        "kind": "email",
+        "value": "ridip.dutta@unisoninternational.net",
+        "domain": "unisoninternational.net"
       }
     ],
-    "text": "Hiring for a position in my team. Looking for folks with 1-2 years of experience in consulting / strategy / program management. Aviation experience is preferred but not a prerequisite. Apply on the link below if you fit the requirements."
+    "text": "🚨 WE ARE HIRING | HR RECRUITER / HR GENERALIST 📍 Location: Gurgaon 💼 Experience: 3–6 Years 🧳 CTC: Up to 8 LPA 🏢 Function: Human Resources / Talent Acquisition 👤 Role Type: Individual Contributor. We are looking for an experienced and driven HR Recruiter / HR Generalist to join our team, with a stron"
   }
 ]
