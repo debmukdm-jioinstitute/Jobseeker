@@ -240,10 +240,10 @@ export default function Dashboard() {
                     </span>
                   </div>
                   <div style={{ minWidth: 0, flex: 1 }}>
-                    <h3 onClick={() => setOpen(isOpen ? "" : o.id)}>{o.company ? o.title : o.title.slice(0, 80)}</h3>
+                    <h3 onClick={() => setOpen(isOpen ? "" : o.id)}>{o.title}</h3>
                     <div className="co-name">{o.company || o.poster}</div>
                     <div className="meta-row">
-                      <span className="meta-item"><IconBriefcase /> {o.loc ? o.loc.slice(0, 36) : "Not stated in post"}</span>
+                      <span className="meta-item"><IconBriefcase /> {o.loc || "Not stated in post"}</span>
                       <span className="meta-div">|</span>
                       <span className="meta-item"><IconPin /> {modeOf(o)}</span>
                       <span className="meta-div">|</span>
@@ -319,8 +319,8 @@ export default function Dashboard() {
                         <span className="col-label">OTHER APPLICATION LINKS</span>
                         <div className="row">
                           {otherLeads.map((l) => (
-                            <a key={l.value} className="btn alt" style={{ fontSize: "0.85rem", padding: "6px 12px" }} href={l.kind === "email" ? `mailto:${l.value}` : l.value} target="_blank" rel="noopener noreferrer">
-                              {labelOf(l)}: {l.value.slice(0, 45)}
+                            <a key={l.value} className="btn alt" style={{ fontSize: "0.85rem", padding: "6px 12px", wordBreak: "break-all" }} href={l.kind === "email" ? `mailto:${l.value}` : l.value} target="_blank" rel="noopener noreferrer">
+                              {labelOf(l)}: {l.value}
                             </a>
                           ))}
                         </div>

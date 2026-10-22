@@ -3,7 +3,7 @@
 * { box-sizing:border-box; font-family:"Google Sans",sans-serif; }
 body { margin:0; background:var(--bg); color:var(--fg); }
 a { color:var(--acc); text-decoration:none; }
-main { max-width:1180px; margin:0 auto; padding:0 16px 48px; }
+main { max-width:1440px; margin:0 auto; padding:0 24px 64px; }
 h1 { font-size:clamp(2rem,5vw,3.2rem); line-height:1.1; margin:.3em 0; letter-spacing:-.02em; }
 h2 { margin:0 0 12px; font-size:1.25rem; } h3 { margin:.2em 0; }
 .mut { color:var(--mut); } .small { font-size:.85rem; }
@@ -15,7 +15,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
 .grow { flex:1; }
 
-.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:var(--shadow); }
+.card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px; box-shadow:var(--shadow); }
 .btn, button { background:var(--acc); color:var(--on); border:0; border-radius:10px; padding:10px 16px; font-size:.95rem; cursor:pointer; display:inline-block; }
 button.alt, .btn.alt { background:transparent; border:1px solid var(--line); color:var(--fg); }
 button.plain { background:none; color:var(--acc); padding:4px 0; }
@@ -23,8 +23,8 @@ input, select, textarea { width:100%; background:var(--card); color:var(--fg); b
 .card input { margin:6px 0 12px; }
 
 .hero { text-align:center; padding:40px 0 24px; }
-.hero p { max-width:620px; margin:0 auto 24px; }
-.search { display:flex; gap:0; background:var(--card); border:1px solid var(--line); border-radius:999px; padding:6px; box-shadow:var(--shadow); max-width:760px; margin:0 auto; }
+.hero p { max-width:640px; margin:0 auto 24px; }
+.search { display:flex; gap:0; background:var(--card); border:1px solid var(--line); border-radius:999px; padding:6px; box-shadow:var(--shadow); max-width:860px; margin:0 auto; }
 .search input { border:0; background:transparent; margin:0; padding:10px 16px; outline:none; }
 .search input + input { border-left:1px solid var(--line); border-radius:0; }
 .search button { border-radius:999px; padding:10px 26px; }
@@ -42,20 +42,20 @@ input, select, textarea { width:100%; background:var(--card); color:var(--fg); b
 .stats b { font-size:1.6rem; display:block; }
 section { margin-top:40px; }
 
-.layout { display:grid; grid-template-columns:260px 1fr; gap:20px; align-items:start; }
-.filters { position:sticky; top:12px; max-height:calc(100vh - 24px); overflow:auto; }
+.layout { display:grid; grid-template-columns:280px 1fr; gap:28px; align-items:start; }
+.filters { position:sticky; top:12px; max-height:calc(100vh - 24px); overflow:auto; padding:20px; border-radius:16px; }
 .filters h4 { margin:16px 0 6px; font-size:.95rem; } .filters h4:first-child { margin-top:0; }
 .opt { display:flex; gap:8px; align-items:center; padding:3px 0; font-size:.92rem; cursor:pointer; }
 .opt input { width:auto; margin:0; } .opt .n { margin-left:auto; color:var(--mut); font-size:.8rem; }
-.toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin:0 0 12px; flex-wrap:wrap; }
+.toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin:0 0 16px; flex-wrap:wrap; }
 .toolbar select { width:auto; }
 .active { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
 .job {
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 20px;
+  border-radius: 18px;
+  padding: 26px 30px;
+  margin-bottom: 22px;
   box-shadow: var(--shadow);
   transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
@@ -271,95 +271,94 @@ section { margin-top:40px; }
 /* Footer columns */
 .job .card-footer {
   display: grid;
-  grid-template-columns: 1fr 1fr 1.25fr;
-  gap: 20px;
+  grid-template-columns: minmax(180px, 1fr) minmax(220px, 1.2fr) minmax(320px, 1.8fr);
+  gap: 24px;
   border-top: 1px solid var(--line);
-  padding-top: 18px;
-  margin-top: 14px;
+  padding-top: 20px;
+  margin-top: 18px;
+  align-items: start;
 }
-@media (max-width: 820px) {
+@media (max-width: 980px) {
+  .job .card-footer {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+}
+@media (max-width: 640px) {
   .job .card-footer {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 18px;
   }
 }
 .job .col-label {
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--mut);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   display: block;
 }
 .job .source-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.92rem;
+  font-size: 0.94rem;
   font-weight: 700;
   color: #0a66c2;
   text-decoration: none;
 }
 .job .source-url {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--mut);
   display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 240px;
-  margin-top: 4px;
+  word-break: break-all;
+  line-height: 1.45;
+  margin-top: 6px;
   text-decoration: none;
 }
 .job .poster-row {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 12px;
 }
 .job .poster-ava {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: var(--acc2);
   color: var(--acc);
   font-weight: 700;
-  font-size: 12.5px;
+  font-size: 13px;
   display: grid;
   place-items: center;
   flex: none;
 }
 .job .poster-text {
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   color: var(--fg);
-  line-height: 1.4;
+  line-height: 1.45;
+  word-break: break-word;
 }
 .job .research-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-}
-@media (max-width: 540px) {
-  .job .research-grid {
-    grid-template-columns: 1fr;
-  }
 }
 .job .research-pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.8rem;
+  gap: 7px;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--fg);
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 6px 10px;
+  border-radius: 9px;
+  padding: 7px 12px;
   text-decoration: none;
   transition: 0.15s;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .job .research-pill:hover {
   background: var(--acc2);

@@ -962,7 +962,7 @@ body{
 a{color:inherit}
 button{font-family:inherit;cursor:pointer}
 .mono{font-family:"JetBrains Mono",monospace}
-.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+.wrap{max-width:1440px;margin:0 auto;padding:0 28px}
 
 /* ---------- NAV ---------- */
 nav{
@@ -1097,14 +1097,14 @@ select.sort{
 .feed-note{font-size:12.5px;color:var(--ink-3)}
 
 /* ---------- JOB CARDS ---------- */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media (max-width:1020px){ .grid{grid-template-columns:repeat(2,1fr)} }
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:20px}
 @media (max-width:640px){ .grid{grid-template-columns:1fr} }
 .card{
   background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
-  padding:22px;display:flex;flex-direction:column;gap:14px;position:relative;
+  padding:24px 26px;display:flex;flex-direction:column;gap:14px;position:relative;
   transition:transform .22s,border-color .22s,box-shadow .22s;
 }
+.card.open{grid-column: 1 / -1;}
 .card:hover{transform:translateY(-4px);border-color:var(--line-strong);box-shadow:var(--shadow)}
 .card.fresh::before{
   content:"NEW";position:absolute;top:-9px;right:18px;background:var(--cyan);color:#04231c;
