@@ -2,137 +2,21 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { TAXONOMY } from "@/lib/taxonomy";
+import type { Opp } from "@/lib/ingest";
 
-interface Job {
-  id: number;
-  title: string;
-  company: string;
-  field: string;
-  sub: string;
-  loc: string;
-  remote: boolean;
-  india: boolean;
-  type: string;
-  postedH: number;
-  source: string;
-  apply: "form" | "email";
-  excerpt: string;
-  asks: string[];
-  skills: string[];
-  expMin: number;
-  expMax: number;
+// Derive top-level field from TAXONOMY by checking if any sub-area keyword appears in title+text
+const FIELD_KEYS = Object.keys(TAXONOMY);
+function fieldOf(o: Opp): string {
+  const hay = `${o.title} ${o.text}`.toLowerCase();
+  return FIELD_KEYS.find((cat) =>
+    TAXONOMY[cat].some((sub) => sub.toLowerCase().split(" ").filter((w) => w.length > 3).some((w) => hay.includes(w)))
+  ) ?? "";
 }
-
-const JOBS: Job[] = [
-  {
-    id: 1, title: "FP&A Analyst", company: "Fintech startup (Series A)", field: "Finance", sub: "FP&A", loc: "Bengaluru", remote: false, india: true, type: "Full-time", postedH: 5, source: "Founder post", apply: "form",
-    excerpt: "Founder is building the finance function from scratch and wants someone who can own budgeting and board reporting end-to-end.",
-    asks: ["Build the annual operating plan and monthly forecast from zero", "Own variance analysis and the board reporting pack", "Partner with business heads on hiring and spend plans"],
-    skills: ["Financial Modelling", "Excel", "Budgeting", "SQL"], expMin: 2, expMax: 5
-  },
-  {
-    id: 2, title: "Investment Banking Analyst", company: "Boutique advisory firm", field: "Finance", sub: "Investment Banking", loc: "Mumbai", remote: false, india: true, type: "Full-time", postedH: 11, source: "Hiring team post", apply: "email",
-    excerpt: "A boutique IB firm is staffing up its deal team and hiring directly through the partners — no portal listing.",
-    asks: ["Prepare pitch books, teasers and information memorandums", "Build DCF and comparable-company models for live mandates", "Support due-diligence workstreams with clients"],
-    skills: ["DCF Valuation", "Financial Modelling", "PowerPoint", "Excel"], expMin: 1, expMax: 3
-  },
-  {
-    id: 3, title: "Asset Management Associate", company: "SEBI-registered advisory", field: "Finance", sub: "Asset Management", loc: "Remote", remote: true, india: true, type: "Full-time", postedH: 26, source: "Founder post", apply: "form",
-    excerpt: "Founder-led advisory is adding a research associate to cover listed equities for its PMS and advisory clients.",
-    asks: ["Track a coverage universe of listed Indian equities", "Write investment notes and quarterly result updates", "Maintain portfolio performance and attribution reports"],
-    skills: ["Equity Research", "Financial Modelling", "Excel", "Bloomberg"], expMin: 3, expMax: 6
-  },
-  {
-    id: 4, title: "Strategy Consultant", company: "Global consulting firm", field: "Consulting", sub: "Strategy Consulting", loc: "Gurugram", remote: false, india: true, type: "Full-time", postedH: 8, source: "Hiring team post", apply: "form",
-    excerpt: "The strategy practice is hiring laterally for its India team — the post names the partner's team and the exact case profile wanted.",
-    asks: ["Structure ambiguous client problems into workable hypotheses", "Lead workstreams on growth and market-entry cases", "Present recommendations directly to CXO stakeholders"],
-    skills: ["Problem Structuring", "Market Sizing", "PowerPoint", "Stakeholder Management"], expMin: 2, expMax: 5
-  },
-  {
-    id: 5, title: "Management Consulting Analyst", company: "Mid-size consulting firm", field: "Consulting", sub: "Management Consulting", loc: "Remote", remote: true, india: false, type: "Full-time", postedH: 31, source: "Founder post", apply: "email",
-    excerpt: "A founder-run consultancy is hiring a remote analyst to support transformation projects for overseas clients.",
-    asks: ["Run diagnostic analysis on client operations data", "Draft process maps and improvement roadmaps", "Join client calls across time zones and own follow-ups"],
-    skills: ["Data Analysis", "Process Mapping", "Excel", "Communication"], expMin: 0, expMax: 2
-  },
-  {
-    id: 6, title: "Technology Consultant", company: "Cloud services firm", field: "Consulting", sub: "Technology Consulting", loc: "Hyderabad", remote: false, india: true, type: "Full-time", postedH: 49, source: "Hiring team post", apply: "form",
-    excerpt: "Hiring team post for consultants who can sit between business users and engineering on cloud migration programmes.",
-    asks: ["Translate business requirements into solution designs", "Support cloud migration assessments and roadmaps", "Run workshops with client IT and business teams"],
-    skills: ["Cloud", "Requirements Gathering", "SQL", "Stakeholder Management"], expMin: 3, expMax: 7
-  },
-  {
-    id: 7, title: "Growth Marketing Manager", company: "D2C consumer brand", field: "Marketing", sub: "Performance / Growth", loc: "Remote", remote: true, india: true, type: "Full-time", postedH: 3, source: "Founder post", apply: "form",
-    excerpt: "Founder is hiring the first growth marketer and says it plainly: own the number, full funnel, no agency in between.",
-    asks: ["Own paid acquisition across Meta and Google end-to-end", "Run weekly experiments on landing pages and creatives", "Report CAC, LTV and payback to the founding team"],
-    skills: ["Performance Marketing", "Meta Ads", "Google Ads", "Analytics"], expMin: 3, expMax: 6
-  },
-  {
-    id: 8, title: "Brand Marketing Lead", company: "Fintech scale-up", field: "Marketing", sub: "Brand Marketing", loc: "Mumbai", remote: false, india: true, type: "Full-time", postedH: 19, source: "Hiring team post", apply: "email",
-    excerpt: "The brand team is expanding ahead of a big launch and hiring a lead to own positioning, campaigns and content voice.",
-    asks: ["Own brand positioning and the campaign calendar", "Brief and manage creative and content partners", "Track brand health metrics quarter over quarter"],
-    skills: ["Brand Strategy", "Campaigns", "Content", "Stakeholder Management"], expMin: 4, expMax: 8
-  },
-  {
-    id: 9, title: "Content & Copy Strategist", company: "SaaS company (B2B)", field: "Marketing", sub: "Content & Copy", loc: "Remote", remote: true, india: false, type: "Contract", postedH: 55, source: "Founder post", apply: "email",
-    excerpt: "Founder wants a writer who thinks like a strategist — the post asks for writing samples, not a generic CV drop.",
-    asks: ["Write landing pages, launch emails and product stories", "Send two writing samples with your application, as the post specifies", "Build the content calendar with the growth team"],
-    skills: ["Copywriting", "Content Strategy", "SEO", "Storytelling"], expMin: 2, expMax: 5
-  },
-  {
-    id: 10, title: "Enterprise Account Executive", company: "B2B SaaS platform", field: "Sales", sub: "Enterprise Sales", loc: "Bengaluru", remote: false, india: true, type: "Full-time", postedH: 7, source: "Hiring team post", apply: "form",
-    excerpt: "Sales leadership posted this directly: enterprise territory is open after a region split, pipeline handover included.",
-    asks: ["Own a book of enterprise accounts across the region", "Run multi-stakeholder deals from discovery to close", "Forecast accurately and keep the CRM clean"],
-    skills: ["Enterprise Sales", "Negotiation", "CRM", "Discovery"], expMin: 5, expMax: 9
-  },
-  {
-    id: 11, title: "SDR / BDR", company: "HR-tech startup", field: "Sales", sub: "SDR / BDR", loc: "Remote", remote: true, india: true, type: "Full-time", postedH: 14, source: "Founder post", apply: "form",
-    excerpt: "Early-stage team hiring its second SDR. The founder's post asks for a short outreach sample instead of a cover letter.",
-    asks: ["Prospect and qualify outbound leads daily", "Write a sample cold outreach sequence, as asked in the post", "Book discovery calls for the account executives"],
-    skills: ["Outbound Prospecting", "Cold Email", "CRM", "Communication"], expMin: 0, expMax: 2
-  },
-  {
-    id: 12, title: "Inside Sales Executive", company: "Edtech company", field: "Sales", sub: "Inside Sales", loc: "Noida", remote: false, india: true, type: "Full-time", postedH: 38, source: "Hiring team post", apply: "email",
-    excerpt: "Inside sales team is scaling for the new admission cycle; the post lists the exact counsellor profile and shift pattern.",
-    asks: ["Convert inbound leads over calls and WhatsApp follow-ups", "Counsel learners on course fit and outcomes", "Hit weekly enrolment targets with clean CRM notes"],
-    skills: ["Inside Sales", "CRM", "Communication", "Negotiation"], expMin: 1, expMax: 4
-  },
-  {
-    id: 13, title: "Business Development Manager", company: "Logistics tech platform", field: "Business", sub: "Business Development", loc: "Delhi NCR", remote: false, india: true, type: "Full-time", postedH: 22, source: "Founder post", apply: "email",
-    excerpt: "Founder is opening a new region and wants a BD manager who has sold to shippers and 3PLs before.",
-    asks: ["Sign anchor clients in the new region within two quarters", "Build channel and referral partnerships locally", "Feed market intelligence back to the product team"],
-    skills: ["Business Development", "Partnerships", "Negotiation", "Market Research"], expMin: 4, expMax: 8
-  },
-  {
-    id: 14, title: "Strategy & Ops Associate", company: "Quick-commerce startup", field: "Business", sub: "Strategy & Operations", loc: "Bengaluru", remote: false, india: true, type: "Full-time", postedH: 9, source: "Founder post", apply: "form",
-    excerpt: "Founder's office role: the post describes live problem statements — dark-store economics and rider supply — not a generic JD.",
-    asks: ["Analyse dark-store unit economics and suggest fixes", "Run cross-functional projects with ops and product", "Prepare weekly business reviews for the founder"],
-    skills: ["Data Analysis", "SQL", "Excel", "Problem Structuring"], expMin: 1, expMax: 4
-  },
-  {
-    id: 15, title: "Operations Manager", company: "Consumer services chain", field: "Business", sub: "Operations", loc: "Pune", remote: false, india: true, type: "Full-time", postedH: 64, source: "Hiring team post", apply: "form",
-    excerpt: "Multi-city services chain hiring an ops manager for its fastest-growing cluster; the post names the cluster P&L scope.",
-    asks: ["Own day-to-day operations across a cluster of outlets", "Drive service quality audits and vendor management", "Improve turnaround times with process redesign"],
-    skills: ["Operations", "Vendor Management", "Process Mapping", "Team Leadership"], expMin: 4, expMax: 8
-  },
-  {
-    id: 16, title: "E-commerce Manager", company: "D2C personal care brand", field: "Consumer & Retail", sub: "E-commerce", loc: "Gurugram", remote: false, india: true, type: "Full-time", postedH: 16, source: "Founder post", apply: "form",
-    excerpt: "Founder-led D2C brand wants an owner for marketplaces who treats the P&L like their own business.",
-    asks: ["Own marketplace P&L across Amazon and quick-commerce", "Plan pricing, promotions and advertising spends", "Launch new SKUs with the supply and brand teams"],
-    skills: ["Marketplaces", "P&L Management", "Analytics", "Pricing"], expMin: 3, expMax: 6
-  },
-  {
-    id: 17, title: "Retail Operations Head", company: "Apparel retail chain", field: "Consumer & Retail", sub: "Retail Operations", loc: "Mumbai", remote: false, india: true, type: "Full-time", postedH: 80, source: "Hiring team post", apply: "email",
-    excerpt: "Retail chain is hiring a head of store operations as it expands into new states this year.",
-    asks: ["Standardise SOPs across existing and new stores", "Own store-level profitability and shrinkage control", "Build the area-manager layer for new-state launches"],
-    skills: ["Retail Operations", "P&L Management", "Team Leadership", "SOP Design"], expMin: 8, expMax: 12
-  },
-  {
-    id: 18, title: "Category Manager — FMCG", company: "Online grocery platform", field: "Consumer & Retail", sub: "FMCG", loc: "Remote", remote: true, india: true, type: "Full-time", postedH: 44, source: "Founder post", apply: "form",
-    excerpt: "Grocery platform founder is hiring a category manager for staples — the post details assortment gaps they want closed.",
-    asks: ["Own assortment, pricing and margins for the staples category", "Negotiate with brands and regional suppliers", "Use sales data to prune and expand the range weekly"],
-    skills: ["Category Management", "Negotiation", "Analytics", "Pricing"], expMin: 3, expMax: 7
-  }
-];
+function hoursAgo(iso: string) {
+  if (!iso) return 999;
+  return Math.round((Date.now() - new Date(iso).getTime()) / 3_600_000);
+}
 
 const FIELDS = [
   {
@@ -205,13 +89,14 @@ const SKILL_POOL = [
 const WORDS = ["hiring", "recruiting", "building", "staffing"];
 
 export default function LandingPage() {
+  const [feed, setFeed] = useState<Opp[]>([]);
   const [selectedFields, setSelectedFields] = useState<string[]>([]);
   const [mode, setMode] = useState<"all" | "remote" | "india" | "form" | "email">("all");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<"new" | "match" | "az">("new");
   const [selectedSkills, setSelectedSkills] = useState<Set<string>>(new Set());
   const [exp, setExp] = useState(3);
-  const [openCards, setOpenCards] = useState<Set<number>>(new Set());
+  const [openCards, setOpenCards] = useState<Set<string>>(new Set());
 
   const [clock, setClock] = useState("--:-- IST");
   const [wordIdx, setWordIdx] = useState(0);
@@ -221,6 +106,9 @@ export default function LandingPage() {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const applicantRef = useRef<HTMLDivElement | null>(null);
+
+  // Fetch live feed
+  useEffect(() => { fetch("/api/feed").then((r) => r.json()).then(setFeed).catch(() => {}); }, []);
 
   // Clock in IST
   useEffect(() => {
@@ -406,18 +294,9 @@ export default function LandingPage() {
     return `${d}d ago`;
   }
 
-  function matchScore(job: Job): number | null {
-    if (selectedSkills.size === 0) return null;
-    const hits = job.skills.filter((s) => selectedSkills.has(s)).length;
-    const skillPart = hits / job.skills.length;
-    const expFit =
-      exp >= job.expMin && exp <= job.expMax + 2
-        ? 1
-        : exp < job.expMin
-        ? Math.max(0, 1 - (job.expMin - exp) * 0.18)
-        : 0.72;
-    return Math.round(100 * (0.72 * skillPart + 0.28 * expFit));
-  }
+  // matchScore removed — live Opp data has no extracted skills list
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  function matchScore(_o: Opp): number | null { return null; }
 
   // Multi-field toggle
   function toggleField(fieldName: string) {
@@ -439,7 +318,7 @@ export default function LandingPage() {
     });
   }
 
-  function toggleCard(id: number) {
+  function toggleCard(id: string) {
     setOpenCards((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
@@ -451,32 +330,33 @@ export default function LandingPage() {
   // Filtered jobs
   const visibleJobs = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const list = JOBS.filter((j) => {
-      if (selectedFields.length > 0 && !selectedFields.includes(j.field)) return false;
-      if (mode === "remote" && !j.remote) return false;
-      if (mode === "india" && !j.india) return false;
-      if (mode === "form" && j.apply !== "form") return false;
-      if (mode === "email" && j.apply !== "email") return false;
+    const list = feed.filter((o) => {
+      const field = fieldOf(o);
+      if (selectedFields.length > 0 && !selectedFields.includes(field)) return false;
+      const locL = (o.loc ?? "").toLowerCase();
+      const isRemote = locL.includes("remote");
+      const isIndia = locL.length > 0 && !locL.includes("uk") && !locL.includes("us") && !locL.includes("london") && !locL.includes("new york") && !locL.includes("singapore");
+      if (mode === "remote" && !isRemote) return false;
+      if (mode === "india" && !isIndia) return false;
+      const hasEmail = o.leads.some((l) => l.kind === "email");
+      if (mode === "form" && hasEmail) return false;
+      if (mode === "email" && !hasEmail) return false;
       if (q) {
-        const hay = `${j.title} ${j.company} ${j.field} ${j.sub} ${j.loc} ${j.skills.join(" ")}`.toLowerCase();
+        const hay = `${o.title} ${o.company} ${o.loc} ${o.text}`.toLowerCase();
         if (!hay.includes(q)) return false;
       }
       return true;
     });
 
-    if (sort === "new") list.sort((a, b) => a.postedH - b.postedH);
-    if (sort === "az") list.sort((a, b) => a.company.localeCompare(b.company));
-    if (sort === "match") list.sort((a, b) => (matchScore(b) || 0) - (matchScore(a) || 0) || a.postedH - b.postedH);
+    if (sort === "new") list.sort((a, b) => hoursAgo(a.date) - hoursAgo(b.date));
+    if (sort === "az") list.sort((a, b) => (a.company || "").localeCompare(b.company || ""));
+    // match sort falls back to newest since we have no skills
+    if (sort === "match") list.sort((a, b) => hoursAgo(a.date) - hoursAgo(b.date));
     return list;
-  }, [query, selectedFields, mode, sort, selectedSkills, exp]);
+  }, [feed, query, selectedFields, mode, sort]);
 
-  // Top scanner matches
-  const topMatches = useMemo(() => {
-    if (selectedSkills.size === 0) return [];
-    return JOBS.map((j) => ({ j, m: matchScore(j) ?? 0 }))
-      .sort((a, b) => b.m - a.m)
-      .slice(0, 4);
-  }, [selectedSkills, exp]);
+  // Top scanner matches — not available without extracted skills
+  const topMatches: { j: Opp; m: number }[] = [];
 
   const checkSvg = (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
@@ -490,7 +370,7 @@ export default function LandingPage() {
     </svg>
   );
 
-  const tickerItems = JOBS.slice(0, 10);
+  const tickerItems = feed.slice(0, 10);
 
   return (
     <>
@@ -592,8 +472,8 @@ export default function LandingPage() {
         <div className="ticker-track">
           {[...tickerItems, ...tickerItems].map((j, i) => (
             <span className="tick-item" key={i}>
-              <span className="tag">{j.field.toUpperCase()}</span>
-              <b>{j.title}</b> · {j.loc} · {timeAgo(j.postedH)}
+              <span className="tag">{fieldOf(j).toUpperCase() || j.source.toUpperCase()}</span>
+              <b>{j.title}</b> · {j.loc} · {timeAgo(hoursAgo(j.date))}
             </span>
           ))}
         </div>
@@ -741,10 +621,10 @@ export default function LandingPage() {
                   className={`chip ${selectedFields.length === 0 ? "on" : ""}`}
                   onClick={() => toggleField("All")}
                 >
-                  All<span className="n">{JOBS.length}</span>
+                  All<span className="n">{feed.length}</span>
                 </button>
                 {FIELDS.map((f) => {
-                  const count = JOBS.filter((j) => j.field === f.name).length;
+                  const count = feed.filter((o) => fieldOf(o) === f.name).length;
                   const isSelected = selectedFields.includes(f.name);
                   return (
                     <button
@@ -781,7 +661,7 @@ export default function LandingPage() {
 
             <div className="feed-meta">
               <span className="count">
-                SHOWING <b>{visibleJobs.length}</b> OF {JOBS.length} SAMPLE ROLES ·{" "}
+                SHOWING <b>{visibleJobs.length}</b> OF {feed.length} LIVE ROLES ·{" "}
                 {selectedFields.length === 0
                   ? "ALL FIELDS"
                   : selectedFields.join(", ").toUpperCase()}
@@ -795,80 +675,63 @@ export default function LandingPage() {
             </div>
 
             <div className="grid">
-              {visibleJobs.map((j) => {
-                const m = matchScore(j);
-                const isOpen = openCards.has(j.id);
+              {visibleJobs.map((o) => {
+                const field = fieldOf(o);
+                const isOpen = openCards.has(o.id);
+                const postedH = hoursAgo(o.date);
+                const hasEmail = o.leads.some((l) => l.kind === "email");
+                const primaryLead = o.leads.find((l) => l.kind !== "link") ?? o.leads[0];
                 return (
-                  <article key={j.id} className={`card ${j.postedH <= 12 ? "fresh" : ""} ${isOpen ? "open" : ""}`}>
+                  <article key={o.id} className={`card ${postedH <= 12 ? "fresh" : ""} ${isOpen ? "open" : ""}`}>
                     <div className="card-top">
-                      <div className="avatar">{initials(j.company)}</div>
+                      <div className="avatar">{initials(o.company || o.title)}</div>
                       <div>
-                        <h3>{j.title}</h3>
-                        <div className="co">{j.company}</div>
+                        <h3>{o.title}</h3>
+                        <div className="co">{o.company || o.poster}</div>
                       </div>
                       <div className="match">
-                        {m === null ? (
-                          <>
-                            <div className="pct" style={{ color: "var(--ink-3)" }}>—</div>
-                            <div className="cap">Set skills<br />to score</div>
-                          </>
-                        ) : (
-                          <>
-                            <div className="pct">{m}%</div>
-                            <div className="cap">Your match</div>
-                          </>
-                        )}
+                        <div className="pct" style={{ color: "var(--ink-3)" }}>—</div>
+                        <div className="cap">Set skills<br />to score</div>
                       </div>
                     </div>
                     <div className="tags">
-                      <span className="tag field">{j.field} · {j.sub}</span>
-                      <span className="tag">{j.remote ? "Remote" : j.loc}</span>
-                      <span className="tag">{j.type}</span>
-                      <span className="tag">{j.apply === "form" ? "Apply: form" : "Apply: email"}</span>
+                      {field && <span className="tag field">{field}</span>}
+                      <span className="tag">{o.loc || "Location not stated"}</span>
+                      <span className="tag">{hasEmail ? "Apply: email" : "Apply: form"}</span>
                     </div>
-                    <p className="excerpt">{j.excerpt}</p>
+                    <p className="excerpt">{o.text}</p>
                     <div className="card-foot">
                       <span className="src">
-                        {j.source.toUpperCase()} · {timeAgo(j.postedH).toUpperCase()}
+                        {o.source.toUpperCase()} · {timeAgo(postedH).toUpperCase()}
                       </span>
                       <button
                         className="expand-btn"
                         aria-expanded={isOpen}
-                        onClick={() => toggleCard(j.id)}
+                        onClick={() => toggleCard(o.id)}
                       >
-                        {isOpen ? "Hide " : "The ask "}
+                        {isOpen ? "Hide " : "Details "}
                         {chevSvg}
                       </button>
                     </div>
                     {isOpen && (
                       <div className="detail" style={{ display: "flex" }}>
-                        <div>
-                          <h4>What the post asks you to do</h4>
-                          <ul>
-                            {j.asks.map((a, i) => (
-                              <li key={i}>
-                                {checkSvg}
-                                <span>{a}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <h4>Skills in the post</h4>
-                          <div className="skills-line">
-                            {j.skills.map((s) => (
-                              <span key={s} className={`sk ${selectedSkills.has(s) ? "hit" : ""}`}>
-                                {s}
-                              </span>
-                            ))}
-                          </div>
+                        <div style={{ flex: 1 }}>
+                          <h4>Full post</h4>
+                          <p style={{ whiteSpace: "pre-wrap" }}>{o.text}</p>
                         </div>
                         <div className="apply-row">
-                          <Link className="apply-btn" href="/dashboard">
-                            {j.apply === "form" ? "Open the apply form" : "Get the apply email"}
-                          </Link>
+                          {primaryLead && (
+                            <a
+                              className="apply-btn"
+                              href={primaryLead.kind === "email" ? `mailto:${primaryLead.value}` : primaryLead.value}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {hasEmail ? "Email to apply" : "Apply now"}
+                            </a>
+                          )}
                           <Link className="apply-btn alt" href="/dashboard">
-                            View source post
+                            Full board
                           </Link>
                         </div>
                       </div>
@@ -899,7 +762,7 @@ export default function LandingPage() {
             </div>
             <div className="fields">
               {FIELDS.map((f) => {
-                const count = JOBS.filter((j) => j.field === f.name).length;
+                const count = feed.filter((o) => fieldOf(o) === f.name).length;
                 const isSelected = selectedFields.includes(f.name);
                 return (
                   <button
@@ -979,7 +842,7 @@ export default function LandingPage() {
                   topMatches.map(({ j, m }) => (
                     <div key={j.id} className="match-row">
                       <div className="mr-top">
-                        <span>{j.title} · {j.field}</span>
+                        <span>{j.title} · {fieldOf(j)}</span>
                         <span>{m}%</span>
                       </div>
                       <div className="bar">
