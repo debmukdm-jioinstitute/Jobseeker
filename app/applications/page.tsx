@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import ThemeToggle from "../ThemeToggle";
 import Logo from "../Logo";
+import BackButton from "../BackButton";
 
 type A = { postId: string; title: string; company: string; to: string; subject: string; cv: string; status: string; at: string };
 
@@ -13,7 +14,7 @@ export default function Applications() {
   const done = apps?.filter((a) => a.status === "applied").length ?? 0;
   return (
     <main style={{ maxWidth: 860 }}>
-      <nav><Logo /><span className="row"><ThemeToggle /><Link href="/dashboard" className="btn alt">Browse jobs</Link></span></nav>
+      <nav><Logo /><span className="row"><BackButton fallback="/dashboard" /><ThemeToggle /><Link href="/dashboard" className="btn alt">Browse jobs</Link></span></nav>
       <h1 style={{ fontSize: "2rem" }}>My applications</h1>
       {apps && <p className="mut">{done} applied, {apps.length - done} opened but not confirmed. Quality beats quantity: founders reply to personalised applications.</p>}
       {!who && apps && <p><Link href="/login">Sign in</Link> to see your applications.</p>}
