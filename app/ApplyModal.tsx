@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import "./apply.css";
 import Link from "next/link";
 import type { Opp } from "@/lib/ingest";
 import type { Profile, Template } from "@/lib/profile";
@@ -20,7 +19,7 @@ const post = (body: object) => fetch("/api/apply", { method: "POST", headers: { 
 export default function ApplyModal({ posts, me, onClose, onStatus }: { posts: Opp[]; me: ApplyMe; onClose: () => void; onStatus: (id: string, s: "opened" | "applied") => void }) {
   const [i, setI] = useState(0);
   const [drafts, setDrafts] = useState<Record<string, Draft>>(() =>
-    Object.fromEntries(posts.map((o) => { const c = compose(me.profile, me.cv, me.template, o, location.origin + me.cvLink); return [o.id, { to: c.to, subject: c.subject, body: c.body, cv: "tailored" as const, missing: c.missing }]; })));
+    Object.fromEntries(posts.map((o) => { const c = compose(me.profile, me.cv, me.template, o, location.origin + me.cvLink); return [o.id, { to: c.to, subject: c.subject, body: c.body, cv: (me.hasFile ? "original" : "tailored") as Draft["cv"], missing: c.missing }]; })));
   const [sent, setSent] = useState<Record<string, boolean>>({});
   const [note, setNote] = useState("");
   const o = posts[i], d = drafts[o.id];
@@ -37,7 +36,7 @@ export default function ApplyModal({ posts, me, onClose, onStatus }: { posts: Op
     try {
       if (d.cv === "original") Object.assign(document.createElement("a"), { href: "/api/cv/file", download: "" }).click();
       else await downloadCv(tailor(me.cv, o, me.profile.headline), me.profile, cvFilename(me.profile.full_name.split(/\s+/)[0], o.company, o.title));
-    } catch { setNote("Could not build the CV PDF. The email still has a link to your CV."); }
+    } catch { setNote("Could not get the CV file. Use Draft with CV attached."); }
   }
   // Gmail's compose link cannot carry a file. An .eml draft can: Apple Mail / Outlook / Thunderbird open it with the CV already attached.
   async function eml() {
@@ -61,10 +60,10 @@ export default function ApplyModal({ posts, me, onClose, onStatus }: { posts: Op
   const copy = () => navigator.clipboard.writeText(`To: ${d.to}\nSubject: ${d.subject}\n\n${d.body}`).then(() => setNote("Copied."), () => setNote("Copy blocked by the browser."));
 
   return (
-    <div className="modal-bg" role="dialog" aria-modal="true" aria-label="Apply" onClick={onClose}>
-      <div className="card modal" onClick={(e) => e.stopPropagation()}>
+    <div className="mbg" role="dialog" aria-modal="true" aria-label="Apply" onClick={onClose}>
+      <div className="mdl" onClick={(e) => e.stopPropagation()}>
         <div className="row" style={{ justifyContent: "space-between" }}>
-          <b>Apply: {o.title.slice(0, 60)}{o.company && ` · ${o.company}`}{posts.length > 1 && ` (${i + 1}/${posts.length})`}</b>
+          <b>Apply: {o.title.slice(0, 60)}{o.company && `, ${o.company}`}{posts.length > 1 && ` (${i + 1}/${posts.length})`}</b>
           <button className="alt" onClick={onClose} aria-label="Close">✕</button>
         </div>
         <label className="small mut">To</label>
@@ -78,7 +77,7 @@ export default function ApplyModal({ posts, me, onClose, onStatus }: { posts: Op
           <label><input type="radio" style={{ width: "auto", margin: "0 4px" }} checked={d.cv === "tailored"} onChange={() => set({ cv: "tailored" })} />Tailored for this role</label>
           {me.hasFile && <label><input type="radio" style={{ width: "auto", margin: "0 4px" }} checked={d.cv === "original"} onChange={() => set({ cv: "original" })} />Original file</label>}
         </div>
-        <p className="mut small">The CV downloads when you press Send; attach it in Gmail. {d.cv === "tailored" && "We reordered your real CV, nothing was added."}</p>
+        <p className="mut small">The email carries a permanent link to your CV. For a real attachment use "Draft with CV attached". {d.cv === "original" ? "This is the exact file you uploaded." : "We reordered your real CV, nothing was added."}</p>
         {left.length > 0 && <p role="alert" style={{ color: "#c0392b" }}>Fix before sending: {left.join(", ")}. <Link href="/profile">Edit profile</Link></p>}
         {gmail.length > 7500 && <p role="alert" style={{ color: "#c0392b" }}>Too long for a Gmail link. Shorten the body or use Copy email.</p>}
         <div className="row">
@@ -87,7 +86,7 @@ export default function ApplyModal({ posts, me, onClose, onStatus }: { posts: Op
           <button disabled={left.length > 0} className="alt" onClick={eml}>Draft with CV attached (.eml)</button>
           <button disabled={left.length > 0 || gmail.length > 7500} onClick={send}>Send in Gmail →</button>
         </div>
-        <p className="mut small">Gmail web links cannot attach files: with Send in Gmail the CV downloads and a link to it is in the email. The .eml draft opens in Apple Mail, Outlook or Thunderbird with the CV already attached.</p>
+        <p className="mut small">Gmail web links cannot attach files: with Send in Gmail the email carries the permanent CV link (the CV also downloads if you want to attach it). The .eml draft opens in Apple Mail, Outlook or Thunderbird with the CV already attached.</p>
         {sent[o.id] && <p className="row" style={{ marginTop: 12 }}><span>Sent it?</span><button onClick={applied}>Mark as Applied ✓</button></p>}
         {note && <p role="status" className="small">{note}</p>}
         {posts.length > 1 && <div className="row" style={{ marginTop: 8 }}>

@@ -5,7 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --test lib/extract.test.ts lib/filter.test.ts lib/ingest.test.ts lib/crypto.test.ts lib/resume.test.ts lib/apply.test.ts"
+    "test": "node --test lib/extract.test.ts lib/filter.test.ts lib/ingest.test.ts lib/crypto.test.ts lib/resume.test.ts lib/apply.test.ts lib/site.test.ts"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.9.0",

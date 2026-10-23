@@ -6,6 +6,9 @@ const scryptAsync = promisify(scrypt) as (pw: string, salt: Buffer, len: number)
 export const normEmail = (e: unknown) =>
   typeof e === "string" && e.length <= 200 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim()) ? e.trim().toLowerCase() : "";
 
+// Permanent, unguessable public id for a user's CV link (HMAC, so knowing the email is not enough).
+export const cvId = (email: string, secret: string) => createHmac("sha256", secret).update("cv:" + email).digest("hex").slice(0, 32);
+
 export const userKey = (email: string) => `users/${createHash("sha256").update(email).digest("hex")}.json`;
 
 // Passwords: scrypt with a random per-user salt. Never stored or logged in plain form.

@@ -4,11 +4,11 @@ import Link from "next/link";
 import { extractKeywords, match } from "@/lib/resume";
 import { loadProfile, saveKeywords } from "@/lib/profile-client";
 import type { Opp } from "@/lib/ingest";
-import ThemeToggle from "../ThemeToggle";
-import Logo from "../Logo";
-import BackButton from "../BackButton";
-import Footer from "../Footer";
-import Bell from "../Bell";
+import ThemeToggle from "../../ThemeToggle";
+import Logo from "../../Logo";
+import BackButton from "../../BackButton";
+import Footer from "../../Footer";
+import Bell from "../../Bell";
 import { readResume } from "./parse";
 import ApplyProfile from "./ApplyProfile";
 

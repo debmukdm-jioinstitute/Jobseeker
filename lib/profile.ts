@@ -12,7 +12,7 @@ export const EMPTY_PROFILE = Object.fromEntries(PROFILE_KEYS.map((k) => [k, ""])
 export const missingProfile = (p?: Partial<Profile> | null) => REQUIRED.filter((k) => !p?.[k]?.trim());
 
 export const DEFAULT_TEMPLATE: Template = {
-  subject: "Application for {{role}} — {{full_name}} | {{headline}}",
+  subject: "Application for {{role}} - {{full_name}} | {{headline}}",
   body: `Dear {{poster_first_name}},
 
 I am writing to apply for the {{role}} role at {{company}}. {{post_hook}}
@@ -21,7 +21,7 @@ I am writing to apply for the {{role}} role at {{company}}. {{post_hook}}
 
 A little about me: I am {{profile_sentence}} {{availability_sentence}}
 
-I have attached my CV, tailored to this role. It is also available here: {{cv_link}}
+My CV is here: {{cv_link}}
 
 I would welcome a short conversation at your convenience.
 

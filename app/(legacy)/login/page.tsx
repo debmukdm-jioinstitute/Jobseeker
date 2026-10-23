@@ -2,10 +2,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import ThemeToggle from "../ThemeToggle";
-import Logo from "../Logo";
-import BackButton from "../BackButton";
-import Footer from "../Footer";
+import ThemeToggle from "../../ThemeToggle";
+import Logo from "../../Logo";
+import BackButton from "../../BackButton";
+import Footer from "../../Footer";
 
 export default function Login() {
   const router = useRouter();

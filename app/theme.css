@@ -1,9 +1,9 @@
 /* OpenToWork design language: warm cream, black ink, logo blue. Loaded after globals.css so it wins. */
-:root { --bg:#fcf7ec; --card:#fffdf8; --line:#d9d2c0; --fg:#0b0d12; --mut:#5d6372; --acc:#2563eb; --acc2:#e8effd; --on:#ffffff; --ok:#17803f; --shadow:none; --brand:#2f7bf6; --ink:#0b0d12; }
+:root { --bg:#faf6ec; --card:#fffdf7; --line:rgba(23,37,28,.13); --fg:#17251c; --mut:#47584d; --acc:#5b8def; --acc2:#e8effd; --on:#ffffff; --ok:#17803f; --shadow:none; --brand:#2f7bf6; --ink:#0b0d12; }
 :root[data-theme="dark"] { --bg:#0b0d12; --card:#12151c; --line:#282d39; --fg:#f4efe3; --mut:#9aa1b2; --acc:#5b9bff; --acc2:#14223d; --on:#0b0d12; --ok:#4cd6a0; --ink:#f4efe3; }
-* { font-family:"Figtree",system-ui,sans-serif; }
+* { font-family:"Nunito",system-ui,sans-serif; }
 body { background:var(--bg); color:var(--fg); -webkit-font-smoothing:antialiased; }
-h1, h2, h3, h4 { font-family:"Outfit",sans-serif; letter-spacing:-.025em; }
+h1, h2, h3, h4 { font-family:"Nunito",sans-serif; letter-spacing:-.025em; }
 h1 { font-weight:500; line-height:.98; letter-spacing:-.04em; }
 h2, h3 { font-weight:600; }
 ::selection { background:var(--acc); color:#fff; }
@@ -30,7 +30,7 @@ input:focus, select:focus, textarea:focus { outline:2px solid var(--acc); outlin
 nav { border-bottom:1px solid var(--line); margin-bottom:8px; }
 
 /* eyebrow labels, like the "OCTOBER 2026" tag */
-.ab-tag, .col-label, .detail-heading, .eyebrow { text-transform:uppercase; letter-spacing:.14em; font-size:.72rem; font-weight:800; color:var(--acc); font-family:"Figtree",sans-serif; }
+.ab-tag, .col-label, .detail-heading, .eyebrow { text-transform:uppercase; letter-spacing:.14em; font-size:.72rem; font-weight:800; color:var(--acc); font-family:"Nunito",sans-serif; }
 .eyebrow { display:block; margin-bottom:10px; }
 
 /* "Now hiring." page header */
@@ -43,7 +43,7 @@ nav { border-bottom:1px solid var(--line); margin-bottom:8px; }
 /* job cards: company in blue, hairline rows */
 .job { border-radius:18px; box-shadow:none; }
 .job .co-name { color:var(--acc); font-weight:700; }
-.job h3 { font-family:"Outfit",sans-serif; font-weight:600; letter-spacing:-.02em; }
+.job h3 { font-family:"Nunito",sans-serif; font-weight:600; letter-spacing:-.02em; }
 .job .apply-banner { background:var(--acc2); border:1px solid transparent; }
 .job .ab-icon { background:var(--card); color:var(--acc); }
 .job .ab-text { color:var(--fg); }
@@ -55,7 +55,7 @@ nav { border-bottom:1px solid var(--line); margin-bottom:8px; }
 .otw-foot img { height:34px; width:auto; display:block; }
 .otw-vr { width:1px; align-self:stretch; background:rgba(244,239,227,.22); }
 .otw-tag { flex:1; min-width:220px; }
-.otw-tag b { display:block; font-family:"Outfit",sans-serif; font-weight:500; font-size:clamp(1.3rem,3vw,1.9rem); line-height:1.1; letter-spacing:-.02em; }
+.otw-tag b { display:block; font-family:"Nunito",sans-serif; font-weight:500; font-size:clamp(1.3rem,3vw,1.9rem); line-height:1.1; letter-spacing:-.02em; }
 .otw-tag small { display:block; margin-top:10px; font-size:.7rem; letter-spacing:.14em; font-weight:700; color:#6ea4ff; }
 .otw-foot .btn { background:#2f7bf6; color:#fff; }
 @media (max-width:640px) { .otw-vr { display:none; } .otw-foot { padding:22px; } }

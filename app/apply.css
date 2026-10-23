@@ -1,6 +1,0 @@
-.modal-bg { position:fixed; inset:0; background:rgba(10,12,20,.55); display:flex; align-items:flex-start; justify-content:center; padding:24px 12px; overflow:auto; z-index:50; }
-.modal { width:100%; max-width:720px; }
-.modal label { display:block; margin-top:8px; }
-.modal input, .modal textarea { margin:4px 0 6px; }
-.queue-bar { position:sticky; bottom:12px; display:flex; gap:8px; align-items:center; justify-content:space-between; background:var(--card); border:1px solid var(--acc); border-radius:12px; padding:10px 14px; box-shadow:var(--shadow); z-index:5; }
-.applied-tag { color:var(--ok); font-weight:700; }
