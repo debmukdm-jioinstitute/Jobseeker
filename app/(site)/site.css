@@ -628,3 +628,43 @@ button:active,.btn:active,.chip:active,.nav-cta:active,a.apply:active{transform:
 /* inputs at 16px stop iOS Safari zooming the page on focus */
 @media (max-width:820px){ input,select,textarea,.search input{font-size:16px !important} .chip{min-height:40px} }
 @media (min-width:821px) and (max-width:1100px){ .dash-layout{grid-template-columns:1fr} .kpis{grid-template-columns:repeat(2,1fr)} .hero-cols{gap:36px} }
+.stage-pill.s5{background:var(--teal);color:#fff;border-color:transparent}
+.stage-pill.sx{background:rgba(191,59,42,.12);color:var(--danger);border-color:transparent}
+
+/* ---------- Application journey ---------- */
+.jr-grid{display:grid;gap:18px;margin-top:18px;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr))}
+.jr-card{min-width:0}
+.jr-steps{list-style:none;margin:0;padding:0;display:flex;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+.jr-steps::-webkit-scrollbar{display:none}
+.jr-steps li{flex:1 0 64px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:10.5px;font-weight:800;color:var(--ink-3);position:relative;line-height:1.25}
+.jr-steps li::before{content:"";position:absolute;top:13px;left:-50%;width:100%;height:2px;background:var(--line);z-index:0}
+.jr-steps li:first-child::before{display:none}
+.jr-steps i{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12px;background:var(--panel-2);border:2px solid var(--line);position:relative;z-index:1}
+.jr-steps li.done{color:var(--ink-2)}.jr-steps li.done i{background:var(--accent);border-color:var(--accent);color:#fff}
+.jr-steps li.done::before,.jr-steps li.now::before{background:var(--accent)}
+.jr-steps li.now{color:var(--accent-deep)}.jr-steps li.now i{border-color:var(--accent);color:var(--accent-deep);box-shadow:0 0 0 4px var(--accent-soft)}
+.jr-steps li.x i{border-style:dashed}.jr-steps li.x.now{color:var(--danger)}.jr-steps li.x.now i{background:var(--danger);border-color:var(--danger);color:#fff;border-style:solid;box-shadow:none}
+.jr-actions{display:flex;gap:9px;flex-wrap:wrap}
+.jr-actions button,.jr-form button{background:var(--accent);color:var(--accent-ink);border:0;border-radius:11px;padding:11px 16px;font-weight:800;font-size:13.5px;min-height:44px}
+.jr-actions button.alt{background:transparent;color:var(--ink);border:1px solid var(--line-strong)}
+.jr-actions button:disabled,.jr-form button:disabled{opacity:.55;cursor:default}
+.jr-form{display:grid;gap:10px;background:var(--panel-2);border:1px solid var(--line);border-radius:14px;padding:14px}
+.jr-form label{display:grid;gap:5px;font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
+.jr-form select,.jr-form input{width:100%;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px 12px;font:inherit;font-weight:600;font-size:16px;text-transform:none;letter-spacing:0;min-height:44px}
+.jr-log{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--line);display:grid;gap:12px}
+.jr-log li{position:relative;font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.jr-log li::before{content:"";position:absolute;left:-20px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--panel)}
+.jr-log b{color:var(--ink);margin-right:8px}.jr-log span{font-size:12px;color:var(--ink-3);font-weight:700}
+.jr-log em{display:block;font-style:normal;font-weight:800;color:var(--accent-deep);font-size:12.5px}
+.jr-log p{margin:3px 0 0}
+.jr-link{font-size:13px;font-weight:800;color:var(--accent-deep);text-decoration:none}
+@media (max-width:480px){ .jr-steps li{flex-basis:72px} .jr-actions button{flex:1 1 auto} }
+
+/* ---------- reminders ---------- */
+.dot{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;margin-left:6px;border-radius:99px;background:var(--danger);color:#fff;font-size:11px;font-weight:800;line-height:1}
+.tabbar a{position:relative}
+.tabbar a .dot{position:absolute;top:2px;left:calc(50% + 6px);margin:0}
+.mini-row.soon{background:var(--gold-soft);border-radius:12px;padding-inline:12px;margin-inline:-12px}
+.mini-row .rel{font-size:12px;font-weight:800;color:var(--accent-deep);margin-left:6px}
+.mini-row.soon .rel{color:#8a5a07}
+.mini-row .cal{flex:none;background:transparent;color:var(--ink);border:1px solid var(--line-strong);border-radius:10px;padding:9px 13px;font-weight:800;font-size:13px;min-height:44px}

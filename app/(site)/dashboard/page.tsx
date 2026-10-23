@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
+import { stageOf, labelOf } from "@/lib/journey";
 import { FIELDS, STAGES, STAGE_KEYS, initials, lifeInfo, matchScore, timeAgo, type Job } from "@/lib/site";
 import SiteNav from "../SiteNav";
 import Avatar from "../Avatar";
@@ -14,7 +15,7 @@ const dateLine = (d: Date) => `${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS[d.ge
 const day = (iso: string) => new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
 const put = (body: object) => fetch("/api/apply", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((r) => r.ok);
 
-type Row = { key: string; title: string; company: string; stage: number; when: string; to: string; postId: string };
+type Row = { key: string; title: string; company: string; stage: number; when: string; to: string; postId: string; status: string; saved: boolean };
 
 export default function Dashboard() {
   const { jobs, me, saved, skills, exp, areas, toggleArea, toast, confetti, apply, refreshMe } = useSite();
@@ -34,14 +35,14 @@ export default function Dashboard() {
   const rows: Row[] = useMemo(() => {
     const apps = me.apps ?? [];
     const fromApps = apps.map((a): Row => {
-      const stage = Math.max(0, STAGE_KEYS.indexOf(a.status as (typeof STAGE_KEYS)[number]));
-      const when = a.status === "opened" ? "Email opened, not confirmed yet. Move it forward once you have sent it." : `${a.status === "applied" ? "Applied" : "Updated"} ${day(a.at)}`;
-      return { key: a.postId, postId: a.postId, title: a.title, company: a.company || "Company not stated", stage, when, to: a.to };
+      const stage = stageOf(a.status, a.history);
+      const when = a.status === "opened" ? "Email opened, not confirmed yet. Move it forward once you have sent it." : `${labelOf(a.status)} · ${day(a.at)}`;
+      return { key: a.postId, postId: a.postId, title: a.title, company: a.company || "Company not stated", stage, when, to: a.to, status: a.status, saved: false };
     });
     const inApps = new Set(apps.map((a) => a.postId));
     const fromSaved = [...saved].filter((id) => !inApps.has(id) && byId.has(id)).map((id): Row => {
       const j = byId.get(id)!;
-      return { key: id, postId: id, title: j.title, company: j.company, stage: 0, when: `Saved · posted ${timeAgo(j.postedH)}, ${lifeInfo(j.postedH).label} before it is deleted`, to: j.o.apply_email ?? "" };
+      return { key: id, postId: id, title: j.title, company: j.company, stage: 0, when: `Saved · posted ${timeAgo(j.postedH)}, ${lifeInfo(j.postedH).label} before it is deleted`, to: j.o.apply_email ?? "", status: "opened", saved: true };
     });
     return [...fromApps, ...fromSaved].sort((a, b) => b.stage - a.stage);
   }, [me.apps, saved, byId]);
@@ -50,9 +51,13 @@ export default function Dashboard() {
     if (!me.email) { toast("Sign in to track your applications."); return; }
     const status = STAGE_KEYS[r.stage + 1];
     const j = byId.get(r.postId);
-    if (!(await put({ postId: r.postId, title: r.title, company: r.company === "Company not stated" ? "" : r.company, to: r.to, subject: "", body: "", cv: "tailored", status }))) { toast("Could not update that job. Try again."); return; }
+    // a saved post becomes an application first; after that every move is recorded in its history
+    const ok = r.saved || r.status === "opened"
+      ? await put({ postId: r.postId, title: r.title, company: r.company === "Company not stated" ? "" : r.company, to: r.to, subject: "", body: "", cv: "tailored", status: "applied" })
+      : await fetch("/api/apply", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ postId: r.postId, status }) }).then((x) => x.ok);
+    if (!ok) { toast("Could not update that job. Try again."); return; }
     await refreshMe();
-    if (status === "offer") { confetti(); toast(`Offer stage for “${r.title}”: congratulations! This is the moment the whole page is built for.`); }
+    if (status === "selected") { confetti(); toast(`Selected for “${r.title}”: congratulations! This is the moment the whole page is built for.`); }
     else if (j) toast(`Moved “${r.title}” to ${STAGES[r.stage + 1]}.`);
   }
 
@@ -118,18 +123,18 @@ export default function Dashboard() {
               <div className="dc-head">
                 <div>
                   <h3>Jobs you are tracking</h3>
-                  <p className="dc-sub">Every job you apply to lands here. One click moves it to the next step. No spreadsheet to maintain, and nothing to keep re-checking on other sites.</p>
+                  <p className="dc-sub">Every job you apply to lands here. One click moves it to the next step. No spreadsheet to maintain, and nothing to keep re-checking on other sites. <Link href="/applications" style={{ color: "var(--accent-deep)", fontWeight: 800 }}>Open the full journey →</Link></p>
                 </div>
               </div>
               <div>
                 {rows.length === 0 && <p className="track-empty">Nothing here yet. Save a job or press Apply and it shows up here.{!me.email && <> <Link href="/login">Sign in</Link> to keep your list on every device.</>}</p>}
                 {rows.map((r) => (
                   <div className="track-row" key={r.key}>
-                    <div className="tr-top"><b>{r.title}</b><span className="co">{r.company}</span><span className={`stage-pill s${r.stage}`}>{STAGES[r.stage].toUpperCase()}</span></div>
+                    <div className="tr-top"><b>{r.title}</b><span className="co">{r.company}</span><span className={`stage-pill ${r.status === "rejected" ? "sx" : `s${r.stage}`}`}>{labelOf(r.status).toUpperCase()}</span></div>
                     <div className="tr-meta">
                       <span className="dots" aria-hidden="true">{STAGES.map((s, k) => <i key={s} className={k <= r.stage ? "on" : ""} />)}</span>
                       <span className="tr-when">{r.when}</span>
-                      {r.stage < STAGES.length - 1 ? <button className="adv-btn" onClick={() => move(r)}>Move to {STAGES[r.stage + 1]} →</button> : <button className="adv-btn" disabled>Offer in hand</button>}
+                      {r.status === "rejected" ? <Link className="adv-btn" href="/applications">Open journey</Link> : r.stage < STAGES.length - 1 ? <button className="adv-btn" onClick={() => move(r)}>Move to {STAGES[r.stage + 1]} →</button> : <button className="adv-btn" disabled>Offer in hand</button>}
                     </div>
                   </div>
                 ))}

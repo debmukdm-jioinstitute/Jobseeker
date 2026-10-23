@@ -3,9 +3,11 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import type { Opp } from "@/lib/ingest";
 import { toJobs, type Job } from "@/lib/site";
 import { DEFAULT_TEMPLATE, missingProfile, type Profile } from "@/lib/profile";
+import { due, relative } from "@/lib/reminders";
+import { labelOf } from "@/lib/journey";
 import ApplyModal, { type ApplyMe } from "../ApplyModal";
 
-export type Me = { email: string | null; profile?: Profile | null; cv?: any; cvFile?: { name: string; size: number } | null; cvLink?: string; template?: any; prefs?: string[]; saved?: string[]; apps?: { postId: string; title: string; company: string; to: string; status: string; at: string }[] };
+export type Me = { email: string | null; profile?: Profile | null; cv?: any; cvFile?: { name: string; size: number } | null; cvLink?: string; template?: any; prefs?: string[]; saved?: string[]; apps?: { postId: string; title: string; company: string; to: string; status: string; at: string; history?: { status: string; at: string; note?: string; when?: string }[] }[] };
 type Ctx = {
   jobs: Job[] | null; me: Me; saved: Set<string>; toggleSave: (j: Job) => void;
   skills: Set<string>; toggleSkill: (s: string) => void; exp: number; setExp: (n: number) => void;
@@ -56,6 +58,21 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
   const toggleSkill = (s: string) => setSkills((p) => { const n = flip(p, s); write("otw_skills", [...n]); return n; });
   const changeExp = (n: number) => { setExp(n); write("otw_exp", n); };
   const toggleArea = (a: string) => { const n = flip(areas, a); setAreas(n); write("otw_areas", [...n]); if (me.email) put({ prefs: [...n] }); };
+
+  // Nudge once per call or interview that is less than a day away; re-checked every 5 minutes while the site is open.
+  useEffect(() => {
+    if (!me.apps?.length) return;
+    const nudge = () => {
+      const seen = read<string[]>("otw_reminded", []);
+      const e = due(me.apps!).find((x) => !seen.includes(x.a.postId + x.h.at));
+      if (!e) return;
+      write("otw_reminded", [...seen, e.a.postId + e.h.at].slice(-100));
+      toast(`Reminder: ${labelOf(e.h.status)} ${relative(e.at)} for ${e.a.title}.`);
+    };
+    nudge();
+    const t = setInterval(nudge, 5 * 6e4);
+    return () => clearInterval(t);
+  }, [me.apps, toast]);
 
   const pickArea = (a: string) => { setAreas(new Set([a])); write("otw_areas", [a]); if (me.email) put({ prefs: [a] }); };
 

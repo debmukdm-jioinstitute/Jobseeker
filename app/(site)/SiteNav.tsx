@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { due } from "@/lib/reminders";
 import { useSite } from "./SiteProvider";
 
 const icon = (d: string) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={d} /></svg>;
@@ -10,6 +11,7 @@ const icon = (d: string) => <svg viewBox="0 0 24 24" fill="none" stroke="current
 export default function SiteNav({ dash = false }: { dash?: boolean }) {
   const { me } = useSite();
   const path = usePathname();
+  const soon = due(me.apps ?? []).length; // calls and interviews within a day
   const go = (id: string) => (e: React.MouseEvent) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); };
   const tabs: [string, string, string, string][] = [
     ["/", "Home", "M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z", "/"],
@@ -37,7 +39,7 @@ export default function SiteNav({ dash = false }: { dash?: boolean }) {
               <>
                 <Link className="nav-ghost keep" href="/">← Back to site</Link>
                 <Link className="nav-ghost" href="/database">Database</Link>
-                <Link className="nav-ghost" href="/applications">My applications</Link>
+                <Link className="nav-ghost" href="/applications">My applications{soon > 0 && <b className="dot" aria-label={`${soon} coming up`}>{soon}</b>}</Link>
               </>
             ) : (
               !me.email && <Link className="nav-ghost" href="/login">Sign in</Link>
@@ -52,7 +54,7 @@ export default function SiteNav({ dash = false }: { dash?: boolean }) {
       </nav>
       <div className="tabbar" role="navigation" aria-label="Main">
         {tabs.map(([href, label, d, match]) => (
-          <Link key={label} href={href} className={path === match ? "on" : ""} aria-current={path === match ? "page" : undefined}>{icon(d)}<span>{label}</span></Link>
+          <Link key={label} href={href} className={path === match ? "on" : ""} aria-current={path === match ? "page" : undefined}>{icon(d)}<span>{label}</span>{href === "/applications" && soon > 0 && <b className="dot" aria-label={`${soon} coming up`}>{soon}</b>}</Link>
         ))}
       </div>
     </>

@@ -4,7 +4,7 @@ import type { Profile, Template } from "./profile.ts";
 import type { Cv } from "./cv.ts";
 import { cvId, hashPassword, makeToken, readToken, userKey, verifyPassword } from "./crypto.ts";
 
-export type App = { postId: string; title: string; company: string; to: string; subject: string; body: string; cv: "tailored" | "original"; status: "opened" | "applied" | "replied" | "interview" | "offer"; at: string };
+export type App = { postId: string; title: string; company: string; to: string; subject: string; body: string; cv: "tailored" | "original"; status: string; at: string; history?: { status: string; at: string; note?: string; when?: string }[] };
 export type User = {
   email: string; salt: string; hash: string; prefs: string[]; saved: string[]; keywords?: string[];
   profile?: Profile; cv?: Cv; template?: Template; cvFile?: { key: string; name: string; size: number }; apps?: App[];

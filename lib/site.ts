@@ -2,6 +2,7 @@ import type { Opp } from "./ingest.ts";
 import { modeOf, sectorOf } from "./filter.ts";
 import { citiesIn } from "./cities.ts";
 import { liveAt } from "./notify.ts";
+import { ORDER, labelOf } from "./journey.ts";
 
 const ico = (d: string) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${d}</svg>`;
 // The nine areas of finance the site covers. `rx` decides which area a post belongs to (first match wins, title and company first).
@@ -83,6 +84,6 @@ export const timeAgo = (h: number) => (h < 24 ? `${h}h ago` : `${Math.round(h / 
 export const initials = (n: string) => n.replace(/[^A-Za-z ]/g, "").split(" ").filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase() || "OT";
 export const hue = (n: string) => { let h = 0; for (let i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) % 360; return h; };
 
-// STAGES: the tracker steps. Saved covers saved posts and emails that were opened but not confirmed.
-export const STAGES = ["Saved", "Applied", "Replied", "Interview", "Offer"];
-export const STAGE_KEYS = ["opened", "applied", "replied", "interview", "offer"] as const;
+// STAGES: the tracker steps (see journey.ts). Saved covers saved posts and emails that were opened but not confirmed.
+export const STAGE_KEYS = ORDER;
+export const STAGES = ORDER.map(labelOf);
