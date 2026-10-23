@@ -38,7 +38,7 @@
       a{color:inherit}
       button{font-family:inherit;cursor:pointer}
       .mono{font-family:"Nunito",sans-serif;font-weight:800;letter-spacing:.04em}
-      .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+      .wrap{max-width:1760px;margin:0 auto;padding:0 clamp(20px,4vw,72px)}
       [hidden]{display:none !important}
 
       /* ---------- NAV (minimal) ---------- */
@@ -514,3 +514,117 @@
 .nav-right .nav-ghost{white-space:nowrap}
 .nav-cta{white-space:nowrap}
 @media (max-width:480px){ .nav-cta{padding:9px 14px;font-size:13px} .brand img{height:26px} .nav-in{gap:10px} }
+
+/* ---------- scroll animations ---------- */
+.rv{opacity:0;transform:translateY(56px) scale(.96);transition:opacity .7s cubic-bezier(.2,.8,.2,1) var(--d,0ms),transform .8s cubic-bezier(.2,.8,.2,1) var(--d,0ms)}
+.rv.in{opacity:1;transform:none}
+.field-card.rv.in{transition:opacity .7s cubic-bezier(.2,.8,.2,1) var(--d,0ms),transform .8s cubic-bezier(.2,.8,.2,1) var(--d,0ms),border-color .22s}
+.field-card.rv.in:hover{transform:translateY(-6px) scale(1.015);transition-delay:0ms}
+.field-card .ic{transition:transform .35s cubic-bezier(.3,1.6,.5,1),background .2s}
+.field-card:hover .ic{transform:rotate(-8deg) scale(1.12)}
+.step{transition:opacity .7s cubic-bezier(.2,.8,.2,1) var(--d,0ms),transform .8s cubic-bezier(.2,.8,.2,1) var(--d,0ms),box-shadow .25s}
+.step.in:hover{transform:translateY(-5px);box-shadow:var(--shadow);transition-delay:0ms}
+.step.in .pin{animation:pinPop .6s cubic-bezier(.3,1.6,.5,1) calc(var(--d,0ms) + .25s) backwards}
+@keyframes pinPop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+.postcard{animation:floatA 7s ease-in-out infinite}
+.replycard{animation:floatB 8s ease-in-out infinite}
+@keyframes floatA{50%{transform:rotate(-1.5deg) translateY(-8px)}}
+@keyframes floatB{50%{transform:rotate(1.3deg) translateY(7px)}}
+.hero-cols > div:first-child > *{animation:heroIn .8s cubic-bezier(.2,.8,.2,1) backwards}
+.hero-cols > div:first-child > :nth-child(2){animation-delay:.08s}.hero-cols > div:first-child > :nth-child(3){animation-delay:.16s}
+.hero-cols > div:first-child > :nth-child(4){animation-delay:.24s}.hero-cols > div:first-child > :nth-child(5){animation-delay:.32s}
+@keyframes heroIn{from{opacity:0;transform:translateY(24px)}}
+.hero-visual{animation:heroIn 1s cubic-bezier(.2,.8,.2,1) .2s backwards}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:70;background:linear-gradient(90deg,var(--accent),var(--gold));transform-origin:left;transform:scaleX(0)}
+.btn-solid{position:relative;overflow:hidden}
+.btn-solid::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);transform:translateX(-120%);transition:transform .6s}
+.btn-solid:hover::after{transform:translateX(120%)}
+.chip[aria-pressed]{transition:.18s,transform .12s}
+@media (prefers-reduced-motion: reduce){ .rv{opacity:1;transform:none;transition:none} .postcard,.replycard,.hero-visual,.hero-cols > div:first-child > *,.step.in .pin{animation:none} .progress{display:none} }
+
+/* ---------- wide desktops ---------- */
+@media (min-width:1500px){
+  .hero-cols{gap:96px}
+  h1{font-size:clamp(34px,4.6vw,78px)}
+  .hero-sub{max-width:60ch;font-size:19px}
+  .sec-head{max-width:960px} .sec-head p{font-size:17.5px;max-width:70ch}
+  .sec-head h2{font-size:clamp(27px,3vw,50px)}
+  section{padding:100px 0}
+  .fields,.steps,.kpis{gap:24px} .field-card{padding:32px} .step{padding:34px}
+  .dash-layout{gap:24px;grid-template-columns:1.35fr 1fr} .dash-card{padding:32px}
+  .scan-left,.scan-right{padding:44px} .cta{padding:72px 48px}
+  .postcard{padding:28px 28px 22px} .pc-body{font-size:21px}
+}
+@media (min-width:1900px){ .kpis{grid-template-columns:repeat(4,1fr)} .dash-hero .greet{font-size:56px} }
+
+/* ---------- Database ---------- */
+.db-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr))}
+.db-grid .card{min-width:0}
+.db-lines{display:flex;flex-direction:column;gap:9px;font-size:14px;border-top:1px dashed var(--line);padding-top:13px}
+.db-lines>div{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-height:30px;min-width:0}
+.db-lines span{width:68px;flex:none;font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.db-lines a{color:var(--accent-deep);font-weight:700;text-decoration:none;overflow-wrap:anywhere;min-width:0;flex:1 1 140px}
+.db-lines a:hover{text-decoration:underline}
+.db-lines i{color:var(--ink-3);font-style:normal}
+.db-lines .save-btn{margin-left:auto;padding:6px 12px;font-size:12px;min-height:34px}
+
+/* ---------- phones, tablets, touch (iOS, Android, iPadOS) ---------- */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{overflow-x:clip;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
+a,button,.chip,.field-card,select,summary{touch-action:manipulation}
+.tabbar{display:none}
+nav{padding-top:env(safe-area-inset-top)}
+.nav-in{padding-left:max(0px,env(safe-area-inset-left));padding-right:max(0px,env(safe-area-inset-right))}
+#toast{bottom:max(26px,calc(env(safe-area-inset-bottom) + 18px))}
+.chip-scroll{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity;margin-inline:-4px;padding:2px 4px}
+.chip-scroll::-webkit-scrollbar{display:none}
+.chip-scroll .chip{flex:none;scroll-snap-align:start}
+@media (min-width:821px){ .chip-scroll{flex-wrap:wrap;overflow:visible} }
+.mini-row .mr-main,.card-top > div:not(.avatar):not(.match),.tr-top{min-width:0}
+.mini-row .mr-main b,.card h3{overflow-wrap:anywhere}
+.mdl{max-height:calc(100dvh - 48px);overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+/* hover effects only where a real pointer exists, so taps do not leave cards stuck lifted */
+@media (hover:none){
+  .card:hover,.field-card.rv.in:hover,.step.in:hover,.nav-cta:hover,.btn-solid:hover,.lucky-btn:hover{transform:none;box-shadow:none}
+  .btn-solid:hover::after{transform:translateX(-120%)}
+  .field-card:hover .ic{transform:none}
+}
+button:active,.btn:active,.chip:active,.nav-cta:active,a.apply:active{transform:scale(.97)}
+@media (max-width:820px){
+  body{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:80;background:color-mix(in srgb,var(--panel) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:6px max(6px,env(safe-area-inset-left)) calc(6px + env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-right))}
+  .tabbar a{flex:1;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--ink-3);font-size:11px;font-weight:800;border-radius:12px;transition:color .15s,background .15s}
+  .tabbar a svg{width:22px;height:22px}
+  .tabbar a.on{color:var(--accent-deep);background:var(--accent-soft)}
+  .nav-right .nav-cta,.nav-right .nav-ghost{display:none}
+  .nav-right .nav-ghost.keep{display:inline-flex}
+  .nav-in{height:56px}
+  .dashwrap{padding-top:88px}
+  header{padding:104px 0 48px}
+  section{padding:52px 0}
+  .stats{margin-top:40px}
+  .hero-actions .btn{flex:1;justify-content:center;min-height:48px}
+  .rv{transform:translateY(32px) scale(.98);transition-duration:.55s,.6s}
+  .grain{display:none}
+  .postcard,.replycard{animation:none}
+  .tr-meta{gap:10px}.adv-btn{margin-left:0;width:100%;min-height:44px}
+  .mini-row{flex-wrap:wrap;row-gap:10px}.mini-row a.apply{min-height:40px;display:inline-flex;align-items:center}
+  .dash-card{padding:20px;border-radius:18px}
+  .dc-head .mono{display:none}
+  .db-lines span{width:100%}
+  .db-lines .save-btn{margin-left:0}
+  .mbg{padding:0;align-items:stretch}
+  .mdl{max-width:none;max-height:100dvh;height:100dvh;border-radius:0;padding:max(16px,env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom))}
+  .mdl .row > *{flex:1 1 auto;min-height:44px}
+}
+@media (max-width:480px){
+  .wrap{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+  .kpis{gap:10px}.kpi{padding:14px}
+  .scan-left,.scan-right{padding:22px}
+  .cta{padding:34px 20px}
+  .step,.field-card{padding:20px}
+  input[type=range]{width:100%}.scan-ctl{gap:10px}
+}
+/* inputs at 16px stop iOS Safari zooming the page on focus */
+@media (max-width:820px){ input,select,textarea,.search input{font-size:16px !important} .chip{min-height:40px} }
+@media (min-width:821px) and (max-width:1100px){ .dash-layout{grid-template-columns:1fr} .kpis{grid-template-columns:repeat(2,1fr)} .hero-cols{gap:36px} }

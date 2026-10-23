@@ -9,7 +9,7 @@ export type Me = { email: string | null; profile?: Profile | null; cv?: any; cvF
 type Ctx = {
   jobs: Job[] | null; me: Me; saved: Set<string>; toggleSave: (j: Job) => void;
   skills: Set<string>; toggleSkill: (s: string) => void; exp: number; setExp: (n: number) => void;
-  areas: Set<string>; toggleArea: (a: string) => void;
+  areas: Set<string>; toggleArea: (a: string) => void; pickArea: (a: string) => void;
   toast: (m: string) => void; confetti: () => void; apply: (j: Job) => void; refreshMe: () => Promise<void>;
 };
 const C = createContext<Ctx>(null as never);
@@ -57,6 +57,8 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
   const changeExp = (n: number) => { setExp(n); write("otw_exp", n); };
   const toggleArea = (a: string) => { const n = flip(areas, a); setAreas(n); write("otw_areas", [...n]); if (me.email) put({ prefs: [...n] }); };
 
+  const pickArea = (a: string) => { setAreas(new Set([a])); write("otw_areas", [a]); if (me.email) put({ prefs: [a] }); };
+
   const am: ApplyMe | null = me.profile && me.cv && me.cvFile && !missingProfile(me.profile).length
     ? { profile: me.profile, cv: me.cv, hasFile: true, cvLink: me.cvLink ?? "", template: me.template ?? DEFAULT_TEMPLATE } : null;
   // Email posts open the pre-filled apply window; everything else goes to the post's own link.
@@ -92,7 +94,7 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
     requestAnimationFrame(frame);
   }, []);
 
-  const value = useMemo(() => ({ jobs, me, saved, toggleSave, skills, toggleSkill, exp, setExp: changeExp, areas, toggleArea, toast, confetti, apply, refreshMe }), [jobs, me, saved, skills, exp, areas]); // eslint-disable-line react-hooks/exhaustive-deps
+  const value = useMemo(() => ({ jobs, me, saved, toggleSave, skills, toggleSkill, exp, setExp: changeExp, areas, toggleArea, pickArea, toast, confetti, apply, refreshMe }), [jobs, me, saved, skills, exp, areas]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <C.Provider value={value}>
       <div className="grain" aria-hidden="true" />

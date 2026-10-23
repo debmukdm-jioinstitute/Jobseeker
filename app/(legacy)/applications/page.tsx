@@ -15,18 +15,20 @@ export default function Applications() {
   useEffect(() => { fetch("/api/me").then((r) => r.json()).then((m) => { setWho(m.email ?? ""); setApps(m.apps ?? []); }); }, []);
   const done = apps?.filter((a) => a.status === "applied").length ?? 0;
   return (
-    <main style={{ maxWidth: 860 }}>
+    <main>
       <nav><Logo /><span className="row"><Bell /><BackButton fallback="/dashboard" /><ThemeToggle /><Link href="/dashboard" className="btn alt">Browse jobs</Link></span></nav>
       <h1 style={{ fontSize: "2rem" }}>My applications</h1>
       {apps && <p className="mut">{done} applied, {apps.length - done} opened but not confirmed. Quality beats quantity: founders reply to personalised applications.</p>}
       {!who && apps && <p><Link href="/login">Sign in</Link> to see your applications.</p>}
+      <div className="apps-grid" style={{ marginTop: 12 }}>
       {apps?.map((a) => (
-        <div className="card" key={a.postId} style={{ marginTop: 12 }}>
+        <div className="card" key={a.postId}>
           <b>{a.title}</b> <span className="mut">· {a.company || "company not stated"}</span>
           <div className="small mut">{new Date(a.at).toLocaleDateString()} · to {a.to} · CV: {a.cv} · {a.status === "applied" ? <span className="applied-tag">Applied ✓</span> : "Opened, not confirmed"}</div>
           <a className="small" href={`https://mail.google.com/mail/u/0/#search/${encodeURIComponent(`to:${a.to}`)}`} target="_blank" rel="noopener noreferrer">Open in Gmail</a>
         </div>
       ))}
+      </div>
       {apps?.length === 0 && who && <p className="mut">None yet. Press Apply on a post with an email address.</p>}
     <Footer />
     </main>

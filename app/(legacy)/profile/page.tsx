@@ -50,7 +50,7 @@ export default function Profile() {
   const addKw = () => { const k = add.trim().toLowerCase().slice(0, 60); if (k && !kws.includes(k)) update([...kws, k]); setAdd(""); };
 
   return (
-    <main style={{ maxWidth: 840 }}>
+    <main>
       <nav>
         <div className="nav-left">
           <Logo />
@@ -92,6 +92,8 @@ export default function Profile() {
         </div>
       </div>
 
+      <div className="prof-cols">
+      <div>
       {/* Upload resume section (Image 2) */}
       <div className="upload-section-title">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -180,7 +182,11 @@ export default function Profile() {
           <Link href="/dashboard?foryou=1" className="btn">See jobs for you</Link>
         </div>
       )}
+      </div>
+      <div>
       {who ? <ApplyProfile name={who.split("@")[0]} /> : <p className="mut" style={{ marginTop: 24 }}><Link href="/login">Sign in</Link> to set up one-click apply.</p>}
+      </div>
+      </div>
     <Footer />
     </main>
   );

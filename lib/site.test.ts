@@ -19,7 +19,9 @@ test("area comes from title first; non-finance posts get none", () => {
 test("match score and life bar", () => {
   const j = toJobs(feed as Opp[], Date.parse("2026-10-23T12:00:00Z"))[0];
   assert.equal(matchScore(j, new Set(), 3), null);
-  assert.ok(matchScore(j, new Set(j.skills), j.expMin)! >= 90);
+  const full = { ...j, skills: ["Excel", "SQL"] };
+  assert.equal(matchScore(full, new Set(["Excel", "SQL"]), full.expMin), 100);
+  assert.equal(matchScore(full, new Set(["Python"]), full.expMin), 28);
   assert.equal(lifeInfo(60).cls, " late");
   assert.equal(lifeInfo(0).label, "3d left");
 });

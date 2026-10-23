@@ -1,7 +1,7 @@
 import "./site.css";
 import { SiteProvider } from "./SiteProvider";
 
-export { metadata } from "../meta";
+export { metadata, viewport } from "../meta";
 
 export default function Root({ children }: { children: React.ReactNode }) {
   return (

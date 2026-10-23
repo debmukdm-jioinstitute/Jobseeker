@@ -32,7 +32,7 @@ export default function Login() {
   }
 
   return (
-    <main style={{ maxWidth: 420 }}>
+    <main style={{ maxWidth: 520 }}>
       <nav><Logo /><span className="row"><BackButton /><ThemeToggle /></span></nav>
       <h2>{mode === "login" ? "Sign in" : "Create account"}</h2>
       <form className="card" onSubmit={submit}>
