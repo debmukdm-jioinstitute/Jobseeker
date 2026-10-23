@@ -1,13 +1,36 @@
 [
   {
+    "id": "LinkedIn-7515678174014369792",
+    "title": "Analyst – Fresher",
+    "company": "Northern Trust",
+    "loc": "Bangalore (willingness to work in shifts stated)",
+    "date": "2026-10-13",
+    "source": "LinkedIn",
+    "poster": "Disha Singh",
+    "instruction": "Apply through the application form link in the post (lnkd.in/g26eiNWF); the poster also tags Northern Trust recruiters to contact.",
+    "leads": [
+      {
+        "kind": "link",
+        "value": "https://www.linkedin.com/posts/disha-singh18_were-hiring-analyst-fresher-location-activity-7515678174014369792-7dhE",
+        "domain": "linkedin.com"
+      },
+      {
+        "kind": "form",
+        "value": "https://lnkd.in/g26eiNWF",
+        "domain": "lnkd.in"
+      }
+    ],
+    "text": "We’re Hiring | Analyst – Fresher. 📍 Location: Bangalore. 🏦 Organization: Northern Trust. Northern Trust is looking for fresh graduates with a Finance background to join our growing team as an Analyst. This is a great opportunity to start your career with a global financial services organization. 🔍 E"
+  },
+  {
     "id": "LinkedIn-7518920960415166465",
-    "title": "HR Operations – Employee Data Management (EDM) (Fresher)",
+    "title": "HR Operations – Employee Data Management (EDM)",
     "company": "Accenture (inferred from contact email)",
-    "loc": "Airoli, Navi Mumbai (Night Shift: 9-hour shift between 5 PM and 5 AM)",
+    "loc": "Airoli, Navi Mumbai (on-site; night shift only)",
     "date": "2026-10-22",
     "source": "LinkedIn",
     "poster": "Shrikant Donadkar",
-    "instruction": "Email your updated CV to shrikant.donadkar@accenture.com; only candidates currently based in Mumbai should apply.",
+    "instruction": "Send your updated CV to shrikant.donadkar@accenture.com; freshers currently based in Mumbai only.",
     "leads": [
       {
         "kind": "link",
@@ -20,52 +43,6 @@
         "domain": "accenture.com"
       }
     ],
-    "text": "🚀 We’re Hiring Freshers | HR Operation-Employee Data Management (EDM) Looking to kick-start your career in HR Operations? We are hiring enthusiastic freshers for an Employee Data Management (EDM) role. 📌 Role: HR Operations – Employee Data Management (EDM) 🎓 Experience: Fresher 📍 Location: Airoli, N"
-  },
-  {
-    "id": "LinkedIn-7518279464905187328",
-    "title": "Interns (Lead Generation & Research)",
-    "company": "JuneHires",
-    "loc": "Remote (4 PM–10 PM IST)",
-    "date": "2026-10-20",
-    "source": "LinkedIn",
-    "poster": "JuneHires",
-    "instruction": "Email your resume to recruiter@junehires.com for this 3-month remote internship (stipend ₹5,000/month).",
-    "leads": [
-      {
-        "kind": "link",
-        "value": "https://www.linkedin.com/posts/junehires_we-are-hiring-interns-duration-3-months-activity-7518279464905187328-z1e3",
-        "domain": "linkedin.com"
-      },
-      {
-        "kind": "email",
-        "value": "recruiter@junehires.com",
-        "domain": "junehires.com"
-      }
-    ],
-    "text": "We are Hiring! Interns. Duration: 3 Months. Stipend: ₹5,000 per month. Location: Remote (4PM - 10PM IST). Role Overview: We are looking for a proactive and adaptable intern to support lead generation and research. Key Responsibilities: Generate leads and identify potential clients through online res"
-  },
-  {
-    "id": "LinkedIn-7510618040305164288",
-    "title": "HR Recruiter / HR Generalist",
-    "company": "Unison International (inferred from contact email)",
-    "loc": "Gurgaon",
-    "date": "2026-09-29",
-    "source": "LinkedIn",
-    "poster": "Ridip Dutta",
-    "instruction": "Share your updated CV at ridip.dutta@unisoninternational.net for this 3–6 years, up to ₹8 LPA role.",
-    "leads": [
-      {
-        "kind": "link",
-        "value": "https://www.linkedin.com/posts/ridip-dutta-388388219_we-are-hiring-hr-recruiter-hr-generalist-activity-7510618040305164288-UDA4",
-        "domain": "linkedin.com"
-      },
-      {
-        "kind": "email",
-        "value": "ridip.dutta@unisoninternational.net",
-        "domain": "unisoninternational.net"
-      }
-    ],
-    "text": "🚨 WE ARE HIRING | HR RECRUITER / HR GENERALIST 📍 Location: Gurgaon 💼 Experience: 3–6 Years 🧳 CTC: Up to 8 LPA 🏢 Function: Human Resources / Talent Acquisition 👤 Role Type: Individual Contributor. We are looking for an experienced and driven HR Recruiter / HR Generalist to join our team, with a stron"
+    "text": "🚀 We’re Hiring Freshers | HR Operation-Employee Data Management (EDM). Looking to kick-start your career in HR Operations? We are hiring enthusiastic freshers for an Employee Data Management (EDM) role. Role: HR Operations – Employee Data Management (EDM). Experience: Fresher. 📍 Location: Airoli, Na"
   }
 ]
