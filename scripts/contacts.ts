@@ -1,11 +1,11 @@
-import { readFileSync, writeFileSync } from "node:fs";
-import { mergeContacts, type Contact } from "../lib/contacts.ts";
+import { readFileSync } from "node:fs";
+import { mergeContacts } from "../lib/contacts.ts";
+import { readContacts, writeContacts } from "../lib/contactsStore.ts";
 
-// The Database: people behind the posts (name, email, phone, LinkedIn), kept forever in data/contacts.json.
-// Runs after collect.ts; reads data/feed.json, so it can also be run alone to backfill.
-const FILE = "data/contacts.json";
-let old: Contact[] = [];
-try { old = JSON.parse(readFileSync(FILE, "utf8")); } catch { /* first run */ }
+// The Database: people behind the posts (name, email, phone, LinkedIn), kept forever in private Vercel Blob.
+// Runs after collect.ts (needs BLOB_READ_WRITE_TOKEN); reads data/feed.json, so it can also be run alone to backfill.
+if (!process.env.BLOB_READ_WRITE_TOKEN) { console.error("BLOB_READ_WRITE_TOKEN is not set"); process.exit(1); }
+const old = await readContacts();
 const out = mergeContacts(old, JSON.parse(readFileSync("data/feed.json", "utf8")));
-writeFileSync(FILE, "[\n" + out.map((c) => JSON.stringify(c)).join(",\n") + "\n]\n");
+await writeContacts(out);
 console.log(`${out.length} contacts (${out.length - old.length} new)`);

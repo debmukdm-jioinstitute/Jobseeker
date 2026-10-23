@@ -8,3 +8,6 @@ tsconfig.tsbuildinfo
 .env*
 .claude-flow
 .claude
+
+# contacts are private: they live in Vercel Blob
+data/contacts.json

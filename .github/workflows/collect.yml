@@ -17,6 +17,11 @@ jobs:
         with:
           node-version: 24
       - run: node scripts/collect.ts
+      - run: npm ci
+      - run: node scripts/contacts.ts # Database: keep the people behind every post, in private Vercel Blob
+        continue-on-error: true # a missing token must never stop the job feed from updating
+        env:
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
       - name: Commit if changed
         run: |
           git config user.name "jobseeker-bot"
